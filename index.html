@@ -39,20 +39,10 @@ body{
   min-height:100vh;
   overflow-x:hidden;
 }
-
-/* ═══════════════════════════════════════════════════════════
-   SCROLLBAR
-═══════════════════════════════════════════════════════════ */
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
-
-/* ═══════════════════════════════════════════════════════════
-   LAYOUT
-═══════════════════════════════════════════════════════════ */
 #app{min-height:100vh;display:flex;flex-direction:column}
-
-/* ── Header ── */
 .header{
   position:sticky;top:0;z-index:100;
   background:rgba(11,15,26,.85);
@@ -88,8 +78,6 @@ body{
   font-family:var(--font);transition:.2s;
 }
 .logout-btn:hover{border-color:var(--danger);color:var(--danger)}
-
-/* ── Tab bar ── */
 .tabbar{
   position:sticky;top:60px;z-index:99;
   background:var(--surface);
@@ -118,18 +106,10 @@ body{
   0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.5)}
   50%{box-shadow:0 0 0 6px rgba(239,68,68,0)}
 }
-
-/* ── Main ── */
 .main{flex:1;padding:1rem;max-width:900px;margin:0 auto;width:100%}
-
-/* ── Sections ── */
 .section{display:none}
 .section.active{display:block;animation:fadeIn .25s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
-/* ═══════════════════════════════════════════════════════════
-   CARDS & CONTAINERS
-═══════════════════════════════════════════════════════════ */
 .card{
   background:var(--surface);border:1px solid var(--border);
   border-radius:var(--radius);padding:1.25rem;
@@ -142,17 +122,13 @@ body{
   display:flex;align-items:center;gap:.5rem;
 }
 .card-title span{font-size:1rem}
-
-/* ═══════════════════════════════════════════════════════════
-   LOGIN SCREEN
-═══════════════════════════════════════════════════════════ */
 #login-screen{
   min-height:100vh;display:flex;align-items:center;justify-content:center;
   background:radial-gradient(ellipse at 50% 0%,rgba(59,130,246,.12) 0%,transparent 70%),var(--bg);
   padding:1rem;
 }
 .login-box{
-  width:100%;max-width:400px;
+  width:100%;max-width:420px;
   background:var(--surface);border:1px solid var(--border);
   border-radius:20px;padding:2rem;box-shadow:var(--shadow),var(--glow);
 }
@@ -165,10 +141,6 @@ body{
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
 .login-title p{color:var(--text2);font-size:.88rem;margin-top:.3rem}
-
-/* ═══════════════════════════════════════════════════════════
-   FORM ELEMENTS
-═══════════════════════════════════════════════════════════ */
 .form-group{margin-bottom:1rem}
 .form-label{display:block;font-size:.85rem;color:var(--text2);margin-bottom:.4rem;font-weight:500}
 .form-input{
@@ -181,8 +153,6 @@ body{
 .form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(59,130,246,.12)}
 .form-input::placeholder{color:var(--text3)}
 select.form-input{cursor:pointer}
-
-/* ── Buttons ── */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
   padding:.7rem 1.4rem;border-radius:var(--radius-sm);
@@ -200,10 +170,6 @@ select.form-input{cursor:pointer}
 .btn-full{width:100%}
 .btn:disabled{opacity:.5;cursor:not-allowed;transform:none !important}
 .btn-sm{padding:.4rem .9rem;font-size:.82rem}
-
-/* ═══════════════════════════════════════════════════════════
-   STAT CARDS
-═══════════════════════════════════════════════════════════ */
 .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem}
 @media(min-width:600px){.stats-grid{grid-template-columns:repeat(4,1fr)}}
 .stat-card{
@@ -221,10 +187,6 @@ select.form-input{cursor:pointer}
 .stat-card.green .stat-value{background:linear-gradient(135deg,var(--success),#34d399);-webkit-background-clip:text}
 .stat-card.warn  .stat-value{background:linear-gradient(135deg,var(--warn),#fbbf24);-webkit-background-clip:text}
 .stat-card.red   .stat-value{background:linear-gradient(135deg,var(--danger),#f87171);-webkit-background-clip:text}
-
-/* ═══════════════════════════════════════════════════════════
-   STATUS BADGES
-═══════════════════════════════════════════════════════════ */
 .badge{
   display:inline-flex;align-items:center;gap:.3rem;
   padding:.25rem .7rem;border-radius:99px;font-size:.78rem;font-weight:600;
@@ -232,10 +194,6 @@ select.form-input{cursor:pointer}
 .badge-present{background:rgba(16,185,129,.15);color:var(--success);border:1px solid rgba(16,185,129,.3)}
 .badge-late   {background:rgba(245,158,11,.15);color:var(--warn);border:1px solid rgba(245,158,11,.3)}
 .badge-absent {background:rgba(239,68,68,.15);color:var(--danger);border:1px solid rgba(239,68,68,.3)}
-
-/* ═══════════════════════════════════════════════════════════
-   TABLE
-═══════════════════════════════════════════════════════════ */
 .table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border)}
 table{width:100%;border-collapse:collapse;font-size:.85rem}
 thead tr{background:var(--surface2)}
@@ -248,10 +206,6 @@ tr:hover td{background:rgba(255,255,255,.02)}
   transition:.2s;
 }
 .thumb-img:hover{transform:scale(1.1);border-color:var(--accent)}
-
-/* ═══════════════════════════════════════════════════════════
-   CAMERA SECTION
-═══════════════════════════════════════════════════════════ */
 .camera-wrap{
   position:relative;border-radius:var(--radius);
   overflow:hidden;background:#000;
@@ -271,25 +225,20 @@ tr:hover td{background:rgba(255,255,255,.02)}
 .corner-bl{bottom:8px;left:8px;border-width:0 0 2px 2px;border-bottom-left-radius:4px}
 .corner-br{bottom:8px;right:8px;border-width:0 2px 2px 0;border-bottom-right-radius:4px}
 #canvas{display:none}
-
-/* ── Preview captured image ── */
 .preview-wrap{display:none;border-radius:var(--radius);overflow:hidden;border:2px solid var(--success)}
 #preview{width:100%;display:block}
-
-/* ═══════════════════════════════════════════════════════════
-   NOTICE CARDS
-═══════════════════════════════════════════════════════════ */
 .notice-item{
   background:var(--surface2);border:1px solid var(--border);
   border-radius:var(--radius);padding:1rem;cursor:pointer;
   transition:.2s;position:relative;overflow:hidden;
+  margin-bottom:.75rem;
 }
 .notice-item:hover{border-color:var(--accent);transform:translateY(-2px)}
 .notice-item.new-notice::before{
   content:'';position:absolute;top:0;left:0;width:3px;height:100%;
   background:linear-gradient(180deg,var(--accent),var(--accent2));
 }
-.notice-title{font-weight:600;font-size:.95rem;margin-bottom:.3rem;display:flex;align-items:center;gap:.5rem}
+.notice-title{font-weight:600;font-size:.95rem;margin-bottom:.3rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
 .notice-date{font-size:.78rem;color:var(--text2)}
 .notice-body{margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border);color:var(--text2);font-size:.88rem;line-height:1.6;display:none}
 .notice-body.show{display:block}
@@ -297,10 +246,6 @@ tr:hover td{background:rgba(255,255,255,.02)}
   background:var(--accent);color:#fff;font-size:.65rem;font-weight:700;
   padding:.1rem .4rem;border-radius:99px;text-transform:uppercase;
 }
-
-/* ═══════════════════════════════════════════════════════════
-   ALERT & TOAST
-═══════════════════════════════════════════════════════════ */
 .alert{
   padding:.85rem 1rem;border-radius:var(--radius-sm);margin-bottom:1rem;
   font-size:.88rem;display:flex;align-items:center;gap:.6rem;
@@ -309,7 +254,6 @@ tr:hover td{background:rgba(255,255,255,.02)}
 .alert-success{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);color:#6ee7b7}
 .alert-warn   {background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);color:#fcd34d}
 .alert-danger {background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#fca5a5}
-
 .toast{
   position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%) translateY(80px);
   background:var(--surface2);border:1px solid var(--border);
@@ -322,10 +266,6 @@ tr:hover td{background:rgba(255,255,255,.02)}
 .toast.success{border-color:var(--success);color:var(--success)}
 .toast.error  {border-color:var(--danger);color:var(--danger)}
 .toast.info   {border-color:var(--accent);color:var(--accent)}
-
-/* ═══════════════════════════════════════════════════════════
-   MODAL (Photo fullscreen)
-═══════════════════════════════════════════════════════════ */
 .modal-overlay{
   position:fixed;inset:0;background:rgba(0,0,0,.85);
   z-index:200;display:none;align-items:center;justify-content:center;
@@ -342,16 +282,8 @@ tr:hover td{background:rgba(255,255,255,.02)}
   transition:.2s;
 }
 .modal-close:hover{background:var(--danger);border-color:var(--danger)}
-
-/* ═══════════════════════════════════════════════════════════
-   FILTER ROW
-═══════════════════════════════════════════════════════════ */
 .filter-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;align-items:flex-end}
 .filter-row .form-group{margin-bottom:0;flex:1;min-width:120px}
-
-/* ═══════════════════════════════════════════════════════════
-   MISC
-═══════════════════════════════════════════════════════════ */
 .divider{height:1px;background:var(--border);margin:1rem 0}
 .text-center{text-align:center}
 .text-muted{color:var(--text2)}
@@ -384,20 +316,14 @@ tr:hover td{background:rgba(255,255,255,.02)}
   display:flex;align-items:center;gap:.3rem;
 }
 .info-chip strong{color:var(--text)}
-
-/* ── Admin table expand ── */
 .admin-user-row{cursor:pointer}
 .admin-user-row:hover td{background:rgba(59,130,246,.05) !important}
 .admin-detail-row td{background:var(--surface2);padding:0}
 .admin-detail-inner{padding:1rem;overflow-x:auto}
 .expand-arrow{transition:.2s;display:inline-block}
 .expanded .expand-arrow{transform:rotate(90deg)}
-
-/* ── Notice admin form ── */
 .notice-form{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem}
 textarea.form-input{resize:vertical;min-height:100px}
-
-/* mobile tweaks */
 @media(max-width:500px){
   .stats-grid{grid-template-columns:repeat(2,1fr)}
   .filter-row{flex-direction:column}
@@ -409,9 +335,7 @@ textarea.form-input{resize:vertical;min-height:100px}
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════════════════════
-     LOGIN SCREEN
-══════════════════════════════════════════════════════════ -->
+<!-- LOGIN SCREEN -->
 <div id="login-screen">
   <div class="login-box">
     <div class="login-title">
@@ -425,54 +349,15 @@ textarea.form-input{resize:vertical;min-height:100px}
       <button class="btn btn-outline btn-sm" style="flex:1" onclick="showLoginTab('admin')" id="lt-admin">🔐 অ্যাডমিন</button>
     </div>
 
-    <!-- User login -->
     <div id="login-user">
-      <div class="form-group" style="position:relative">
+      <div class="form-group">
         <label class="form-label">ইউসার আইডি</label>
-
-        <div style="position:relative">
-          <input class="form-input" id="inp-uid"
-            placeholder="যেমন: U001"
-            autocomplete="off"
-            oninput="onUidInput(this)"
-            onkeydown="onUidKey(event)"
-            onfocus="showSuggest()"
-            onblur="hideSuggestDelay()"
-            style="padding-right:2.5rem"
-          />
-          <!-- Clear button -->
-          <button id="uid-clear-btn" onclick="clearUid()" style="
-            display:none;position:absolute;right:.55rem;top:50%;transform:translateY(-50%);
-            background:none;border:none;color:var(--text3);cursor:pointer;font-size:1rem;
-            line-height:1;transition:.2s;
-          " title="মুছুন">✕</button>
-        </div>
-
-        <!-- Suggestion dropdown -->
-        <div id="uid-suggestions" style="
-          display:none;position:absolute;top:100%;left:0;right:0;z-index:50;
-          background:var(--surface2);border:1px solid var(--accent);
-          border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm);
-          overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.4);
-          max-height:220px;overflow-y:auto;
-        "></div>
+        <input class="form-input" id="inp-uid" placeholder="যেমন: U001" autocomplete="off" onkeydown="if(event.key==='Enter')doUserLogin()"/>
       </div>
-
-      <!-- Last used shortcut -->
-      <div id="last-uid-row" style="display:none;margin-bottom:.75rem">
-        <p class="text-sm text-muted" style="margin-bottom:.35rem">🕐 সর্বশেষ ব্যবহার:</p>
-        <div id="last-uid-chips" style="display:flex;flex-wrap:wrap;gap:.35rem"></div>
-      </div>
-
-      <button class="btn btn-primary btn-full" onclick="doUserLogin()" id="btn-user-login">
-        প্রবেশ করুন →
-      </button>
-      <p class="text-sm text-muted text-center" style="margin-top:.75rem">
-        ডেমো আইডি: <strong>U001</strong> — <strong>U005</strong>
-      </p>
+      <button class="btn btn-primary btn-full" onclick="doUserLogin()" id="btn-user-login">প্রবেশ করুন →</button>
+      <p class="text-sm text-muted text-center" style="margin-top:.75rem">ডেমো আইডি: <strong>U001</strong> — <strong>U005</strong></p>
     </div>
 
-    <!-- Admin login -->
     <div id="login-admin" style="display:none">
       <div class="form-group">
         <label class="form-label">অ্যাডমিন আইডি</label>
@@ -480,95 +365,49 @@ textarea.form-input{resize:vertical;min-height:100px}
       </div>
       <div class="form-group">
         <label class="form-label">পাসওয়ার্ড</label>
-        <input class="form-input" type="password" id="inp-apass" value="admin123"
-               onkeydown="if(event.key==='Enter')doAdminLogin()"/>
+        <input class="form-input" type="password" id="inp-apass" value="admin123" onkeydown="if(event.key==='Enter')doAdminLogin()"/>
       </div>
       <button class="btn btn-primary btn-full" onclick="doAdminLogin()">লগইন করুন →</button>
     </div>
 
     <div id="login-err" class="alert alert-danger" style="display:none;margin-top:.75rem"></div>
 
-    <!-- GAS URL Panel -->
+    <!-- GAS URL Panel - Compact version, already set -->
     <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem">
-        <span class="text-sm text-muted" style="display:flex;align-items:center;gap:.35rem">
-          ⚙️ <strong style="color:var(--text)">GAS সংযোগ</strong>
-        </span>
-        <!-- Status pill -->
-        <span id="gas-status-pill" style="
-          display:inline-flex;align-items:center;gap:.3rem;
-          font-size:.72rem;font-weight:600;padding:.18rem .6rem;
-          border-radius:99px;transition:.3s;
-          background:rgba(239,68,68,.12);color:var(--danger);
-          border:1px solid rgba(239,68,68,.25);
-        ">
-          <span id="gas-dot" style="width:6px;height:6px;border-radius:50%;background:var(--danger);display:inline-block"></span>
-          <span id="gas-status-txt">সংযুক্ত নয়</span>
+        <span class="text-sm text-muted" style="display:flex;align-items:center;gap:.35rem">⚙️ <strong style="color:var(--text)">GAS সংযোগ</strong></span>
+        <span id="gas-status-pill" style="display:inline-flex;align-items:center;gap:.3rem;font-size:.72rem;font-weight:600;padding:.18rem .6rem;border-radius:99px;background:rgba(16,185,129,.12);color:var(--success);border:1px solid rgba(16,185,129,.3)">
+          <span id="gas-dot" style="width:6px;height:6px;border-radius:50%;background:var(--success);display:inline-block"></span>
+          <span id="gas-status-txt">সংযুক্ত</span>
         </span>
       </div>
 
-      <!-- Saved URL link row (shown when URL exists) -->
-      <div id="gas-link-row" style="display:none;
-        background:var(--surface2);border:1px solid var(--border);
-        border-radius:var(--radius-sm);padding:.55rem .75rem;margin-bottom:.5rem;
-        display:none;align-items:center;gap:.5rem;
-      ">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2.5" style="flex-shrink:0">
-          <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
-          <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
-        </svg>
-        <a id="gas-link" href="#" target="_blank" rel="noopener" style="
-          font-family:var(--mono);font-size:.72rem;color:var(--accent2);
-          text-decoration:none;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-          max-width:220px;
-        " title="GAS URL খুলুন"></a>
-        <button onclick="editGasUrl()" style="
-          background:none;border:none;color:var(--text3);cursor:pointer;
-          font-size:.72rem;padding:.1rem .3rem;transition:.2s;
-        " title="পরিবর্তন করুন">✏️</button>
-        <button onclick="clearGasUrl()" style="
-          background:none;border:none;color:var(--danger);cursor:pointer;
-          font-size:.72rem;padding:.1rem .3rem;opacity:.6;transition:.2s;
-        " title="মুছুন">🗑</button>
+      <!-- Compact view - shows saved URL -->
+      <div id="gas-compact-view" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.55rem .75rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+        <span style="font-size:.72rem;color:var(--text2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" id="gas-short-url">https://script.google.com/macros/s/AKfycbz-OG-MgrLQoLfZXCada6_LapNDL6sfIZXtUiBsze24JHdccUUUcXqcX9IKwOJFRuDF/exec</span>
+        <button onclick="showGasEditForm()" style="background:none;border:none;color:var(--accent);cursor:pointer;font-size:.7rem;padding:.2rem .5rem">✏️ পরিবর্তন</button>
+        <button onclick="clearGasUrl()" style="background:none;border:none;color:var(--danger);cursor:pointer;font-size:.7rem;padding:.2rem .5rem">🗑 মুছুন</button>
       </div>
 
-      <!-- Input row (shown when editing / no URL) -->
-      <div id="gas-input-row">
+      <!-- Full edit form (hidden by default, shown when Edit clicked) -->
+      <div id="gas-full-form" style="display:none">
         <div style="position:relative">
-          <input class="form-input" id="inp-gas-url"
-            placeholder="https://script.google.com/macros/s/…/exec"
-            style="font-size:.76rem;padding-right:2.8rem;"
-            onkeydown="if(event.key==='Enter')saveGasUrl()"
-          />
-          <!-- Paste icon button inside input -->
-          <button onclick="pasteGasUrl()" title="ক্লিপবোর্ড থেকে পেস্ট করুন" style="
-            position:absolute;right:.5rem;top:50%;transform:translateY(-50%);
-            background:none;border:none;cursor:pointer;font-size:1rem;opacity:.5;transition:.2s;
-          " onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.5">📋</button>
+          <input class="form-input" id="inp-gas-url" placeholder="https://script.google.com/macros/s/…/exec" style="font-size:.76rem;padding-right:2.8rem;" onkeydown="if(event.key==='Enter')saveGasUrl()"/>
+          <button onclick="pasteGasUrl()" title="ক্লিপবোর্ড থেকে পেস্ট করুন" style="position:absolute;right:.5rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;opacity:.5" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.5">📋</button>
         </div>
         <div style="display:flex;gap:.4rem;margin-top:.4rem">
-          <button class="btn btn-primary btn-sm" style="flex:1" onclick="saveGasUrl()">
-            🔗 সংযুক্ত করুন
-          </button>
-          <a href="https://script.google.com" target="_blank" rel="noopener"
-             class="btn btn-outline btn-sm" title="Apps Script খুলুন">
-            ↗ GAS
-          </a>
+          <button class="btn btn-primary btn-sm" style="flex:1" onclick="saveGasUrl()">🔗 সংযুক্ত করুন</button>
+          <button class="btn btn-outline btn-sm" onclick="setupGasSheet()">⚙️ সেটআপ</button>
         </div>
-        <p class="text-sm text-muted" style="margin-top:.5rem;font-size:.72rem;line-height:1.5">
-          💡 Apps Script → Deploy → New Deployment → Web App → URL কপি করুন
-        </p>
+        <p class="text-sm text-muted" style="margin-top:.5rem;font-size:.7rem">💡 Apps Script → Deploy → Web App → URL কপি করুন</p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     MAIN APP
-══════════════════════════════════════════════════════════ -->
+<!-- MAIN APP -->
 <div id="app" style="display:none">
-
-  <!-- Header -->
   <header class="header">
     <div class="header-logo">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#grad)" stroke-width="2">
@@ -588,51 +427,37 @@ textarea.form-input{resize:vertical;min-height:100px}
     </div>
   </header>
 
-  <!-- Tab Bar -->
   <nav class="tabbar" id="tabbar"></nav>
 
-  <!-- Main Content -->
   <main class="main">
-
-    <!-- ── DASHBOARD ── -->
+    <!-- DASHBOARD -->
     <div class="section" id="sec-dashboard">
-      <div id="notice-alert" class="alert alert-info" style="display:none">
-        🔔 <span id="notice-alert-text">নতুন নোটিশ আছে! নোটিশ ট্যাব দেখুন।</span>
-      </div>
-
+      <div id="notice-alert" class="alert alert-info" style="display:none">🔔 <span id="notice-alert-text">নতুন নোটিশ আছে! নোটিশ ট্যাব দেখুন।</span></div>
       <div class="card">
         <div class="card-title"><span>⏰</span> বর্তমান সময়</div>
         <div class="time-display" id="live-clock">--:--:--</div>
-        <div class="alert alert-info" id="att-time-info">
-          📌 উপস্থিত: সকাল ৯:৩০ – ১০:৩০ | এরপর: লেট
-        </div>
+        <div class="alert alert-info" id="att-time-info">📌 উপস্থিত: সকাল ৯:৩০ – ১০:৩০ | এরপর: লেট</div>
       </div>
-
       <div class="card mt" id="dash-user-info" style="display:none">
         <div class="card-title"><span>👤</span> আপনার তথ্য</div>
         <div class="user-info-row" id="dash-chips"></div>
       </div>
-
       <div class="card mt">
         <div class="card-title"><span>📊</span> এই মাসের সারাংশ</div>
         <div class="stats-grid" id="dash-stats">
           <div class="stat-card green"><div class="stat-value" id="st-present">-</div><div class="stat-label">উপস্থিত</div></div>
-          <div class="stat-card warn" ><div class="stat-value" id="st-late">-</div><div class="stat-label">লেট</div></div>
-          <div class="stat-card red"  ><div class="stat-value" id="st-absent">-</div><div class="stat-label">লেট-অনুপস্থিত</div></div>
-          <div class="stat-card"     ><div class="stat-value" id="st-net">-</div><div class="stat-label">মোট উপস্থিত</div></div>
+          <div class="stat-card warn"><div class="stat-value" id="st-late">-</div><div class="stat-label">লেট</div></div>
+          <div class="stat-card red"><div class="stat-value" id="st-absent">-</div><div class="stat-label">লেট-অনুপস্থিত</div></div>
+          <div class="stat-card"><div class="stat-value" id="st-net">-</div><div class="stat-label">মোট উপস্থিত</div></div>
         </div>
       </div>
     </div>
 
-    <!-- ── ATTENDANCE (user) ── -->
+    <!-- ATTENDANCE -->
     <div class="section" id="sec-attendance">
       <div class="card">
         <div class="card-title"><span>📷</span> আজকের হাজিরা দিন</div>
-
-        <div id="att-already" class="alert alert-success" style="display:none">
-          ✅ আজকের হাজিরা দেওয়া হয়ে গেছে!
-        </div>
-
+        <div id="att-already" class="alert alert-success" style="display:none">✅ আজকের হাজিরা দেওয়া হয়ে গেছে!</div>
         <div id="att-form">
           <div class="camera-wrap" id="camera-wrap">
             <video id="video" autoplay playsinline muted></video>
@@ -641,223 +466,262 @@ textarea.form-input{resize:vertical;min-height:100px}
               <div class="corner corner-bl"></div><div class="corner corner-br"></div>
             </div>
           </div>
-          <div class="preview-wrap mt" id="preview-wrap">
-            <img id="preview" alt="সেলফি প্রিভিউ"/>
-          </div>
+          <div class="preview-wrap mt" id="preview-wrap"><img id="preview" alt="সেলফি প্রিভিউ"/></div>
           <canvas id="canvas"></canvas>
-
           <div class="gap mt">
             <button class="btn btn-outline" id="btn-cam" onclick="startCamera()">📷 ক্যামেরা চালু করুন</button>
             <button class="btn btn-success" id="btn-snap" onclick="takeSnap()" style="display:none">📸 সেলফি তুলুন</button>
             <button class="btn btn-outline" id="btn-retake" onclick="retakePhoto()" style="display:none">🔄 আবার তুলুন</button>
             <button class="btn btn-primary" id="btn-submit-att" onclick="submitAttendance()" style="display:none">✅ হাজিরা দিন</button>
           </div>
-
           <div id="att-result" style="margin-top:1rem"></div>
         </div>
       </div>
     </div>
 
-    <!-- ── MY REPORT ── -->
+    <!-- MY REPORT -->
     <div class="section" id="sec-myreport">
       <div class="card">
         <div class="card-title"><span>📋</span> আমার রিপোর্ট</div>
-
         <div class="filter-row">
-          <div class="form-group">
-            <label class="form-label">মোড</label>
-            <select class="form-input" id="my-mode" onchange="updateMyFilter()">
-              <option value="daily">দৈনিক</option>
-              <option value="monthly">মাসিক</option>
-            </select>
-          </div>
-          <div class="form-group" id="my-date-wrap">
-            <label class="form-label">তারিখ</label>
-            <input type="date" class="form-input" id="my-date"/>
-          </div>
-          <div class="form-group" id="my-month-wrap" style="display:none">
-            <label class="form-label">মাস</label>
-            <input type="month" class="form-input" id="my-month"/>
-          </div>
-          <div class="form-group" style="display:flex;align-items:flex-end">
-            <button class="btn btn-primary btn-sm" onclick="loadMyReport()">দেখুন</button>
-          </div>
+          <div class="form-group"><label class="form-label">মোড</label><select class="form-input" id="my-mode" onchange="updateMyFilter()"><option value="daily">দৈনিক</option><option value="monthly">মাসিক</option></select></div>
+          <div class="form-group" id="my-date-wrap"><label class="form-label">তারিখ</label><input type="date" class="form-input" id="my-date"/></div>
+          <div class="form-group" id="my-month-wrap" style="display:none"><label class="form-label">মাস</label><input type="month" class="form-input" id="my-month"/></div>
+          <div class="form-group" style="display:flex;align-items:flex-end"><button class="btn btn-primary btn-sm" onclick="loadMyReport()">দেখুন</button></div>
         </div>
-
         <div id="my-summary" class="stats-grid mb" style="display:none"></div>
         <div id="my-report-body"><div class="loading"><div class="spinner"></div> লোড হচ্ছে...</div></div>
       </div>
     </div>
 
-    <!-- ── NOTICES (user) ── -->
+    <!-- NOTICES -->
     <div class="section" id="sec-notices">
       <div class="card-title" style="padding:.5rem 0"><span>📢</span> নোটিশ বোর্ড</div>
       <div id="notices-list"><div class="loading"><div class="spinner"></div></div></div>
     </div>
 
-    <!-- ══════════════ ADMIN SECTIONS ══════════════ -->
-
-    <!-- ── ADMIN DASHBOARD ── -->
+    <!-- ADMIN DASHBOARD -->
     <div class="section" id="sec-admin-dash">
       <div class="card">
         <div class="card-title"><span>🏢</span> অ্যাডমিন প্যানেল</div>
         <div class="stats-grid" id="adm-stats">
           <div class="stat-card green"><div class="stat-value" id="adm-total">-</div><div class="stat-label">মোট ইউসার</div></div>
-          <div class="stat-card"     ><div class="stat-value" id="adm-today-p">-</div><div class="stat-label">আজ উপস্থিত</div></div>
-          <div class="stat-card warn" ><div class="stat-value" id="adm-today-l">-</div><div class="stat-label">আজ লেট</div></div>
-          <div class="stat-card red"  ><div class="stat-value" id="adm-today-a">-</div><div class="stat-label">আজ অনুপস্থিত</div></div>
+          <div class="stat-card"><div class="stat-value" id="adm-today-p">-</div><div class="stat-label">আজ উপস্থিত</div></div>
+          <div class="stat-card warn"><div class="stat-value" id="adm-today-l">-</div><div class="stat-label">আজ লেট</div></div>
+          <div class="stat-card red"><div class="stat-value" id="adm-today-a">-</div><div class="stat-label">আজ অনুপস্থিত</div></div>
         </div>
       </div>
-
-      <!-- Notice form -->
       <div class="card mt">
         <div class="card-title"><span>📝</span> নতুন নোটিশ প্রকাশ করুন</div>
         <div class="notice-form">
-          <div class="form-group">
-            <label class="form-label">নোটিশের শিরোনাম</label>
-            <input class="form-input" id="notice-title" placeholder="শিরোনাম লিখুন..."/>
-          </div>
-          <div class="form-group">
-            <label class="form-label">বিস্তারিত</label>
-            <textarea class="form-input" id="notice-details" placeholder="বিস্তারিত লিখুন..."></textarea>
-          </div>
+          <div class="form-group"><label class="form-label">নোটিশের শিরোনাম</label><input class="form-input" id="notice-title" placeholder="শিরোনাম লিখুন..."/></div>
+          <div class="form-group"><label class="form-label">বিস্তারিত</label><textarea class="form-input" id="notice-details" placeholder="বিস্তারিত লিখুন..."></textarea></div>
           <button class="btn btn-primary" onclick="postNotice()">📢 নোটিশ প্রকাশ করুন</button>
         </div>
       </div>
     </div>
 
-    <!-- ── ADMIN REPORT ── -->
+    <!-- ADMIN REPORT -->
     <div class="section" id="sec-admin-report">
       <div class="card">
         <div class="card-title"><span>📊</span> সকল ইউসারের রিপোর্ট</div>
-
         <div class="filter-row">
-          <div class="form-group">
-            <label class="form-label">মোড</label>
-            <select class="form-input" id="adm-mode" onchange="updateAdmFilter()">
-              <option value="daily">দৈনিক</option>
-              <option value="monthly">মাসিক</option>
-            </select>
-          </div>
-          <div class="form-group" id="adm-date-wrap">
-            <label class="form-label">তারিখ</label>
-            <input type="date" class="form-input" id="adm-date"/>
-          </div>
-          <div class="form-group" id="adm-month-wrap" style="display:none">
-            <label class="form-label">মাস</label>
-            <input type="month" class="form-input" id="adm-month"/>
-          </div>
-          <div class="form-group" style="display:flex;align-items:flex-end">
-            <button class="btn btn-primary btn-sm" onclick="loadAdminReport()">দেখুন</button>
-          </div>
+          <div class="form-group"><label class="form-label">মোড</label><select class="form-input" id="adm-mode" onchange="updateAdmFilter()"><option value="daily">দৈনিক</option><option value="monthly">মাসিক</option></select></div>
+          <div class="form-group" id="adm-date-wrap"><label class="form-label">তারিখ</label><input type="date" class="form-input" id="adm-date"/></div>
+          <div class="form-group" id="adm-month-wrap" style="display:none"><label class="form-label">মাস</label><input type="month" class="form-input" id="adm-month"/></div>
+          <div class="form-group" style="display:flex;align-items:flex-end"><button class="btn btn-primary btn-sm" onclick="loadAdminReport()">দেখুন</button></div>
         </div>
-
         <div id="adm-report-body"><div class="loading"><div class="spinner"></div></div></div>
       </div>
     </div>
 
-    <!-- ── ADMIN NOTICES ── -->
+    <!-- ADMIN NOTICES -->
     <div class="section" id="sec-admin-notices">
       <div class="card-title" style="padding:.5rem 0"><span>📢</span> নোটিশ বোর্ড (অ্যাডমিন)</div>
       <div id="admin-notices-list"><div class="loading"><div class="spinner"></div></div></div>
     </div>
-
   </main>
 </div>
 
-<!-- Photo Modal -->
 <div class="modal-overlay" id="photo-modal" onclick="closePhotoModal()">
   <div class="modal-close" onclick="closePhotoModal()">✕</div>
   <img class="modal-img" id="modal-img" alt="হাজিরার ছবি"/>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<!-- ══════════════════════════════════════════════════════════
-     JAVASCRIPT
-══════════════════════════════════════════════════════════ -->
 <script>
-// ──────────────────────────────────────────────
-// CONFIG
-// ──────────────────────────────────────────────
-// ব্রাউজারে আগে সেভ করা না থাকলে আপনার দেওয়া মূল URL-টি ডিফল্ট হিসেবে কাজ করবে
-let GAS_URL = localStorage.getItem('gas_url') || 'https://script.google.com/macros/s/AKfycbzql8rhhjySZG90L24IdxnRVti_7sQBPRqZ1TmFQizEgGY3T3Eqrj_s1TDNLqn6K7fB/exec';
+// ============================================================
+// GLOBAL CONFIG - GAS URL PRE-SET
+// ============================================================
+let GAS_URL = 'https://script.google.com/macros/s/AKfycbz-OG-MgrLQoLfZXCada6_LapNDL6sfIZXtUiBsze24JHdccUUUcXqcX9IKwOJFRuDF/exec';
+let currentUser = null;
+let isAdmin = false;
+let capturedB64 = null;
+let stream = null;
 
-// Pre-fill saved URL
-window.addEventListener('DOMContentLoaded', () => {
-  if (GAS_URL) document.getElementById('inp-gas-url').value = GAS_URL;
-  setTodayDefaults();
-  startClock();
-});
+// Save to localStorage immediately
+localStorage.setItem('gas_url', GAS_URL);
 
+// ============================================================
+// UTILITY FUNCTIONS
+// ============================================================
+function showToast(msg, type = 'info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  clearTimeout(window.toastTimer);
+  window.toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function show(id) { const e = document.getElementById(id); if (e) e.style.display = 'block'; }
+function hide(id) { const e = document.getElementById(id); if (e) e.style.display = 'none'; }
+function todayStr() { const n = new Date(); return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}-${String(n.getDate()).padStart(2, '0')}`; }
+function monthStr() { const n = new Date(); return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}`; }
+function statusBadge(s) {
+  if (s === 'present') return '<span class="badge badge-present">✅ উপস্থিত</span>';
+  if (s === 'late') return '<span class="badge badge-late">⚠️ লেট</span>';
+  return '<span class="badge badge-absent">❌ অনুপস্থিত</span>';
+}
+
+function setTodayDefaults() {
+  const d = todayStr(), m = monthStr();
+  const myDate = document.getElementById('my-date');
+  const admDate = document.getElementById('adm-date');
+  const myMonth = document.getElementById('my-month');
+  const admMonth = document.getElementById('adm-month');
+  if (myDate) myDate.value = d;
+  if (admDate) admDate.value = d;
+  if (myMonth) myMonth.value = m;
+  if (admMonth) admMonth.value = m;
+}
+
+function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, function(m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
+
+// ============================================================
+// API CALL
+// ============================================================
+async function api(action, body = {}) {
+  if (!GAS_URL) {
+    showToast('⚠️ GAS URL সেট করা নেই', 'error');
+    throw new Error('GAS URL not set');
+  }
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30000);
+  try {
+    const resp = await fetch(GAS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action, ...body }),
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+    const text = await resp.text();
+    try { return JSON.parse(text); }
+    catch (e) { throw new Error('সার্ভার থেকে ভুল উত্তর: ' + text.slice(0, 100)); }
+  } catch (err) {
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') throw new Error('নেটওয়ার্ক টাইমআউট');
+    throw err;
+  }
+}
+
+// ============================================================
+// GAS URL MANAGEMENT
+// ============================================================
 function saveGasUrl() {
   const v = document.getElementById('inp-gas-url').value.trim();
   if (!v) { showToast('URL দিন', 'error'); return; }
-  
+  if (!v.startsWith('https://script.google.com')) {
+    showToast('সঠিক Google Apps Script URL দিন', 'error');
+    return;
+  }
   GAS_URL = v;
-  localStorage.setItem('gas_url', v); // 'gas_url' নামে ব্রাউজারে সেভ হবে
+  localStorage.setItem('gas_url', v);
+  document.getElementById('gas-short-url').textContent = v.length > 50 ? v.substring(0, 47) + '...' : v;
+  document.getElementById('gas-short-url').title = v;
+  updateGasStatus(true);
+  hideGasEditForm();
   showToast('URL সংরক্ষিত হয়েছে ✅', 'success');
 }
-// ──────────────────────────────────────────────
-// STATE
-// ──────────────────────────────────────────────
-let currentUser = null;
-let isAdmin     = false;
-let capturedB64 = null;
-let stream      = null;
-let hasNew      = false;
 
-// ──────────────────────────────────────────────
-// API CALL
-// ──────────────────────────────────────────────
-async function api(action, body = {}) {
-  if (!GAS_URL) {
-    showToast('⚠️ আগে GAS URL সেট করুন', 'error');
-    throw new Error('GAS URL not set');
+function clearGasUrl() {
+  if (confirm('GAS URL মুছে ফেলতে চান? সিস্টেম কাজ করবে না।')) {
+    GAS_URL = '';
+    localStorage.removeItem('gas_url');
+    document.getElementById('inp-gas-url').value = '';
+    document.getElementById('gas-short-url').textContent = 'কোনো URL নেই';
+    updateGasStatus(false);
+    showGasEditForm();
+    showToast('URL মুছে ফেলা হয়েছে', 'info');
   }
-  const resp = await fetch(GAS_URL, {
-    method: 'POST',
-    body: JSON.stringify({ action, ...body }),
-  });
-  const text = await resp.text();
-  try { return JSON.parse(text); }
-  catch { throw new Error('সার্ভার থেকে ভুল উত্তর: ' + text.slice(0, 100)); }
 }
 
-// ──────────────────────────────────────────────
-// LOGIN
-// ──────────────────────────────────────────────
+function updateGasStatus(connected) {
+  const pill = document.getElementById('gas-status-pill');
+  const dot = document.getElementById('gas-dot');
+  const txt = document.getElementById('gas-status-txt');
+  if (connected) {
+    pill.style.background = 'rgba(16,185,129,.12)';
+    pill.style.borderColor = 'rgba(16,185,129,.3)';
+    pill.style.color = 'var(--success)';
+    dot.style.background = 'var(--success)';
+    txt.textContent = 'সংযুক্ত';
+  } else {
+    pill.style.background = 'rgba(239,68,68,.12)';
+    pill.style.borderColor = 'rgba(239,68,68,.25)';
+    pill.style.color = 'var(--danger)';
+    dot.style.background = 'var(--danger)';
+    txt.textContent = 'সংযুক্ত নয়';
+  }
+}
+
+function showGasEditForm() {
+  document.getElementById('gas-compact-view').style.display = 'none';
+  document.getElementById('gas-full-form').style.display = 'block';
+  if (GAS_URL) document.getElementById('inp-gas-url').value = GAS_URL;
+}
+
+function hideGasEditForm() {
+  document.getElementById('gas-compact-view').style.display = 'flex';
+  document.getElementById('gas-full-form').style.display = 'none';
+}
+
+async function setupGasSheet() {
+  if (!GAS_URL) { showToast('প্রথমে GAS URL সংযুক্ত করুন', 'error'); return; }
+  try {
+    showToast('সেটআপ চলছে...', 'info');
+    const res = await api('setupSheets', {});
+    if (res && res.success) showToast('শীট তৈরি সম্পন্ন! ✅', 'success');
+    else showToast(res?.message || 'সেটআপ ব্যর্থ', 'error');
+  } catch (e) { showToast(e.message, 'error'); }
+}
+
+async function pasteGasUrl() {
+  try {
+    const text = await navigator.clipboard.readText();
+    document.getElementById('inp-gas-url').value = text;
+    showToast('পেস্ট করা হয়েছে', 'success');
+  } catch (e) { showToast('ক্লিপবোর্ড অ্যাক্সেস করা যায়নি', 'error'); }
+}
+
 function showLoginTab(tab) {
-  document.getElementById('login-user').style.display  = tab === 'user'  ? '' : 'none';
-  document.getElementById('login-admin').style.display = tab === 'admin' ? '' : 'none';
-  document.getElementById('lt-user').className  = 'btn btn-sm ' + (tab==='user'  ? 'btn-primary' : 'btn-outline');
-  document.getElementById('lt-admin').className = 'btn btn-sm ' + (tab==='admin' ? 'btn-primary' : 'btn-outline');
+  const userDiv = document.getElementById('login-user');
+  const adminDiv = document.getElementById('login-admin');
+  const userBtn = document.getElementById('lt-user');
+  const adminBtn = document.getElementById('lt-admin');
+  if (tab === 'user') {
+    userDiv.style.display = 'block';
+    adminDiv.style.display = 'none';
+    userBtn.className = 'btn btn-primary btn-sm';
+    adminBtn.className = 'btn btn-outline btn-sm';
+  } else {
+    userDiv.style.display = 'none';
+    adminDiv.style.display = 'block';
+    userBtn.className = 'btn btn-outline btn-sm';
+    adminBtn.className = 'btn btn-primary btn-sm';
+  }
   document.getElementById('login-err').style.display = 'none';
-}
-
-async function doUserLogin() {
-  const uid = document.getElementById('inp-uid').value.trim().toUpperCase();
-  if (!uid) { showLoginErr('ইউসার আইডি দিন'); return; }
-  setBtnLoading('btn-user-login', true);
-  try {
-    const res = await api('verifyUser', { user_id: uid });
-    if (res.success) {
-      currentUser = res; isAdmin = false;
-      enterApp();
-    } else showLoginErr(res.message);
-  } catch(e) { showLoginErr(e.message); }
-  setBtnLoading('btn-user-login', false);
-}
-
-async function doAdminLogin() {
-  const aid  = document.getElementById('inp-aid').value.trim();
-  const pass = document.getElementById('inp-apass').value;
-  try {
-    const res = await api('adminLogin', { admin_id: aid, password: pass });
-    if (res.success) { isAdmin = true; currentUser = { name: 'অ্যাডমিন', user_id: 'admin' }; enterApp(); }
-    else showLoginErr(res.message);
-  } catch(e) { showLoginErr(e.message); }
 }
 
 function showLoginErr(msg) {
@@ -866,18 +730,45 @@ function showLoginErr(msg) {
   el.style.display = 'flex';
 }
 
-// ──────────────────────────────────────────────
-// APP ENTER / LOGOUT
-// ──────────────────────────────────────────────
+async function doUserLogin() {
+  if (!GAS_URL) { showLoginErr('GAS URL সেট করা নেই'); return; }
+  const uid = document.getElementById('inp-uid').value.trim().toUpperCase();
+  if (!uid) { showLoginErr('ইউসার আইডি দিন'); return; }
+  const btn = document.getElementById('btn-user-login');
+  btn.disabled = true;
+  btn.textContent = '⏳ অপেক্ষা করুন...';
+  try {
+    const res = await api('verifyUser', { user_id: uid });
+    if (res.success) {
+      currentUser = res;
+      isAdmin = false;
+      enterApp();
+    } else showLoginErr(res.message);
+  } catch (e) { showLoginErr(e.message); }
+  btn.disabled = false;
+  btn.textContent = 'প্রবেশ করুন →';
+}
+
+async function doAdminLogin() {
+  if (!GAS_URL) { showLoginErr('GAS URL সেট করা নেই'); return; }
+  const aid = document.getElementById('inp-aid').value.trim();
+  const pass = document.getElementById('inp-apass').value;
+  try {
+    const res = await api('adminLogin', { admin_id: aid, password: pass });
+    if (res.success) {
+      isAdmin = true;
+      currentUser = { name: 'অ্যাডমিন', user_id: 'admin' };
+      enterApp();
+    } else showLoginErr(res.message);
+  } catch (e) { showLoginErr(e.message); }
+}
+
 function enterApp() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
-
-  // Header
   const name = isAdmin ? 'অ্যাডমিন' : currentUser.name;
-  document.getElementById('hdr-name').textContent   = name;
+  document.getElementById('hdr-name').textContent = name;
   document.getElementById('hdr-avatar').textContent = name[0];
-
   buildTabs();
   if (isAdmin) {
     showSection('sec-admin-dash');
@@ -892,45 +783,48 @@ function enterApp() {
 
 function doLogout() {
   stopCamera();
-  currentUser = null; isAdmin = false; capturedB64 = null;
+  currentUser = null;
+  isAdmin = false;
+  capturedB64 = null;
   document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('app').style.display          = 'none';
-  document.getElementById('login-err').style.display    = 'none';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-err').style.display = 'none';
   document.getElementById('inp-uid').value = '';
 }
 
-// ──────────────────────────────────────────────
+// ============================================================
 // TABS
-// ──────────────────────────────────────────────
+// ============================================================
 const userTabs = [
-  { id:'sec-dashboard',  label:'🏠 ড্যাশবোর্ড', notif:false },
-  { id:'sec-attendance', label:'📷 হাজিরা',      notif:false },
-  { id:'sec-myreport',   label:'📋 আমার রিপোর্ট', notif:false },
-  { id:'sec-notices',    label:'📢 নোটিশ',        notif:true  },
+  { id: 'sec-dashboard', label: '🏠 ড্যাশবোর্ড', notif: false },
+  { id: 'sec-attendance', label: '📷 হাজিরা', notif: false },
+  { id: 'sec-myreport', label: '📋 আমার রিপোর্ট', notif: false },
+  { id: 'sec-notices', label: '📢 নোটিশ', notif: true },
 ];
 const adminTabs = [
-  { id:'sec-admin-dash',    label:'🏢 ড্যাশবোর্ড', notif:false },
-  { id:'sec-admin-report',  label:'📊 রিপোর্ট',     notif:false },
-  { id:'sec-admin-notices', label:'📢 নোটিশ',       notif:false },
+  { id: 'sec-admin-dash', label: '🏢 ড্যাশবোর্ড', notif: false },
+  { id: 'sec-admin-report', label: '📊 রিপোর্ট', notif: false },
+  { id: 'sec-admin-notices', label: '📢 নোটিশ', notif: false },
 ];
 
 function buildTabs() {
   const tabs = isAdmin ? adminTabs : userTabs;
-  const bar  = document.getElementById('tabbar');
+  const bar = document.getElementById('tabbar');
   bar.innerHTML = '';
   tabs.forEach(t => {
     const btn = document.createElement('button');
-    btn.className    = 'tab-btn';
-    btn.id           = 'tab-' + t.id;
-    btn.dataset.sec  = t.id;
-    btn.innerHTML    = t.label + (t.notif ? '<span class="notif-dot" id="notif-dot"></span>' : '');
-    btn.onclick      = () => {
+    btn.className = 'tab-btn';
+    btn.id = 'tab-' + t.id;
+    btn.dataset.sec = t.id;
+    btn.innerHTML = t.label + (t.notif ? '<span class="notif-dot" id="notif-dot"></span>' : '');
+    btn.onclick = () => {
       showSection(t.id);
       if (t.id === 'sec-notices' || t.id === 'sec-admin-notices') {
         const dot = document.getElementById('notif-dot');
         if (dot) dot.classList.remove('show');
-        document.getElementById('notice-alert') && (document.getElementById('notice-alert').style.display = 'none');
-        api('markNoticesRead').catch(()=>{});
+        const alertEl = document.getElementById('notice-alert');
+        if (alertEl) alertEl.style.display = 'none';
+        api('markNoticesRead').catch(() => {});
       }
       if (t.id === 'sec-myreport') loadMyReport();
       if (t.id === 'sec-admin-report') loadAdminReport();
@@ -948,100 +842,108 @@ function showSection(id) {
   if (btn) btn.classList.add('active');
 }
 
-// ──────────────────────────────────────────────
+// ============================================================
 // CLOCK
-// ──────────────────────────────────────────────
+// ============================================================
 function startClock() {
   function tick() {
-    const now  = new Date();
-    const h    = String(now.getHours()).padStart(2,'0');
-    const m    = String(now.getMinutes()).padStart(2,'0');
-    const s    = String(now.getSeconds()).padStart(2,'0');
-    const el   = document.getElementById('live-clock');
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    const s = String(now.getSeconds()).padStart(2, '0');
+    const el = document.getElementById('live-clock');
     if (el) el.textContent = `${h}:${m}:${s}`;
   }
-  tick(); setInterval(tick, 1000);
+  tick();
+  setInterval(tick, 1000);
 }
 
-// ──────────────────────────────────────────────
-// DASHBOARD (user)
-// ──────────────────────────────────────────────
+// ============================================================
+// USER DASHBOARD
+// ============================================================
 async function loadDashboard() {
-  // User info chips
   const chips = document.getElementById('dash-chips');
-  document.getElementById('dash-user-info').style.display = '';
+  document.getElementById('dash-user-info').style.display = 'block';
   chips.innerHTML = `
     <div class="info-chip">🆔 <strong>${currentUser.user_id}</strong></div>
     <div class="info-chip">👤 <strong>${currentUser.name}</strong></div>
-    <div class="info-chip">🏢 <strong>${currentUser.department||'–'}</strong></div>
-    <div class="info-chip">📧 <strong>${currentUser.email||'–'}</strong></div>
+    <div class="info-chip">🏢 <strong>${currentUser.department || '–'}</strong></div>
+    <div class="info-chip">📧 <strong>${currentUser.email || '–'}</strong></div>
   `;
-
-  // Monthly summary
   try {
     const now = new Date();
     const res = await api('getUserReport', {
       user_id: currentUser.user_id, mode: 'monthly',
-      month: now.getMonth()+1, year: now.getFullYear()
+      month: now.getMonth() + 1, year: now.getFullYear()
     });
     if (res.success && res.summary) {
       const s = res.summary;
       document.getElementById('st-present').textContent = s.present;
-      document.getElementById('st-late').textContent    = s.late;
-      document.getElementById('st-absent').textContent  = s.late_absent;
-      document.getElementById('st-net').textContent     = s.net_present;
+      document.getElementById('st-late').textContent = s.late;
+      document.getElementById('st-absent').textContent = s.late_absent;
+      document.getElementById('st-net').textContent = s.net_present;
     }
-  } catch(e) {}
+  } catch (e) { console.error(e); }
 }
 
-// ──────────────────────────────────────────────
+// ============================================================
 // CAMERA & ATTENDANCE
-// ──────────────────────────────────────────────
+// ============================================================
 async function startCamera() {
   try {
     stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: 'user', width:{ideal:640}, height:{ideal:480} },
+      video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
       audio: false
     });
     document.getElementById('video').srcObject = stream;
-    show('btn-snap'); hide('btn-cam');
+    show('btn-snap');
+    hide('btn-cam');
     document.getElementById('preview-wrap').style.display = 'none';
-    hide('btn-retake'); hide('btn-submit-att');
+    hide('btn-retake');
+    hide('btn-submit-att');
     document.getElementById('att-result').innerHTML = '';
-  } catch(e) {
-    document.getElementById('att-result').innerHTML =
-      `<div class="alert alert-danger">📵 ক্যামেরা চালু হয়নি: ${e.message}</div>`;
+  } catch (e) {
+    document.getElementById('att-result').innerHTML = `<div class="alert alert-danger">📵 ক্যামেরা চালু হয়নি: ${e.message}</div>`;
   }
 }
 
 function takeSnap() {
-  const video  = document.getElementById('video');
+  const video = document.getElementById('video');
   const canvas = document.getElementById('canvas');
-  canvas.width  = video.videoWidth  || 640;
+  canvas.width = video.videoWidth || 640;
   canvas.height = video.videoHeight || 480;
   const ctx = canvas.getContext('2d');
-  ctx.save(); ctx.scale(-1,1); ctx.drawImage(video,-canvas.width,0); ctx.restore();
+  ctx.save();
+  ctx.scale(-1, 1);
+  ctx.drawImage(video, -canvas.width, 0);
+  ctx.restore();
   capturedB64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
-
   document.getElementById('preview').src = 'data:image/jpeg;base64,' + capturedB64;
-  document.getElementById('preview-wrap').style.display = '';
-  document.getElementById('camera-wrap').style.display  = 'none';
+  document.getElementById('preview-wrap').style.display = 'block';
+  document.getElementById('camera-wrap').style.display = 'none';
   stopCamera();
-  hide('btn-snap'); hide('btn-cam'); show('btn-retake'); show('btn-submit-att');
+  hide('btn-snap');
+  hide('btn-cam');
+  show('btn-retake');
+  show('btn-submit-att');
 }
 
 function retakePhoto() {
   capturedB64 = null;
-  document.getElementById('camera-wrap').style.display  = '';
+  document.getElementById('camera-wrap').style.display = 'block';
   document.getElementById('preview-wrap').style.display = 'none';
   startCamera();
+}
+
+function stopCamera() {
+  if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
 }
 
 async function submitAttendance() {
   if (!capturedB64) { showToast('আগে সেলফি তুলুন', 'error'); return; }
   const btn = document.getElementById('btn-submit-att');
-  btn.disabled = true; btn.textContent = '⏳ জমা হচ্ছে...';
-
+  btn.disabled = true;
+  btn.textContent = '⏳ জমা হচ্ছে...';
   try {
     const res = await api('submitAttendance', {
       user_id: currentUser.user_id,
@@ -1050,61 +952,54 @@ async function submitAttendance() {
     });
     const area = document.getElementById('att-result');
     if (res.success) {
-      const cls  = res.status === 'present' ? 'alert-success' : 'alert-warn';
-      const lbl  = res.status === 'present' ? '✅ উপস্থিত' : '⚠️ লেট';
-      area.innerHTML = `<div class="alert ${cls}">
-        ${lbl} — তারিখ: <strong>${res.date}</strong>, সময়: <strong>${res.time}</strong>
-        ${res.thumb_url ? `<br/><img src="${res.thumb_url}" style="width:80px;margin-top:.5rem;border-radius:8px">` : ''}
-      </div>`;
+      const cls = res.status === 'present' ? 'alert-success' : 'alert-warn';
+      const lbl = res.status === 'present' ? '✅ উপস্থিত' : '⚠️ লেট';
+      area.innerHTML = `<div class="alert ${cls}">${lbl} — তারিখ: <strong>${res.date}</strong>, সময়: <strong>${res.time}</strong></div>`;
       showToast(res.message, 'success');
-      hide('btn-retake'); hide('btn-submit-att');
+      hide('btn-retake');
+      hide('btn-submit-att');
+      document.getElementById('att-already').style.display = 'block';
       loadDashboard();
     } else {
       area.innerHTML = `<div class="alert alert-danger">⚠️ ${res.message}</div>`;
       showToast(res.message, 'error');
-      btn.disabled = false; btn.textContent = '✅ হাজিরা দিন';
+      btn.disabled = false;
+      btn.textContent = '✅ হাজিরা দিন';
     }
-  } catch(e) {
+  } catch (e) {
     showToast(e.message, 'error');
-    btn.disabled = false; btn.textContent = '✅ হাজিরা দিন';
+    btn.disabled = false;
+    btn.textContent = '✅ হাজিরা দিন';
   }
 }
 
-function stopCamera() {
-  if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
-}
-
-// ──────────────────────────────────────────────
+// ============================================================
 // MY REPORT
-// ──────────────────────────────────────────────
+// ============================================================
 function updateMyFilter() {
   const mode = document.getElementById('my-mode').value;
-  document.getElementById('my-date-wrap').style.display  = mode==='daily'   ? '' : 'none';
-  document.getElementById('my-month-wrap').style.display = mode==='monthly' ? '' : 'none';
+  document.getElementById('my-date-wrap').style.display = mode === 'daily' ? 'block' : 'none';
+  document.getElementById('my-month-wrap').style.display = mode === 'monthly' ? 'block' : 'none';
 }
 
 async function loadMyReport() {
-  const mode  = document.getElementById('my-mode').value;
-  const body  = { user_id: currentUser.user_id, mode };
+  const mode = document.getElementById('my-mode').value;
+  const body = { user_id: currentUser.user_id, mode };
   if (mode === 'daily') {
     body.date = document.getElementById('my-date').value || todayStr();
   } else {
     const mv = document.getElementById('my-month').value || monthStr();
     const [yr, mo] = mv.split('-');
-    body.month = parseInt(mo); body.year = parseInt(yr);
+    body.month = parseInt(mo);
+    body.year = parseInt(yr);
   }
-
-  document.getElementById('my-report-body').innerHTML =
-    '<div class="loading"><div class="spinner"></div> লোড হচ্ছে...</div>';
-
+  document.getElementById('my-report-body').innerHTML = '<div class="loading"><div class="spinner"></div> লোড হচ্ছে...</div>';
   try {
     const res = await api('getUserReport', body);
     if (!res.success) {
-      document.getElementById('my-report-body').innerHTML =
-        `<div class="alert alert-danger">${res.message}</div>`; return;
+      document.getElementById('my-report-body').innerHTML = `<div class="alert alert-danger">${res.message}</div>`;
+      return;
     }
-
-    // Summary
     if (mode === 'monthly' && res.summary) {
       const s = res.summary;
       document.getElementById('my-summary').style.display = '';
@@ -1117,119 +1012,109 @@ async function loadMyReport() {
     } else {
       document.getElementById('my-summary').style.display = 'none';
     }
-
-    // Table
     const records = res.records || [];
     if (!records.length) {
-      document.getElementById('my-report-body').innerHTML =
-        '<div class="alert alert-info">এই সময়ের কোনো হাজিরা নেই।</div>'; return;
+      document.getElementById('my-report-body').innerHTML = '<div class="alert alert-info">এই সময়ের কোনো হাজিরা নেই।</div>';
+      return;
     }
-
-    let html = `<div class="table-wrap"><table>
-      <thead><tr><th>তারিখ</th><th>সময়</th><th>অবস্থা</th>${mode==='daily' ? '<th>ছবি</th>' : ''}</tr></thead><tbody>`;
+    let html = `<div class="table-wrap"><td><thead><tr><th>তারিখ</th><th>সময়</th><th>অবস্থা</th>${mode === 'daily' ? '<th>ছবি</th>' : ''}</tr></thead><tbody>`;
     records.forEach(r => {
-      html += `<tr>
-        <td>${r.date}</td>
-        <td style="font-family:var(--mono)">${r.time}</td>
-        <td>${statusBadge(r.status)}</td>
-        ${mode==='daily' ? `<td>${r.thumb_url ? `<img class="thumb-img" src="${r.thumb_url}" onclick="openPhoto('${r.photo_url}')" alt="ছবি" onerror="this.style.display='none'"/>` : '—'}</td>` : ''}
-      </tr>`;
+      html += `<tr><td>${r.date}</td><td style="font-family:var(--mono)">${r.time}</td><td>${statusBadge(r.status)}</td>${mode === 'daily' ? `<td>${r.thumb_url ? `<img class="thumb-img" src="${r.thumb_url}" onclick="openPhoto('${r.photo_url}')" alt="ছবি" onerror="this.style.display='none'"/>` : '—'}</td>` : ''}</tr>`;
     });
     html += '</tbody></table></div>';
     document.getElementById('my-report-body').innerHTML = html;
-  } catch(e) {
-    document.getElementById('my-report-body').innerHTML =
-      `<div class="alert alert-danger">${e.message}</div>`;
+  } catch (e) {
+    document.getElementById('my-report-body').innerHTML = `<div class="alert alert-danger">${e.message}</div>`;
   }
 }
 
-// ──────────────────────────────────────────────
-// NOTICES (user)
-// ──────────────────────────────────────────────
+// ============================================================
+// NOTICES
+// ============================================================
 async function loadNotices() {
   try {
     const res = await api('getNotices');
     if (!res.success) return;
-    hasNew = res.hasNew;
-    if (hasNew) {
+    if (res.hasNew) {
       const dot = document.getElementById('notif-dot');
       if (dot) dot.classList.add('show');
       const alertEl = document.getElementById('notice-alert');
       if (alertEl) alertEl.style.display = 'flex';
     }
     renderNotices(res.notices, 'notices-list');
-  } catch(e) {
-    document.getElementById('notices-list').innerHTML =
-      `<div class="alert alert-danger">${e.message}</div>`;
+  } catch (e) {
+    document.getElementById('notices-list').innerHTML = `<div class="alert alert-danger">${e.message}</div>`;
   }
 }
 
 function renderNotices(notices, containerId) {
   const el = document.getElementById(containerId);
-  if (!notices.length) { el.innerHTML = '<div class="alert alert-info">কোনো নোটিশ নেই।</div>'; return; }
+  if (!notices || !notices.length) { el.innerHTML = '<div class="alert alert-info">কোনো নোটিশ নেই।</div>'; return; }
   el.innerHTML = notices.map(n => `
-    <div class="notice-item ${n.is_new ? 'new-notice' : ''}" onclick="toggleNotice(this)" style="margin-bottom:.75rem">
-      <div class="notice-title">
-        📌 ${n.title}
-        ${n.is_new ? '<span class="new-tag">নতুন</span>' : ''}
-      </div>
+    <div class="notice-item ${n.is_new ? 'new-notice' : ''}" onclick="toggleNotice(this)">
+      <div class="notice-title">📌 ${escapeHtml(n.title)}${n.is_new ? '<span class="new-tag">নতুন</span>' : ''}</div>
       <div class="notice-date">📅 ${n.date}</div>
-      <div class="notice-body">${n.details}</div>
+      <div class="notice-body">${escapeHtml(n.details)}</div>
     </div>
   `).join('');
 }
 
 function toggleNotice(el) {
   const body = el.querySelector('.notice-body');
-  body.classList.toggle('show');
-  el.style.borderColor = body.classList.contains('show') ? 'var(--accent)' : '';
+  if (body) body.classList.toggle('show');
 }
 
-// ──────────────────────────────────────────────
-// ADMIN DASHBOARD
-// ──────────────────────────────────────────────
+// ============================================================
+// ADMIN FUNCTIONS
+// ============================================================
 async function loadAdminDashStats() {
   try {
-    const res = await api('getAdminReport', { mode:'daily', date: todayStr() });
+    const res = await api('getAdminReport', { mode: 'daily', date: todayStr() });
     if (!res.success) return;
     const report = res.report || [];
-    let tp=0, tl=0;
+    let tp = 0, tl = 0;
     report.forEach(u => {
       u.records.forEach(r => {
-        if (r.status==='present') tp++;
-        else if (r.status==='late') tl++;
+        if (r.status === 'present') tp++;
+        else if (r.status === 'late') tl++;
       });
     });
     const ta = report.length - tp - tl;
-    document.getElementById('adm-total').textContent   = report.length;
+    document.getElementById('adm-total').textContent = report.length;
     document.getElementById('adm-today-p').textContent = tp;
     document.getElementById('adm-today-l').textContent = tl;
     document.getElementById('adm-today-a').textContent = Math.max(0, ta);
-  } catch(e) {}
+  } catch (e) { console.error(e); }
 }
 
 async function postNotice() {
-  const title   = document.getElementById('notice-title').value.trim();
+  const title = document.getElementById('notice-title').value.trim();
   const details = document.getElementById('notice-details').value.trim();
   if (!title || !details) { showToast('শিরোনাম ও বিস্তারিত দিন', 'error'); return; }
   try {
-    const res = await api('addNotice', { title, details, admin_id:'admin', password:'admin123' });
+    const res = await api('addNotice', { title, details, admin_id: 'admin', password: 'admin123' });
     if (res.success) {
       showToast('নোটিশ প্রকাশিত হয়েছে ✅', 'success');
-      document.getElementById('notice-title').value   = '';
+      document.getElementById('notice-title').value = '';
       document.getElementById('notice-details').value = '';
       loadAdminNotices();
     } else showToast(res.message, 'error');
-  } catch(e) { showToast(e.message, 'error'); }
+  } catch (e) { showToast(e.message, 'error'); }
 }
 
-// ──────────────────────────────────────────────
-// ADMIN REPORT
-// ──────────────────────────────────────────────
+async function loadAdminNotices() {
+  try {
+    const res = await api('getNotices');
+    if (res.success) renderNotices(res.notices, 'admin-notices-list');
+  } catch (e) {
+    document.getElementById('admin-notices-list').innerHTML = `<div class="alert alert-danger">${e.message}</div>`;
+  }
+}
+
 function updateAdmFilter() {
   const mode = document.getElementById('adm-mode').value;
-  document.getElementById('adm-date-wrap').style.display  = mode==='daily'   ? '' : 'none';
-  document.getElementById('adm-month-wrap').style.display = mode==='monthly' ? '' : 'none';
+  document.getElementById('adm-date-wrap').style.display = mode === 'daily' ? 'block' : 'none';
+  document.getElementById('adm-month-wrap').style.display = mode === 'monthly' ? 'block' : 'none';
 }
 
 async function loadAdminReport() {
@@ -1240,145 +1125,66 @@ async function loadAdminReport() {
   } else {
     const mv = document.getElementById('adm-month').value || monthStr();
     const [yr, mo] = mv.split('-');
-    body.month = parseInt(mo); body.year = parseInt(yr);
+    body.month = parseInt(mo);
+    body.year = parseInt(yr);
   }
-
   const el = document.getElementById('adm-report-body');
   el.innerHTML = '<div class="loading"><div class="spinner"></div> লোড হচ্ছে...</div>';
-
   try {
     const res = await api('getAdminReport', body);
     if (!res.success) { el.innerHTML = `<div class="alert alert-danger">${res.message}</div>`; return; }
-
     const report = res.report || [];
     if (!report.length) { el.innerHTML = '<div class="alert alert-info">কোনো ডেটা নেই।</div>'; return; }
-
     if (mode === 'daily') {
-      // Expandable rows with thumbnails
-      let html = `<div class="table-wrap"><table>
-        <thead><tr><th></th><th>আইডি</th><th>নাম</th><th>বিভাগ</th><th>সময়</th><th>অবস্থা</th><th>ছবি</th></tr></thead><tbody>`;
+      let html = `<div class="table-wrap"><td><thead><tr><th></th><th>আইডি</th><th>নাম</th><th>বিভাগ</th><th>সময়</th><th>অবস্থা</th><th>ছবি</th></tr></thead><tbody>`;
       report.forEach((u, idx) => {
         const r = u.records[0];
-        html += `<tr class="admin-user-row" onclick="toggleAdmRow(${idx})">
-          <td><span class="expand-arrow" id="arr-${idx}">▶</span></td>
-          <td style="font-family:var(--mono)">${u.user_id}</td>
-          <td>${u.name}</td>
-          <td>${u.department}</td>
-          <td style="font-family:var(--mono)">${r ? r.time : '—'}</td>
-          <td>${r ? statusBadge(r.status) : '<span class="badge badge-absent">অনুপস্থিত</span>'}</td>
-          <td>${r && r.thumb_url ? `<img class="thumb-img" src="${r.thumb_url}" onclick="event.stopPropagation();openPhoto('${r.photo_url}')" alt="ছবি" onerror="this.style.display='none'"/>` : '—'}</td>
-        </tr>
-        <tr class="admin-detail-row" id="det-${idx}" style="display:none">
-          <td colspan="7">
-            <div class="admin-detail-inner">
-              ${r ? `<div class="info-chip" style="margin-bottom:.5rem">📧 ${u.name} — ${u.department}</div>` : ''}
-              ${r && r.photo_url ? `<img src="${r.photo_url}" style="max-width:240px;border-radius:var(--radius);margin-top:.5rem" onerror="this.alt='ছবি লোড হয়নি'">` : '<div class="text-muted">কোনো ছবি নেই</div>'}
-            </div>
-          </td>
-        </tr>`;
+        html += `<tr class="admin-user-row" onclick="toggleAdmRow(${idx})"><td><span class="expand-arrow" id="arr-${idx}">▶</span></td><td style="font-family:var(--mono)">${u.user_id}</td><td>${escapeHtml(u.name)}</td><td>${escapeHtml(u.department)}</td><td style="font-family:var(--mono)">${r ? r.time : '—'}</td><td>${r ? statusBadge(r.status) : '<span class="badge badge-absent">অনুপস্থিত</span>'}</td><td>${r && r.thumb_url ? `<img class="thumb-img" src="${r.thumb_url}" onclick="event.stopPropagation();openPhoto('${r.photo_url}')" alt="ছবি" onerror="this.style.display='none'"/>` : '—'}</td></tr>
+        <tr class="admin-detail-row" id="det-${idx}" style="display:none"><td colspan="7"><div class="admin-detail-inner">${r && r.photo_url ? `<img src="${r.photo_url}" style="max-width:240px;border-radius:var(--radius);margin-top:.5rem" onerror="this.alt='ছবি লোড হয়নি'"/>` : '<div class="text-muted">কোনো ছবি নেই</div>'}</div></td></tr>`;
       });
       html += '</tbody></table></div>';
       el.innerHTML = html;
     } else {
-      // Monthly: summary table
-      let html = `<div class="table-wrap"><table>
-        <thead><tr><th>আইডি</th><th>নাম</th><th>বিভাগ</th><th>উপস্থিত</th><th>লেট</th><th>লেট-অনুপস্থিত</th><th>মোট</th></tr></thead><tbody>`;
+      let html = `<div class="table-wrap"><td><thead><tr><th>আইডি</th><th>নাম</th><th>বিভাগ</th><th>উপস্থিত</th><th>লেট</th><th>লেট-অনুপস্থিত</th><th>মোট</th></tr></thead><tbody>`;
       report.forEach(u => {
         const s = u.summary;
-        html += `<tr>
-          <td style="font-family:var(--mono)">${u.user_id}</td>
-          <td>${u.name}</td>
-          <td>${u.department}</td>
-          <td><span class="badge badge-present">${s.present}</span></td>
-          <td><span class="badge badge-late">${s.late}</span></td>
-          <td><span class="badge badge-absent">${s.late_absent}</span></td>
-          <td><strong>${s.net_present}</strong></td>
-        </tr>`;
+        html += `<tr><td style="font-family:var(--mono)">${u.user_id}</td><td>${escapeHtml(u.name)}</td><td>${escapeHtml(u.department)}</td><td><span class="badge badge-present">${s.present}</span></td><td><span class="badge badge-late">${s.late}</span></td><td><span class="badge badge-absent">${s.late_absent}</span></td><td><strong>${s.net_present}</strong></td></tr>`;
       });
       html += '</tbody></table></div>';
       el.innerHTML = html;
     }
-  } catch(e) {
-    el.innerHTML = `<div class="alert alert-danger">${e.message}</div>`;
-  }
+  } catch (e) { el.innerHTML = `<div class="alert alert-danger">${e.message}</div>`; }
 }
 
 function toggleAdmRow(idx) {
   const det = document.getElementById('det-' + idx);
   const arr = document.getElementById('arr-' + idx);
-  const row = arr.closest('tr');
+  const row = arr?.closest('tr');
+  if (!det) return;
   const vis = det.style.display !== 'none';
-  det.style.display = vis ? 'none' : '';
-  if (vis) { arr.style.transform=''; row.classList.remove('expanded'); }
-  else      { arr.style.transform='rotate(90deg)'; row.classList.add('expanded'); }
+  det.style.display = vis ? 'none' : 'table-row';
+  if (arr) arr.style.transform = vis ? '' : 'rotate(90deg)';
+  if (row) row.classList[vis ? 'remove' : 'add']('expanded');
 }
 
-// ──────────────────────────────────────────────
-// ADMIN NOTICES
-// ──────────────────────────────────────────────
-async function loadAdminNotices() {
-  try {
-    const res = await api('getNotices');
-    if (res.success) renderNotices(res.notices, 'admin-notices-list');
-  } catch(e) {
-    document.getElementById('admin-notices-list').innerHTML =
-      `<div class="alert alert-danger">${e.message}</div>`;
-  }
-}
-
-// ──────────────────────────────────────────────
+// ============================================================
 // PHOTO MODAL
-// ──────────────────────────────────────────────
-function openPhoto(url) {
-  if (!url) return;
-  document.getElementById('modal-img').src = url;
-  document.getElementById('photo-modal').classList.add('open');
-}
-function closePhotoModal() {
-  document.getElementById('photo-modal').classList.remove('open');
-}
+// ============================================================
+function openPhoto(url) { if (!url) return; document.getElementById('modal-img').src = url; document.getElementById('photo-modal').classList.add('open'); }
+function closePhotoModal() { document.getElementById('photo-modal').classList.remove('open'); }
 
-// ──────────────────────────────────────────────
-// TOAST
-// ──────────────────────────────────────────────
-let toastTimer;
-function showToast(msg, type='info') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className   = `toast ${type} show`;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-// ──────────────────────────────────────────────
-// HELPERS
-// ──────────────────────────────────────────────
-function statusBadge(s) {
-  if (s==='present') return '<span class="badge badge-present">✅ উপস্থিত</span>';
-  if (s==='late')    return '<span class="badge badge-late">⚠️ লেট</span>';
-  return '<span class="badge badge-absent">❌ অনুপস্থিত</span>';
-}
-function todayStr() {
-  const n = new Date();
-  return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`;
-}
-function monthStr() {
-  const n = new Date();
-  return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}`;
-}
-function setTodayDefaults() {
-  const d = todayStr(), m = monthStr();
-  ['my-date','adm-date'].forEach(id => { const e=document.getElementById(id); if(e) e.value=d; });
-  ['my-month','adm-month'].forEach(id => { const e=document.getElementById(id); if(e) e.value=m; });
-}
-function show(id) { const e=document.getElementById(id); if(e) e.style.display=''; }
-function hide(id) { const e=document.getElementById(id); if(e) e.style.display='none'; }
-function setBtnLoading(id, loading) {
-  const b = document.getElementById(id);
-  if (!b) return;
-  b.disabled = loading;
-  b.textContent = loading ? '⏳ অপেক্ষা করুন...' : 'প্রবেশ করুন →';
-}
+// ============================================================
+// INITIALIZATION
+// ============================================================
+window.addEventListener('DOMContentLoaded', () => {
+  // URL already set, just update UI
+  document.getElementById('inp-gas-url').value = GAS_URL;
+  document.getElementById('gas-short-url').textContent = GAS_URL.length > 50 ? GAS_URL.substring(0, 47) + '...' : GAS_URL;
+  document.getElementById('gas-short-url').title = GAS_URL;
+  updateGasStatus(true);
+  setTodayDefaults();
+  startClock();
+});
 </script>
 </body>
 </html>
