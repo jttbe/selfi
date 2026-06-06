@@ -1,801 +1,1285 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#0a0e1a">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>উপস্থিতি সিস্টেম</title>
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>হাজিরা সিস্টেম</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
-/* ════════════════════════════
-   DESIGN TOKENS
-════════════════════════════ */
-:root {
-  --bg:       #07090f;
-  --bg2:      #0d1117;
-  --surface:  #111827;
-  --card:     #161d2e;
-  --card2:    #1c2540;
-  --border:   #1e2d4a;
-  --border2:  #2a3a5c;
-  --accent:   #4f8ef7;
-  --accent2:  #00d4ff;
-  --green:    #00c896;
-  --green2:   #00a87e;
-  --yellow:   #ffb020;
-  --red:      #ff4757;
-  --purple:   #a78bfa;
-  --purple2:  #7c3aed;
-  --text:     #e8edf5;
-  --text2:    #98a6bc;
-  --text3:    #5a6a82;
-  --r:        18px;
-  --rs:       12px;
-  --rx:       24px;
-  --safe-b:   env(safe-area-inset-bottom, 0px);
+/* ═══════════════════════════════════════════════════════════
+   ROOT & RESET
+═══════════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:        #0b0f1a;
+  --surface:   #111827;
+  --surface2:  #1a2235;
+  --border:    #1e2d45;
+  --accent:    #3b82f6;
+  --accent2:   #06b6d4;
+  --success:   #10b981;
+  --warn:      #f59e0b;
+  --danger:    #ef4444;
+  --text:      #e2e8f0;
+  --text2:     #94a3b8;
+  --text3:     #4b5563;
+  --radius:    14px;
+  --radius-sm: 8px;
+  --shadow:    0 4px 24px rgba(0,0,0,.45);
+  --glow:      0 0 30px rgba(59,130,246,.18);
+  --font:      'Hind Siliguri', sans-serif;
+  --mono:      'JetBrains Mono', monospace;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
 }
 
-/* ════════════════════════════
-   RESET & BASE
-════════════════════════════ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html { height: 100%; overflow-x: hidden; }
-body {
-  min-height: 100%; background: var(--bg); color: var(--text);
-  font-family: 'Hind Siliguri', sans-serif; font-size: 16px;
-  -webkit-font-smoothing: antialiased; overflow-x: hidden;
-  padding-bottom: calc(72px + var(--safe-b));
-}
+/* ═══════════════════════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════════════════════ */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
 
-/* ════════════════════════════
-   ANIMATED BACKGROUND
-════════════════════════════ */
-.bg-wrap { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-.bg-grad {
-  position: absolute; border-radius: 50%; filter: blur(70px); opacity: .13;
-  animation: drift 12s ease-in-out infinite;
-}
-.bg-grad.g1 { width: 380px; height: 380px; top: -120px; left: -80px; background: radial-gradient(circle, var(--accent), transparent); animation-delay: 0s; }
-.bg-grad.g2 { width: 280px; height: 280px; top: 30%; right: -60px; background: radial-gradient(circle, var(--accent2), transparent); animation-delay: -4s; }
-.bg-grad.g3 { width: 220px; height: 220px; bottom: 20%; left: 20%; background: radial-gradient(circle, var(--purple), transparent); animation-delay: -8s; }
-@keyframes drift {
-  0%,100% { transform: translateY(0) scale(1); }
-  50%      { transform: translateY(-30px) scale(1.08); }
-}
-.bg-grid {
-  position: absolute; inset: 0;
-  background-image: linear-gradient(rgba(79,142,247,.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(79,142,247,.04) 1px, transparent 1px);
-  background-size: 36px 36px;
-}
-
-/* ════════════════════════════
+/* ═══════════════════════════════════════════════════════════
    LAYOUT
-════════════════════════════ */
-.app { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; }
+═══════════════════════════════════════════════════════════ */
+#app{min-height:100vh;display:flex;flex-direction:column}
 
-/* ════════════════════════════
-   HEADER
-════════════════════════════ */
-.header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 20px 0;
+/* ── Header ── */
+.header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(11,15,26,.85);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 1rem;
+  height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;
 }
-.logo { display: flex; align-items: center; gap: 12px; }
-.logo-ico {
-  width: 44px; height: 44px; border-radius: 14px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  display: flex; align-items: center; justify-content: center; font-size: 22px;
-  box-shadow: 0 4px 16px rgba(79,142,247,.35);
+.header-logo{
+  display:flex;align-items:center;gap:.6rem;
+  font-size:1.1rem;font-weight:700;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
-.logo-name { font-size: 1.15rem; font-weight: 700; letter-spacing: .3px; }
-.logo-sub  { font-size: .62rem; color: var(--text3); font-family: 'JetBrains Mono', monospace; margin-top: 1px; }
-.live-clock {
-  background: var(--card2); border: 1px solid var(--border2); border-radius: 20px;
-  padding: 7px 14px; font-family: 'JetBrains Mono', monospace; font-size: .8rem;
-  color: var(--accent2); letter-spacing: 1px;
-  box-shadow: 0 0 12px rgba(0,212,255,.1);
+.header-logo svg{flex-shrink:0}
+.header-user{
+  display:flex;align-items:center;gap:.5rem;
+  font-size:.82rem;color:var(--text2);
+}
+.avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;font-weight:700;color:#fff;
+  flex-shrink:0;
+}
+.logout-btn{
+  background:none;border:1px solid var(--border);
+  color:var(--text2);border-radius:var(--radius-sm);
+  padding:.25rem .6rem;font-size:.78rem;cursor:pointer;
+  font-family:var(--font);transition:.2s;
+}
+.logout-btn:hover{border-color:var(--danger);color:var(--danger)}
+
+/* ── Tab bar ── */
+.tabbar{
+  position:sticky;top:60px;z-index:99;
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  display:flex;overflow-x:auto;
+  scrollbar-width:none;
+}
+.tabbar::-webkit-scrollbar{display:none}
+.tab-btn{
+  flex-shrink:0;padding:.7rem 1.2rem;
+  font-family:var(--font);font-size:.85rem;font-weight:500;
+  color:var(--text2);background:none;border:none;cursor:pointer;
+  border-bottom:2px solid transparent;transition:.2s;
+  display:flex;align-items:center;gap:.4rem;position:relative;
+}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-btn:hover:not(.active){color:var(--text)}
+.notif-dot{
+  position:absolute;top:.4rem;right:.4rem;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--danger);animation:pulse 1.5s infinite;
+  display:none;
+}
+.notif-dot.show{display:block}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.5)}
+  50%{box-shadow:0 0 0 6px rgba(239,68,68,0)}
 }
 
-/* ════════════════════════════
-   BOTTOM NAV - FIXED
-════════════════════════════ */
-.bottom-nav {
-  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-  width: 100%; max-width: 480px; z-index: 50;
-  background: rgba(13,17,23,.92); backdrop-filter: blur(20px) saturate(160%);
-  border-top: 1px solid var(--border);
-  padding: 8px 12px calc(8px + var(--safe-b));
-  display: flex; gap: 4px;
-  box-shadow: 0 -4px 30px rgba(0,0,0,.5);
-}
-.nb {
-  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
-  padding: 8px 4px; border: none; background: transparent; cursor: pointer;
-  border-radius: 14px; position: relative; transition: all .2s;
-  color: var(--text3); font-family: 'Hind Siliguri', sans-serif; font-size: .68rem;
-  font-weight: 500;
-}
-.nb .ni { font-size: 1.3rem; transition: transform .2s; }
-.nb.active { color: #fff; }
-.nb.active .ni { transform: scale(1.15); }
-.nb.active::before {
-  content: ''; position: absolute; inset: 0; border-radius: 14px;
-  background: linear-gradient(135deg, rgba(79,142,247,.25), rgba(0,212,255,.15));
-  border: 1px solid rgba(79,142,247,.3);
-}
-.badge {
-  position: absolute; top: 4px; right: 10px; background: var(--red);
-  color: #fff; font-size: .58rem; font-weight: 700; min-width: 17px; height: 17px;
-  border-radius: 9px; display: none; align-items: center; justify-content: center;
-  padding: 0 4px; border: 2px solid var(--bg);
-}
-.badge.show { display: flex; }
+/* ── Main ── */
+.main{flex:1;padding:1rem;max-width:900px;margin:0 auto;width:100%}
 
-/* ════════════════════════════
-   PAGES
-════════════════════════════ */
-.page { display: none; padding: 16px 16px 8px; animation: pgIn .22s ease; }
-.page.active { display: block; }
-@keyframes pgIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+/* ── Sections ── */
+.section{display:none}
+.section.active{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-/* ════════════════════════════
-   SECTION TITLE
-════════════════════════════ */
-.sec-title {
-  font-size: .65rem; font-family: 'JetBrains Mono', monospace; color: var(--text3);
-  text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px;
-  display: flex; align-items: center; gap: 8px;
+/* ═══════════════════════════════════════════════════════════
+   CARDS & CONTAINERS
+═══════════════════════════════════════════════════════════ */
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:1.25rem;
+  box-shadow:var(--shadow);
 }
-.sec-title::before {
-  content: ''; width: 6px; height: 6px; border-radius: 50%;
-  background: var(--green); box-shadow: 0 0 8px var(--green);
-  animation: blink 1.5s infinite;
+.card+.card,.card+.mt{margin-top:1rem}
+.card-title{
+  font-size:.9rem;font-weight:600;color:var(--text2);
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:1rem;
+  display:flex;align-items:center;gap:.5rem;
 }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.card-title span{font-size:1rem}
 
-/* ════════════════════════════
-   STATUS CARD
-════════════════════════════ */
-.status-wrap {
-  background: var(--card); border: 1px solid var(--border2); border-radius: var(--r);
-  padding: 14px 16px; margin-bottom: 14px;
-  box-shadow: 0 2px 16px rgba(0,0,0,.25);
+/* ═══════════════════════════════════════════════════════════
+   LOGIN SCREEN
+═══════════════════════════════════════════════════════════ */
+#login-screen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at 50% 0%,rgba(59,130,246,.12) 0%,transparent 70%),var(--bg);
+  padding:1rem;
 }
-.status-row {
-  display: flex; align-items: center; gap: 12px;
-  padding: 10px 14px; border-radius: var(--rs); font-size: .9rem; font-weight: 600;
+.login-box{
+  width:100%;max-width:400px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:20px;padding:2rem;box-shadow:var(--shadow),var(--glow);
 }
-.status-row.present { background: rgba(0,200,150,.1); border: 1px solid rgba(0,200,150,.25); color: var(--green); }
-.status-row.late    { background: rgba(255,176,32,.1);  border: 1px solid rgba(255,176,32,.25);  color: var(--yellow); }
-.status-row.closed  { background: rgba(255,71,87,.1);   border: 1px solid rgba(255,71,87,.25);   color: var(--red); }
-.sdot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-.present .sdot { background: var(--green); box-shadow: 0 0 8px var(--green); }
-.late .sdot    { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
-.closed .sdot  { background: var(--red);   box-shadow: 0 0 8px var(--red); }
-.svr-date { font-size: .7rem; color: var(--text3); text-align: center; margin-top: 8px; }
+.login-title{
+  text-align:center;margin-bottom:1.5rem;
+}
+.login-title h1{
+  font-size:1.6rem;font-weight:700;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.login-title p{color:var(--text2);font-size:.88rem;margin-top:.3rem}
 
-/* ════════════════════════════
+/* ═══════════════════════════════════════════════════════════
    FORM ELEMENTS
-════════════════════════════ */
-.fg { margin-bottom: 14px; }
-.fl { display: block; font-size: .78rem; color: var(--text2); margin-bottom: 7px; font-weight: 600; }
-.fi {
-  width: 100%; background: var(--surface); border: 1.5px solid var(--border2);
-  border-radius: var(--rs); padding: 13px 16px; color: var(--text);
-  font-family: 'Hind Siliguri', sans-serif; font-size: .95rem; outline: none;
-  transition: border-color .2s, box-shadow .2s;
+═══════════════════════════════════════════════════════════ */
+.form-group{margin-bottom:1rem}
+.form-label{display:block;font-size:.85rem;color:var(--text2);margin-bottom:.4rem;font-weight:500}
+.form-input{
+  width:100%;padding:.7rem 1rem;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--radius-sm);color:var(--text);
+  font-family:var(--font);font-size:.92rem;outline:none;
+  transition:.2s;
 }
-.fi:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,142,247,.15); }
-.fi::placeholder { color: var(--text3); }
-.fi-pin { letter-spacing: 6px; font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; }
-textarea.fi { resize: vertical; min-height: 100px; line-height: 1.7; }
+.form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(59,130,246,.12)}
+.form-input::placeholder{color:var(--text3)}
+select.form-input{cursor:pointer}
 
-/* ════════════════════════════
-   USER CARD
-════════════════════════════ */
-.u-card {
-  background: linear-gradient(135deg, rgba(79,142,247,.1), rgba(0,212,255,.06));
-  border: 1.5px solid rgba(79,142,247,.25); border-radius: var(--r);
-  padding: 16px; display: flex; align-items: center; gap: 14px;
-  margin-bottom: 16px; animation: slideD .28s ease;
+/* ── Buttons ── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:.7rem 1.4rem;border-radius:var(--radius-sm);
+  font-family:var(--font);font-size:.9rem;font-weight:600;
+  cursor:pointer;border:none;transition:.2s;text-decoration:none;
 }
-@keyframes slideD { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
-.u-avatar {
-  width: 54px; height: 54px; border-radius: 50%; flex-shrink: 0;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
-  box-shadow: 0 4px 16px rgba(79,142,247,.3);
-}
-.u-name { font-size: 1.05rem; font-weight: 700; }
-.u-id   { font-size: .72rem; font-family: 'JetBrains Mono', monospace; color: var(--text3); margin-top: 3px; }
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#2563eb;transform:translateY(-1px)}
+.btn-success{background:var(--success);color:#fff}
+.btn-success:hover{background:#059669}
+.btn-warn{background:var(--warn);color:#000}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.btn-full{width:100%}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none !important}
+.btn-sm{padding:.4rem .9rem;font-size:.82rem}
 
-/* ════════════════════════════
-   CAMERA
-════════════════════════════ */
-.cam-wrap {
-  position: relative; border-radius: var(--r); overflow: hidden;
-  background: #000; aspect-ratio: 4/3; margin-bottom: 14px;
-  border: 2px solid var(--border2); box-shadow: 0 4px 24px rgba(0,0,0,.5);
+/* ═══════════════════════════════════════════════════════════
+   STAT CARDS
+═══════════════════════════════════════════════════════════ */
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem}
+@media(min-width:600px){.stats-grid{grid-template-columns:repeat(4,1fr)}}
+.stat-card{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:1rem;text-align:center;
+  transition:.2s;
 }
-#video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); display: block; }
-#canvas { display: none; }
-.face-ring {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-60%);
-  width: 140px; height: 175px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-  border: 2.5px dashed rgba(79,142,247,.65);
-  box-shadow: 0 0 20px rgba(79,142,247,.2) inset;
-  pointer-events: none;
+.stat-card:hover{border-color:var(--accent);box-shadow:var(--glow)}
+.stat-value{
+  font-size:2rem;font-weight:700;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
-.cam-hint {
-  position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
-  background: rgba(0,0,0,.6); color: rgba(255,255,255,.8); font-size: .7rem;
-  padding: 4px 14px; border-radius: 20px; white-space: nowrap;
-  backdrop-filter: blur(6px); pointer-events: none;
-}
-.prev-wrap {
-  border-radius: var(--r); overflow: hidden; margin-bottom: 12px;
-  border: 2px solid var(--green); box-shadow: 0 0 20px rgba(0,200,150,.2);
-  aspect-ratio: 4/3;
-}
-.prev-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.prev-meta {
-  background: rgba(0,200,150,.08); border: 1px solid rgba(0,200,150,.2);
-  padding: 9px 14px; border-radius: var(--rs); font-size: .72rem; color: var(--green);
-  margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; text-align: center; line-height: 1.6;
-}
+.stat-label{font-size:.78rem;color:var(--text2);margin-top:.2rem}
+.stat-card.green .stat-value{background:linear-gradient(135deg,var(--success),#34d399);-webkit-background-clip:text}
+.stat-card.warn  .stat-value{background:linear-gradient(135deg,var(--warn),#fbbf24);-webkit-background-clip:text}
+.stat-card.red   .stat-value{background:linear-gradient(135deg,var(--danger),#f87171);-webkit-background-clip:text}
 
-/* ════════════════════════════
-   BUTTONS
-════════════════════════════ */
-.btn {
-  width: 100%; padding: 14px; border: none; cursor: pointer; border-radius: var(--rs);
-  font-family: 'Hind Siliguri', sans-serif; font-size: .95rem; font-weight: 700;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  transition: all .18s; letter-spacing: .3px;
+/* ═══════════════════════════════════════════════════════════
+   STATUS BADGES
+═══════════════════════════════════════════════════════════ */
+.badge{
+  display:inline-flex;align-items:center;gap:.3rem;
+  padding:.25rem .7rem;border-radius:99px;font-size:.78rem;font-weight:600;
 }
-.btn:active { transform: scale(.96); }
-.btn:disabled { opacity: .45; cursor: not-allowed; transform: none !important; }
-.bp  { background: linear-gradient(135deg, var(--accent), #38bdf8); color: #fff; box-shadow: 0 4px 20px rgba(79,142,247,.35); }
-.bg  { background: linear-gradient(135deg, var(--green), var(--green2)); color: #fff; box-shadow: 0 4px 20px rgba(0,200,150,.3); }
-.bpu { background: linear-gradient(135deg, var(--purple), var(--purple2)); color: #fff; box-shadow: 0 4px 20px rgba(167,139,250,.3); }
-.bd  { background: var(--surface); border: 1.5px solid var(--border2); color: var(--text); }
-.br  { background: rgba(255,71,87,.1); border: 1.5px solid rgba(255,71,87,.3); color: var(--red); }
-.btn-sm { width: auto; padding: 9px 20px; font-size: .82rem; }
-.brow   { display: flex; gap: 10px; margin-bottom: 12px; }
-.brow .btn { flex: 1; }
+.badge-present{background:rgba(16,185,129,.15);color:var(--success);border:1px solid rgba(16,185,129,.3)}
+.badge-late   {background:rgba(245,158,11,.15);color:var(--warn);border:1px solid rgba(245,158,11,.3)}
+.badge-absent {background:rgba(239,68,68,.15);color:var(--danger);border:1px solid rgba(239,68,68,.3)}
 
-/* ════════════════════════════
-   SUCCESS SCREEN
-════════════════════════════ */
-.succ-sc { display: none; text-align: center; padding: 32px 20px; animation: slideD .4s ease; }
-.succ-sc.show { display: block; }
-.succ-ico {
-  width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 20px;
-  display: flex; align-items: center; justify-content: center; font-size: 2.4rem;
-  animation: pop .4s cubic-bezier(.34,1.56,.64,1);
-}
-.succ-ico.ok   { background: linear-gradient(135deg,var(--green),var(--green2)); box-shadow: 0 8px 36px rgba(0,200,150,.4); }
-.succ-ico.late { background: linear-gradient(135deg,var(--yellow),#e09000); box-shadow: 0 8px 36px rgba(255,176,32,.4); }
-@keyframes pop { 0%{transform:scale(0)} 80%{transform:scale(1.12)} 100%{transform:scale(1)} }
-.succ-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
-.succ-sub   { font-size: .88rem; color: var(--text2); margin-bottom: 28px; line-height: 1.6; }
-
-/* ════════════════════════════
-   ADMIN BADGE
-════════════════════════════ */
-.admin-tag {
-  display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px;
-  background: linear-gradient(135deg, rgba(255,176,32,.15), rgba(255,71,87,.1));
-  border: 1px solid rgba(255,176,32,.35); border-radius: 20px;
-  font-size: .72rem; color: var(--yellow); font-weight: 700;
-}
-
-/* ════════════════════════════
-   MODALS - FIXED (no handle bar issue)
-════════════════════════════ */
-.overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,.85); z-index: 200;
-  display: flex; align-items: flex-end; justify-content: center;
-  backdrop-filter: blur(6px); padding-bottom: var(--safe-b);
-}
-.modal {
-  background: var(--card); border: 1px solid var(--border2);
-  border-radius: 24px 24px 0 0; padding: 20px 24px 32px;
-  width: 100%; max-width: 480px; animation: sheetUp .28s ease;
-  max-height: 85vh; overflow-y: auto;
-}
-@keyframes sheetUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
-.modal h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
-.modal .sub { font-size: .82rem; color: var(--text2); margin-bottom: 22px; }
-
-/* ════════════════════════════
+/* ═══════════════════════════════════════════════════════════
    TABLE
-════════════════════════════ */
-.t-wrap { overflow-x: auto; border-radius: var(--r); border: 1px solid var(--border); }
-table { width: 100%; border-collapse: collapse; font-size: .8rem; min-width: 330px; }
-thead tr { background: linear-gradient(90deg, #0d1117, #161d2e); }
-thead th { padding: 12px 10px; text-align: left; font-size: .68rem; color: var(--text3); text-transform: uppercase; letter-spacing: .6px; font-weight: 600; }
-tbody tr { border-top: 1px solid var(--border); transition: background .15s; }
-tbody tr:hover { background: rgba(79,142,247,.04); }
-tbody td { padding: 10px; vertical-align: middle; }
-.idb { font-family: 'JetBrains Mono', monospace; font-size: .68rem; background: var(--surface); border: 1px solid var(--border2); padding: 3px 9px; border-radius: 7px; }
-.chip { display: inline-block; padding: 3px 11px; border-radius: 20px; font-size: .68rem; font-weight: 700; }
-.cg { background: rgba(0,200,150,.12); color: var(--green); }
-.cy { background: rgba(255,176,32,.12); color: var(--yellow); }
-.cr { background: rgba(255,71,87,.12); color: var(--red); }
-
-/* ════════════════════════════
-   STAT GRID
-════════════════════════════ */
-.sg { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
-.sb {
-  background: var(--card); border: 1.5px solid var(--border); border-radius: var(--rs);
-  padding: 14px 8px; text-align: center;
+═══════════════════════════════════════════════════════════ */
+.table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+thead tr{background:var(--surface2)}
+th{padding:.75rem 1rem;text-align:left;font-weight:600;color:var(--text2);white-space:nowrap;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em}
+td{padding:.7rem 1rem;border-top:1px solid var(--border);vertical-align:middle}
+tr:hover td{background:rgba(255,255,255,.02)}
+.thumb-img{
+  width:38px;height:38px;border-radius:var(--radius-sm);
+  object-fit:cover;border:1px solid var(--border);cursor:pointer;
+  transition:.2s;
 }
-.sv { font-size: 1.9rem; font-weight: 700; line-height: 1; margin-bottom: 4px; }
-.sl { font-size: .68rem; color: var(--text3); }
-.sb.g { border-color: rgba(0,200,150,.3); }   .sb.g .sv { color: var(--green); }
-.sb.y { border-color: rgba(255,176,32,.3); }  .sb.y .sv { color: var(--yellow); }
-.sb.r { border-color: rgba(255,71,87,.3); }   .sb.r .sv { color: var(--red); }
+.thumb-img:hover{transform:scale(1.1);border-color:var(--accent)}
 
-/* ════════════════════════════
-   RECORD LIST
-════════════════════════════ */
-.rl { display: flex; flex-direction: column; gap: 8px; }
-.ri {
-  display: flex; align-items: center; gap: 12px;
-  background: var(--card); border: 1px solid var(--border); border-radius: var(--rs);
-  padding: 12px 14px;
+/* ═══════════════════════════════════════════════════════════
+   CAMERA SECTION
+═══════════════════════════════════════════════════════════ */
+.camera-wrap{
+  position:relative;border-radius:var(--radius);
+  overflow:hidden;background:#000;
+  aspect-ratio:4/3;max-height:320px;
+  border:2px solid var(--border);
 }
-.ri-date { flex: 1; font-size: .82rem; font-weight: 600; }
-.ri-day  { font-size: .68rem; color: var(--text3); margin-top: 2px; }
-.ri-time { font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: var(--text3); }
+#video{width:100%;height:100%;object-fit:cover;display:block}
+.camera-overlay{
+  position:absolute;inset:0;border:3px solid transparent;
+  background:linear-gradient(var(--bg),var(--bg)) padding-box,
+             linear-gradient(135deg,var(--accent),var(--accent2)) border-box;
+  border-radius:var(--radius);pointer-events:none;
+}
+.corner{position:absolute;width:20px;height:20px;border-color:var(--accent);border-style:solid}
+.corner-tl{top:8px;left:8px;border-width:2px 0 0 2px;border-top-left-radius:4px}
+.corner-tr{top:8px;right:8px;border-width:2px 2px 0 0;border-top-right-radius:4px}
+.corner-bl{bottom:8px;left:8px;border-width:0 0 2px 2px;border-bottom-left-radius:4px}
+.corner-br{bottom:8px;right:8px;border-width:0 2px 2px 0;border-bottom-right-radius:4px}
+#canvas{display:none}
 
-/* ════════════════════════════
+/* ── Preview captured image ── */
+.preview-wrap{display:none;border-radius:var(--radius);overflow:hidden;border:2px solid var(--success)}
+#preview{width:100%;display:block}
+
+/* ═══════════════════════════════════════════════════════════
    NOTICE CARDS
-════════════════════════════ */
-.nc {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 16px; margin-bottom: 12px;
-  position: relative; overflow: hidden;
+═══════════════════════════════════════════════════════════ */
+.notice-item{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:1rem;cursor:pointer;
+  transition:.2s;position:relative;overflow:hidden;
 }
-.nc::before {
-  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
-  background: linear-gradient(180deg, var(--purple), var(--accent));
+.notice-item:hover{border-color:var(--accent);transform:translateY(-2px)}
+.notice-item.new-notice::before{
+  content:'';position:absolute;top:0;left:0;width:3px;height:100%;
+  background:linear-gradient(180deg,var(--accent),var(--accent2));
 }
-.nc.new-n::before { background: linear-gradient(180deg, var(--red), var(--yellow)); }
-.nc-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 8px; padding-left: 12px; }
-.nc-title { font-size: .92rem; font-weight: 700; line-height: 1.4; }
-.nc-date  { font-size: .68rem; font-family: 'JetBrains Mono', monospace; color: var(--text3); margin-top: 3px; }
-.nc-body  { font-size: .82rem; color: var(--text2); line-height: 1.75; padding-left: 12px; }
-.new-tag  {
-  display: inline-block; background: var(--red); color: #fff;
-  font-size: .58rem; font-weight: 700; padding: 2px 7px; border-radius: 8px;
-  margin-left: 7px; vertical-align: middle; animation: pulse2 1s infinite;
+.notice-title{font-weight:600;font-size:.95rem;margin-bottom:.3rem;display:flex;align-items:center;gap:.5rem}
+.notice-date{font-size:.78rem;color:var(--text2)}
+.notice-body{margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border);color:var(--text2);font-size:.88rem;line-height:1.6;display:none}
+.notice-body.show{display:block}
+.new-tag{
+  background:var(--accent);color:#fff;font-size:.65rem;font-weight:700;
+  padding:.1rem .4rem;border-radius:99px;text-transform:uppercase;
 }
-@keyframes pulse2 { 0%,100%{opacity:1} 50%{opacity:.65} }
 
-/* ════════════════════════════
+/* ═══════════════════════════════════════════════════════════
+   ALERT & TOAST
+═══════════════════════════════════════════════════════════ */
+.alert{
+  padding:.85rem 1rem;border-radius:var(--radius-sm);margin-bottom:1rem;
+  font-size:.88rem;display:flex;align-items:center;gap:.6rem;
+}
+.alert-info   {background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.3);color:#93c5fd}
+.alert-success{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);color:#6ee7b7}
+.alert-warn   {background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);color:#fcd34d}
+.alert-danger {background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#fca5a5}
+
+.toast{
+  position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:.8rem 1.2rem;
+  box-shadow:var(--shadow);font-size:.88rem;
+  z-index:999;transition:.3s;white-space:nowrap;max-width:90vw;
+  display:flex;align-items:center;gap:.5rem;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.success{border-color:var(--success);color:var(--success)}
+.toast.error  {border-color:var(--danger);color:var(--danger)}
+.toast.info   {border-color:var(--accent);color:var(--accent)}
+
+/* ═══════════════════════════════════════════════════════════
+   MODAL (Photo fullscreen)
+═══════════════════════════════════════════════════════════ */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.85);
+  z-index:200;display:none;align-items:center;justify-content:center;
+  backdrop-filter:blur(8px);padding:1rem;
+}
+.modal-overlay.open{display:flex}
+.modal-img{max-width:100%;max-height:90vh;border-radius:var(--radius);box-shadow:var(--shadow)}
+.modal-close{
+  position:absolute;top:1rem;right:1rem;
+  background:var(--surface);border:1px solid var(--border);
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:1.1rem;color:var(--text);
+  transition:.2s;
+}
+.modal-close:hover{background:var(--danger);border-color:var(--danger)}
+
+/* ═══════════════════════════════════════════════════════════
+   FILTER ROW
+═══════════════════════════════════════════════════════════ */
+.filter-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;align-items:flex-end}
+.filter-row .form-group{margin-bottom:0;flex:1;min-width:120px}
+
+/* ═══════════════════════════════════════════════════════════
    MISC
-════════════════════════════ */
-.mpick { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
-.mpick label { font-size: .78rem; color: var(--text2); white-space: nowrap; font-weight: 600; }
-.mpick input {
-  flex: 1; background: var(--surface); border: 1.5px solid var(--border2);
-  border-radius: var(--rs); padding: 10px 13px; color: var(--text);
-  font-family: 'Hind Siliguri', sans-serif; font-size: .88rem; outline: none;
+═══════════════════════════════════════════════════════════ */
+.divider{height:1px;background:var(--border);margin:1rem 0}
+.text-center{text-align:center}
+.text-muted{color:var(--text2)}
+.text-sm{font-size:.82rem}
+.mt{margin-top:1rem}
+.mb{margin-bottom:1rem}
+.gap{display:flex;gap:.6rem;flex-wrap:wrap}
+.loading{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:2rem;color:var(--text2);
 }
-.mpick input:focus { border-color: var(--accent); }
-.srch { position: relative; margin-bottom: 13px; }
-.srch input {
-  width: 100%; background: var(--surface); border: 1.5px solid var(--border2);
-  border-radius: var(--rs); padding: 11px 14px 11px 40px; color: var(--text);
-  font-family: 'Hind Siliguri', sans-serif; font-size: .9rem; outline: none;
+.spinner{
+  width:20px;height:20px;border:2px solid var(--border);
+  border-top-color:var(--accent);border-radius:50%;
+  animation:spin .7s linear infinite;
 }
-.srch input:focus { border-color: var(--accent); }
-.srch-ic { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 1rem; pointer-events: none; }
-.empty { text-align: center; padding: 40px 20px; color: var(--text3); }
-.empty .ei { font-size: 2.8rem; margin-bottom: 12px; }
-.empty p   { font-size: .85rem; line-height: 1.6; }
-.err-box {
-  background: rgba(255,71,87,.08); border: 1px solid rgba(255,71,87,.3);
-  border-radius: var(--rs); padding: 11px 14px; font-size: .78rem;
-  color: var(--red); margin-top: 10px; line-height: 1.6; display: none;
+@keyframes spin{to{transform:rotate(360deg)}}
+.time-display{
+  font-family:var(--mono);font-size:1.5rem;font-weight:600;
+  text-align:center;padding:.75rem;
+  background:var(--surface2);border-radius:var(--radius);
+  border:1px solid var(--border);
+  color:var(--accent2);letter-spacing:.05em;
+  margin-bottom:1rem;
 }
-#toast {
-  position: fixed; bottom: calc(84px + var(--safe-b)); left: 50%;
-  transform: translateX(-50%) translateY(60px);
-  background: var(--card2); border: 1px solid var(--border2);
-  border-radius: 22px; padding: 12px 22px; font-size: .85rem;
-  max-width: 320px; width: 90%; text-align: center; z-index: 999;
-  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
-  box-shadow: 0 8px 32px rgba(0,0,0,.5); pointer-events: none;
+.user-info-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.info-chip{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:99px;padding:.25rem .75rem;font-size:.8rem;color:var(--text2);
+  display:flex;align-items:center;gap:.3rem;
 }
-#toast.show { transform: translateX(-50%) translateY(0); }
-#toast.success { border-color: var(--green);  color: var(--green); }
-#toast.error   { border-color: var(--red);    color: var(--red); }
-#toast.info    { border-color: var(--accent); color: var(--accent); }
-.ld {
-  display: inline-block; width: 18px; height: 18px;
-  border: 2.5px solid rgba(255,255,255,.25); border-top-color: #fff;
-  border-radius: 50%; animation: spin .7s linear infinite;
+.info-chip strong{color:var(--text)}
+
+/* ── Admin table expand ── */
+.admin-user-row{cursor:pointer}
+.admin-user-row:hover td{background:rgba(59,130,246,.05) !important}
+.admin-detail-row td{background:var(--surface2);padding:0}
+.admin-detail-inner{padding:1rem;overflow-x:auto}
+.expand-arrow{transition:.2s;display:inline-block}
+.expanded .expand-arrow{transform:rotate(90deg)}
+
+/* ── Notice admin form ── */
+.notice-form{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem}
+textarea.form-input{resize:vertical;min-height:100px}
+
+/* mobile tweaks */
+@media(max-width:500px){
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .filter-row{flex-direction:column}
+  .filter-row .form-group{width:100%}
+  th,td{padding:.5rem .6rem}
+  .btn{padding:.6rem 1rem;font-size:.85rem}
 }
-@keyframes spin { to { transform: rotate(360deg); } }
-.div { height: 1px; background: var(--border); margin: 14px 0; }
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
 </style>
 </head>
 <body>
 
-<div class="bg-wrap">
-  <div class="bg-grid"></div>
-  <div class="bg-grad g1"></div>
-  <div class="bg-grad g2"></div>
-  <div class="bg-grad g3"></div>
-</div>
+<!-- ══════════════════════════════════════════════════════════
+     LOGIN SCREEN
+══════════════════════════════════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-title">
+      <div style="font-size:2.5rem;margin-bottom:.5rem">🏢</div>
+      <h1>হাজিরা সিস্টেম</h1>
+      <p>আপনার ইউসার আইডি বা অ্যাডমিন লগইন দিন</p>
+    </div>
 
-<!-- MODAL: Admin Login -->
-<div class="overlay" id="mAdmin" style="display:none" onclick="if(event.target===this)closeModal('mAdmin')">
-  <div class="modal">
-    <h2>🔐 অ্যাডমিন লগইন</h2>
-    <p class="sub">আইডি ও পিন দিয়ে প্রবেশ করুন</p>
-    <div class="fg">
-      <label class="fl">অ্যাডমিন আইডি</label>
-      <input type="text" id="aId" class="fi" placeholder="Admin ID" autocapitalize="characters" oninput="this.value=this.value.toUpperCase()">
+    <div id="login-tabs" style="display:flex;gap:.5rem;margin-bottom:1.5rem">
+      <button class="btn btn-primary btn-sm" style="flex:1" onclick="showLoginTab('user')" id="lt-user">👤 ইউসার</button>
+      <button class="btn btn-outline btn-sm" style="flex:1" onclick="showLoginTab('admin')" id="lt-admin">🔐 অ্যাডমিন</button>
     </div>
-    <div class="fg">
-      <label class="fl">পিন</label>
-      <input type="password" id="aPin" class="fi fi-pin" placeholder="••••" maxlength="8" onkeydown="if(event.key==='Enter')doAdminLogin()">
+
+    <!-- User login -->
+    <div id="login-user">
+      <div class="form-group">
+        <label class="form-label">ইউসার আইডি</label>
+        <input class="form-input" id="inp-uid" placeholder="যেমন: U001" oninput="this.value=this.value.toUpperCase()"
+               onkeydown="if(event.key==='Enter')doUserLogin()"/>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="doUserLogin()" id="btn-user-login">
+        প্রবেশ করুন →
+      </button>
+      <p class="text-sm text-muted text-center" style="margin-top:.75rem">
+        ডেমো আইডি: <strong>U001</strong> — <strong>U005</strong>
+      </p>
     </div>
-    <div class="brow">
-      <button class="btn bp" id="aBtnLogin" onclick="doAdminLogin()">প্রবেশ করুন</button>
-      <button class="btn bd" onclick="closeModal('mAdmin')">বাতিল</button>
+
+    <!-- Admin login -->
+    <div id="login-admin" style="display:none">
+      <div class="form-group">
+        <label class="form-label">অ্যাডমিন আইডি</label>
+        <input class="form-input" id="inp-aid" value="admin"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">পাসওয়ার্ড</label>
+        <input class="form-input" type="password" id="inp-apass" value="admin123"
+               onkeydown="if(event.key==='Enter')doAdminLogin()"/>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="doAdminLogin()">লগইন করুন →</button>
     </div>
-    <div id="aErr" class="err-box"></div>
+
+    <div id="login-err" class="alert alert-danger" style="display:none;margin-top:.75rem"></div>
+
+    <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);text-align:center">
+      <p class="text-sm text-muted">⚙️ GAS URL সেট করুন:</p>
+      <input class="form-input" id="inp-gas-url" placeholder="Google Apps Script Web App URL"
+             style="margin-top:.5rem;font-size:.78rem"/>
+      <button class="btn btn-outline btn-sm btn-full" onclick="saveGasUrl()" style="margin-top:.4rem">URL সংরক্ষণ করুন</button>
+    </div>
   </div>
 </div>
 
-<!-- MODAL: নতুন নোটিশ -->
-<div class="overlay" id="mNotice" style="display:none" onclick="if(event.target===this)closeModal('mNotice')">
-  <div class="modal">
-    <h2>📢 নতুন নোটিশ</h2>
-    <p class="sub">সকলের জন্য নোটিশ তৈরি করুন</p>
-    <div class="fg">
-      <label class="fl">শিরোনাম *</label>
-      <input type="text" id="nT" class="fi" placeholder="নোটিশের শিরোনাম লিখুন">
+<!-- ══════════════════════════════════════════════════════════
+     MAIN APP
+══════════════════════════════════════════════════════════ -->
+<div id="app" style="display:none">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#grad)" stroke-width="2">
+        <defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#06b6d4"/>
+        </linearGradient></defs>
+        <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>
+      </svg>
+      হাজিরা সিস্টেম
     </div>
-    <div class="fg">
-      <label class="fl">তারিখ *</label>
-      <input type="date" id="nD" class="fi">
+    <div class="header-user">
+      <div class="avatar" id="hdr-avatar">?</div>
+      <span id="hdr-name" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+      <button class="logout-btn" onclick="doLogout()">বের হন</button>
     </div>
-    <div class="fg">
-      <label class="fl">বিস্তারিত *</label>
-      <textarea id="nB" class="fi" placeholder="নোটিশের বিস্তারিত বিবরণ লিখুন..."></textarea>
+  </header>
+
+  <!-- Tab Bar -->
+  <nav class="tabbar" id="tabbar"></nav>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- ── DASHBOARD ── -->
+    <div class="section" id="sec-dashboard">
+      <div id="notice-alert" class="alert alert-info" style="display:none">
+        🔔 <span id="notice-alert-text">নতুন নোটিশ আছে! নোটিশ ট্যাব দেখুন।</span>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>⏰</span> বর্তমান সময়</div>
+        <div class="time-display" id="live-clock">--:--:--</div>
+        <div class="alert alert-info" id="att-time-info">
+          📌 উপস্থিত: সকাল ৯:৩০ – ১০:৩০ | এরপর: লেট
+        </div>
+      </div>
+
+      <div class="card mt" id="dash-user-info" style="display:none">
+        <div class="card-title"><span>👤</span> আপনার তথ্য</div>
+        <div class="user-info-row" id="dash-chips"></div>
+      </div>
+
+      <div class="card mt">
+        <div class="card-title"><span>📊</span> এই মাসের সারাংশ</div>
+        <div class="stats-grid" id="dash-stats">
+          <div class="stat-card green"><div class="stat-value" id="st-present">-</div><div class="stat-label">উপস্থিত</div></div>
+          <div class="stat-card warn" ><div class="stat-value" id="st-late">-</div><div class="stat-label">লেট</div></div>
+          <div class="stat-card red"  ><div class="stat-value" id="st-absent">-</div><div class="stat-label">লেট-অনুপস্থিত</div></div>
+          <div class="stat-card"     ><div class="stat-value" id="st-net">-</div><div class="stat-label">মোট উপস্থিত</div></div>
+        </div>
+      </div>
     </div>
-    <div class="brow">
-      <button class="btn bpu" id="nBtn" onclick="submitNotice()">📢 নোটিশ দিন</button>
-      <button class="btn bd" onclick="closeModal('mNotice')">বাতিল</button>
+
+    <!-- ── ATTENDANCE (user) ── -->
+    <div class="section" id="sec-attendance">
+      <div class="card">
+        <div class="card-title"><span>📷</span> আজকের হাজিরা দিন</div>
+
+        <div id="att-already" class="alert alert-success" style="display:none">
+          ✅ আজকের হাজিরা দেওয়া হয়ে গেছে!
+        </div>
+
+        <div id="att-form">
+          <div class="camera-wrap" id="camera-wrap">
+            <video id="video" autoplay playsinline muted></video>
+            <div class="camera-overlay">
+              <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+              <div class="corner corner-bl"></div><div class="corner corner-br"></div>
+            </div>
+          </div>
+          <div class="preview-wrap mt" id="preview-wrap">
+            <img id="preview" alt="সেলফি প্রিভিউ"/>
+          </div>
+          <canvas id="canvas"></canvas>
+
+          <div class="gap mt">
+            <button class="btn btn-outline" id="btn-cam" onclick="startCamera()">📷 ক্যামেরা চালু করুন</button>
+            <button class="btn btn-success" id="btn-snap" onclick="takeSnap()" style="display:none">📸 সেলফি তুলুন</button>
+            <button class="btn btn-outline" id="btn-retake" onclick="retakePhoto()" style="display:none">🔄 আবার তুলুন</button>
+            <button class="btn btn-primary" id="btn-submit-att" onclick="submitAttendance()" style="display:none">✅ হাজিরা দিন</button>
+          </div>
+
+          <div id="att-result" style="margin-top:1rem"></div>
+        </div>
+      </div>
     </div>
-    <div id="nErr" class="err-box"></div>
-  </div>
+
+    <!-- ── MY REPORT ── -->
+    <div class="section" id="sec-myreport">
+      <div class="card">
+        <div class="card-title"><span>📋</span> আমার রিপোর্ট</div>
+
+        <div class="filter-row">
+          <div class="form-group">
+            <label class="form-label">মোড</label>
+            <select class="form-input" id="my-mode" onchange="updateMyFilter()">
+              <option value="daily">দৈনিক</option>
+              <option value="monthly">মাসিক</option>
+            </select>
+          </div>
+          <div class="form-group" id="my-date-wrap">
+            <label class="form-label">তারিখ</label>
+            <input type="date" class="form-input" id="my-date"/>
+          </div>
+          <div class="form-group" id="my-month-wrap" style="display:none">
+            <label class="form-label">মাস</label>
+            <input type="month" class="form-input" id="my-month"/>
+          </div>
+          <div class="form-group" style="display:flex;align-items:flex-end">
+            <button class="btn btn-primary btn-sm" onclick="loadMyReport()">দেখুন</button>
+          </div>
+        </div>
+
+        <div id="my-summary" class="stats-grid mb" style="display:none"></div>
+        <div id="my-report-body"><div class="loading"><div class="spinner"></div> লোড হচ্ছে...</div></div>
+      </div>
+    </div>
+
+    <!-- ── NOTICES (user) ── -->
+    <div class="section" id="sec-notices">
+      <div class="card-title" style="padding:.5rem 0"><span>📢</span> নোটিশ বোর্ড</div>
+      <div id="notices-list"><div class="loading"><div class="spinner"></div></div></div>
+    </div>
+
+    <!-- ══════════════ ADMIN SECTIONS ══════════════ -->
+
+    <!-- ── ADMIN DASHBOARD ── -->
+    <div class="section" id="sec-admin-dash">
+      <div class="card">
+        <div class="card-title"><span>🏢</span> অ্যাডমিন প্যানেল</div>
+        <div class="stats-grid" id="adm-stats">
+          <div class="stat-card green"><div class="stat-value" id="adm-total">-</div><div class="stat-label">মোট ইউসার</div></div>
+          <div class="stat-card"     ><div class="stat-value" id="adm-today-p">-</div><div class="stat-label">আজ উপস্থিত</div></div>
+          <div class="stat-card warn" ><div class="stat-value" id="adm-today-l">-</div><div class="stat-label">আজ লেট</div></div>
+          <div class="stat-card red"  ><div class="stat-value" id="adm-today-a">-</div><div class="stat-label">আজ অনুপস্থিত</div></div>
+        </div>
+      </div>
+
+      <!-- Notice form -->
+      <div class="card mt">
+        <div class="card-title"><span>📝</span> নতুন নোটিশ প্রকাশ করুন</div>
+        <div class="notice-form">
+          <div class="form-group">
+            <label class="form-label">নোটিশের শিরোনাম</label>
+            <input class="form-input" id="notice-title" placeholder="শিরোনাম লিখুন..."/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">বিস্তারিত</label>
+            <textarea class="form-input" id="notice-details" placeholder="বিস্তারিত লিখুন..."></textarea>
+          </div>
+          <button class="btn btn-primary" onclick="postNotice()">📢 নোটিশ প্রকাশ করুন</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ADMIN REPORT ── -->
+    <div class="section" id="sec-admin-report">
+      <div class="card">
+        <div class="card-title"><span>📊</span> সকল ইউসারের রিপোর্ট</div>
+
+        <div class="filter-row">
+          <div class="form-group">
+            <label class="form-label">মোড</label>
+            <select class="form-input" id="adm-mode" onchange="updateAdmFilter()">
+              <option value="daily">দৈনিক</option>
+              <option value="monthly">মাসিক</option>
+            </select>
+          </div>
+          <div class="form-group" id="adm-date-wrap">
+            <label class="form-label">তারিখ</label>
+            <input type="date" class="form-input" id="adm-date"/>
+          </div>
+          <div class="form-group" id="adm-month-wrap" style="display:none">
+            <label class="form-label">মাস</label>
+            <input type="month" class="form-input" id="adm-month"/>
+          </div>
+          <div class="form-group" style="display:flex;align-items:flex-end">
+            <button class="btn btn-primary btn-sm" onclick="loadAdminReport()">দেখুন</button>
+          </div>
+        </div>
+
+        <div id="adm-report-body"><div class="loading"><div class="spinner"></div></div></div>
+      </div>
+    </div>
+
+    <!-- ── ADMIN NOTICES ── -->
+    <div class="section" id="sec-admin-notices">
+      <div class="card-title" style="padding:.5rem 0"><span>📢</span> নোটিশ বোর্ড (অ্যাডমিন)</div>
+      <div id="admin-notices-list"><div class="loading"><div class="spinner"></div></div></div>
+    </div>
+
+  </main>
 </div>
 
-<!-- APP -->
-<div class="app">
-  <div class="header">
-    <div class="logo">
-      <div class="logo-ico">📋</div>
-      <div><div class="logo-name">উপস্থিতি</div><div class="logo-sub">ATTENDANCE v2</div></div>
-    </div>
-    <div class="live-clock" id="clock">--:--:--</div>
-  </div>
-
-  <!-- PAGE: উপস্থিতি -->
-  <div class="page active" id="p-att">
-    <div class="status-wrap" style="margin-top:16px">
-      <div class="sec-title">আজকের অবস্থা</div>
-      <div class="status-row closed" id="statusRow"><div class="sdot"></div><span id="statusTxt">লোড হচ্ছে...</span></div>
-      <div class="svr-date" id="svrDate"></div>
-    </div>
-    <div id="s1">
-      <div class="fg"><label class="fl">আপনার কর্মী আইডি</label><input type="text" id="empId" class="fi" placeholder="যেমন: EMP001" autocomplete="off" autocapitalize="characters" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')checkId()" list="idList"><datalist id="idList"></datalist></div>
-      <button class="btn bp" id="btnCheck" onclick="checkId()">আইডি যাচাই করুন →</button>
-    </div>
-    <div id="s2" style="display:none">
-      <div class="u-card"><div class="u-avatar">👤</div><div><div class="u-name" id="uName"></div><div class="u-id" id="uId"></div></div></div>
-      <div id="camSec"><div class="cam-wrap"><video id="video" autoplay playsinline muted></video><div class="face-ring"></div><div class="cam-hint">মুখ গাইডের মধ্যে রাখুন</div></div><canvas id="canvas"></canvas><div class="brow"><button class="btn bp" onclick="capture()">📸 সেলফি তুলুন</button><button class="btn bd" onclick="goBack()">← ফিরুন</button></div></div>
-      <div id="prevSec" style="display:none"><div class="prev-wrap"><img id="prevImg" src="" alt="preview"></div><div class="prev-meta" id="prevMeta"></div><div class="brow"><button class="btn bg" id="btnSubmit" onclick="submitAtt()">✅ জমা দিন</button><button class="btn bd" onclick="retake()">🔄 আবার</button></div><button class="btn bd" style="margin-top:0" onclick="goBack()">← পিছে যান</button></div>
-    </div>
-    <div class="succ-sc" id="succSc"><div class="succ-ico ok" id="succIco">✓</div><div class="succ-title" id="succTitle"></div><div class="succ-sub" id="succSub"></div><button class="btn bd btn-sm" style="width:auto;margin:0 auto" onclick="resetAtt()">🔄 নতুন উপস্থিতি</button></div>
-  </div>
-
-  <!-- PAGE: নোটিশ -->
-  <div class="page" id="p-not">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin:14px 0 14px">
-      <div id="notAdminBar" style="display:none"><span class="admin-tag">👑 অ্যাডমিন</span></div>
-      <div id="notLoginBtn"><button class="btn bd btn-sm" style="width:auto;font-size:.78rem" onclick="openAdminModal('notice')">🔐 অ্যাডমিন লগইন</button></div>
-      <div id="notAddBtn" style="display:none"><button class="btn bpu btn-sm" style="width:auto" onclick="openModal('mNotice')">+ নতুন নোটিশ</button></div>
-    </div>
-    <div id="notList"><div class="empty"><div class="ld" style="border-top-color:var(--accent);margin:0 auto 14px"></div><p>নোটিশ লোড হচ্ছে...</p></div></div>
-  </div>
-
-  <!-- PAGE: মাসিক -->
-  <div class="page" id="p-sum">
-    <div id="sumGate" style="margin-top:14px"><div class="empty"><div class="ei">🔐</div><p>মাসিক রিপোর্ট দেখতে<br>অ্যাডমিন লগইন করুন</p></div><button class="btn bp" style="margin-top:8px" onclick="openAdminModal('summary')">অ্যাডমিন লগইন করুন</button></div>
-    <div id="sumPanel" style="display:none"><div style="display:flex;align-items:center;justify-content:space-between;margin:14px 0 14px"><span class="admin-tag">👑 অ্যাডমিন মোড</span><button class="btn br btn-sm" style="width:auto" onclick="adminLogout()">লগআউট</button></div><div class="mpick"><label>মাস:</label><input type="month" id="sumMo"><button class="btn bp btn-sm" onclick="loadSummary()">দেখুন</button></div><div class="srch"><span class="srch-ic">🔍</span><input type="text" id="sumQ" placeholder="নাম বা আইডি..." oninput="filterTable()"></div><div class="t-wrap" id="sumWrap"><div class="empty"><div class="ei">📊</div><p>মাস বেছে "দেখুন" চাপুন</p></div></div></div>
-  </div>
-
-  <!-- PAGE: আমার -->
-  <div class="page" id="p-me">
-    <div style="margin-top:14px"><div class="fg"><label class="fl">আপনার আইডি</label><input type="text" id="meId" class="fi" placeholder="যেমন: EMP001" autocomplete="off" autocapitalize="characters" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')loadPersonal()" list="idList2"><datalist id="idList2"></datalist></div><div class="mpick"><label>মাস:</label><input type="month" id="meMo"><button class="btn bp btn-sm" onclick="loadPersonal()">দেখুন</button></div><div id="meResult"><div class="empty"><div class="ei">👤</div><p>আইডি ও মাস দিয়ে<br>আপনার রেকর্ড দেখুন</p></div></div></div>
-  </div>
-
-  <nav class="bottom-nav">
-    <button class="nb active" id="nb-att" onclick="showPage('att')"><span class="ni">📸</span><span>উপস্থিতি</span></button>
-    <button class="nb" id="nb-not" onclick="showPage('not')"><span class="ni">📢</span><span>নোটিশ</span><span class="badge" id="nBadge">0</span></button>
-    <button class="nb" id="nb-sum" onclick="showPage('sum')"><span class="ni">📊</span><span>মাসিক</span></button>
-    <button class="nb" id="nb-me" onclick="showPage('me')"><span class="ni">👤</span><span>আমার</span></button>
-  </nav>
+<!-- Photo Modal -->
+<div class="modal-overlay" id="photo-modal" onclick="closePhotoModal()">
+  <div class="modal-close" onclick="closePhotoModal()">✕</div>
+  <img class="modal-img" id="modal-img" alt="হাজিরার ছবি"/>
 </div>
-<div id="toast"></div>
 
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════════════ -->
 <script>
-// ════════════════════════════════════════════════
-//  ▼▼▼  এখানে আপনার GAS ডিপ্লয়মেন্ট URL বসান  ▼▼▼
-// ════════════════════════════════════════════════
-var GAS = 'https://script.google.com/macros/s/AKfycbzGO54fjeuxegwkjrkWbbBPY_OKys9f_fRCbaLIr1LlI1cywsn6mgNm-Q8-n972Tins/exec';
-// ════════════════════════════════════════════════
+// ──────────────────────────────────────────────
+// CONFIG
+// ──────────────────────────────────────────────
+let GAS_URL = localStorage.getItem('https://script.google.com/macros/s/AKfycbzql8rhhjySZG90L24IdxnRVti_7sQBPRqZ1TmFQizEgGY3T3Eqrj_s1TDNLqn6K7fB/exec') || '';
 
-var CU = null, photo = null, stream = null;
-var summaryData = [], allNotices = [], seenIds = [];
-var adminOK = false, adminCred = {id:'',pin:''}, adminTarget = 'summary';
-
-function api(action, params) {
-  params = params || {};
-  return _fetch(action, params).catch(function(e){
-    console.warn('fetch failed, trying JSONP', e);
-    return _jsonp(action, params);
-  });
-}
-
-function _fetch(action, params) {
-  return fetch(GAS, {
-    method: 'POST',
-    headers: {'Content-Type':'text/plain;charset=utf-8'},
-    body: JSON.stringify(Object.assign({action:action}, params))
-  }).then(function(r){ 
-    if(!r.ok) throw new Error('HTTP '+r.status); 
-    return r.json(); 
-  });
-}
-
-function _jsonp(action, params) {
-  return new Promise(function(res,rej){
-    var cb = '_cb'+Date.now()+'_'+(Math.random()*9999|0);
-    var done = false;
-    var s = document.createElement('script');
-    var t = setTimeout(function(){ if(!done){ done=true; rej(new Error('GAS connection timeout — check URL and deploy as web app')); } }, 15000);
-    window[cb] = function(d){ if(!done){ done=true; clearTimeout(t); delete window[cb]; s.parentNode&&s.parentNode.removeChild(s); res(d); } };
-    s.onerror = function(){ if(!done){ done=true; clearTimeout(t); rej(new Error('Network error - GAS not accessible')); } };
-    s.src = GAS + '?callback=' + encodeURIComponent(cb) + '&action=' + encodeURIComponent(action) + '&data=' + encodeURIComponent(JSON.stringify(params)) + '&_=' + Date.now();
-    document.body.appendChild(s);
-  });
-}
-
-document.addEventListener('DOMContentLoaded', function(){
-  setMonths(); loadSavedIds(); startClock(); loadSeen();
-  Promise.all([api('getServerTime',{}), api('getNotices',{})])
-  .then(function(rs){
-    var t=rs[0], n=rs[1];
-    if(t && t.success){
-      if(t.display) document.getElementById('svrDate').textContent='📅 '+t.display;
-      if(t.hour!=null) setStatus(t.hour, t.minute);
-    } else {
-      document.getElementById('svrDate').textContent='⚠️ '+ (t?.message || 'Server time failed');
-    }
-    if(n && n.success){ allNotices = n.notices || []; renderNotices(); updateBadge(); }
-    else { console.warn('Notices load failed'); }
-  }).catch(function(e){
-    console.error('Init error:', e);
-    document.getElementById('svrDate').textContent='⚠️ সংযোগ সমস্যা - GAS URL চেক করুন';
-    toast('সংযোগ সমস্যা: GAS URL ঠিক করুন','error');
-  });
+// Pre-fill saved URL
+window.addEventListener('DOMContentLoaded', () => {
+  if (GAS_URL) document.getElementById('inp-gas-url').value = GAS_URL;
+  setTodayDefaults();
+  startClock();
 });
 
-function setMonths(){
-  var n = new Date(), v = n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0');
-  ['sumMo','meMo'].forEach(function(id){ var el=document.getElementById(id); if(el && !el.value) el.value=v; });
+function saveGasUrl() {
+  const v = document.getElementById('inp-gas-url').value.trim();
+  if (!v) { showToast('URL দিন', 'error'); return; }
+  GAS_URL = v;
+  localStorage.setItem('gas_url', v);
+  showToast('URL সংরক্ষিত হয়েছে ✅', 'success');
 }
-function startClock(){
-  function t(){ var n=new Date(); document.getElementById('clock').textContent=p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds()); setStatus(n.getHours(),n.getMinutes()); }
-  t(); setInterval(t,1000);
+
+// ──────────────────────────────────────────────
+// STATE
+// ──────────────────────────────────────────────
+let currentUser = null;
+let isAdmin     = false;
+let capturedB64 = null;
+let stream      = null;
+let hasNew      = false;
+
+// ──────────────────────────────────────────────
+// API CALL
+// ──────────────────────────────────────────────
+async function api(action, body = {}) {
+  if (!GAS_URL) {
+    showToast('⚠️ আগে GAS URL সেট করুন', 'error');
+    throw new Error('GAS URL not set');
+  }
+  const resp = await fetch(GAS_URL, {
+    method: 'POST',
+    body: JSON.stringify({ action, ...body }),
+  });
+  const text = await resp.text();
+  try { return JSON.parse(text); }
+  catch { throw new Error('সার্ভার থেকে ভুল উত্তর: ' + text.slice(0, 100)); }
 }
-function p(x){ return String(x).padStart(2,'0'); }
-function setStatus(h,m){
-  var el=document.getElementById('statusRow'), tx=document.getElementById('statusTxt');
-  var t = h*60+m;
-  el.className = 'status-row';
-  if(t>=9*60+30 && t<=10*60+30){ el.classList.add('present'); tx.textContent='✅ সময়মতো উপস্থিতি দেওয়া যাবে (৯:৩০ – ১০:৩০)'; }
-  else if(t>10*60+30){ el.classList.add('late'); tx.textContent='⚠️ এখন দিলে লেট হিসাবে গণনা হবে'; }
-  else{ el.classList.add('closed'); tx.textContent='⏳ সময় শুরু হয়নি (৯:৩০ থেকে)'; }
+
+// ──────────────────────────────────────────────
+// LOGIN
+// ──────────────────────────────────────────────
+function showLoginTab(tab) {
+  document.getElementById('login-user').style.display  = tab === 'user'  ? '' : 'none';
+  document.getElementById('login-admin').style.display = tab === 'admin' ? '' : 'none';
+  document.getElementById('lt-user').className  = 'btn btn-sm ' + (tab==='user'  ? 'btn-primary' : 'btn-outline');
+  document.getElementById('lt-admin').className = 'btn btn-sm ' + (tab==='admin' ? 'btn-primary' : 'btn-outline');
+  document.getElementById('login-err').style.display = 'none';
 }
-function showPage(id){
-  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
-  document.querySelectorAll('.nb').forEach(function(b){ b.classList.remove('active'); });
-  document.getElementById('p-'+id).classList.add('active');
-  document.getElementById('nb-'+id).classList.add('active');
-  if(id !== 'att') stopCam();
-  if(id === 'not') markSeen();
+
+async function doUserLogin() {
+  const uid = document.getElementById('inp-uid').value.trim().toUpperCase();
+  if (!uid) { showLoginErr('ইউসার আইডি দিন'); return; }
+  setBtnLoading('btn-user-login', true);
+  try {
+    const res = await api('verifyUser', { user_id: uid });
+    if (res.success) {
+      currentUser = res; isAdmin = false;
+      enterApp();
+    } else showLoginErr(res.message);
+  } catch(e) { showLoginErr(e.message); }
+  setBtnLoading('btn-user-login', false);
 }
-function loadSavedIds(){
-  var ids = _ids();
-  ['idList','idList2'].forEach(function(dl){
-    var el = document.getElementById(dl);
-    if(el) el.innerHTML = ids.map(function(x){return '<option value="'+x+'">';}).join('');
+
+async function doAdminLogin() {
+  const aid  = document.getElementById('inp-aid').value.trim();
+  const pass = document.getElementById('inp-apass').value;
+  try {
+    const res = await api('adminLogin', { admin_id: aid, password: pass });
+    if (res.success) { isAdmin = true; currentUser = { name: 'অ্যাডমিন', user_id: 'admin' }; enterApp(); }
+    else showLoginErr(res.message);
+  } catch(e) { showLoginErr(e.message); }
+}
+
+function showLoginErr(msg) {
+  const el = document.getElementById('login-err');
+  el.textContent = '⚠️ ' + msg;
+  el.style.display = 'flex';
+}
+
+// ──────────────────────────────────────────────
+// APP ENTER / LOGOUT
+// ──────────────────────────────────────────────
+function enterApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+
+  // Header
+  const name = isAdmin ? 'অ্যাডমিন' : currentUser.name;
+  document.getElementById('hdr-name').textContent   = name;
+  document.getElementById('hdr-avatar').textContent = name[0];
+
+  buildTabs();
+  if (isAdmin) {
+    showSection('sec-admin-dash');
+    loadAdminDashStats();
+    loadAdminNotices();
+  } else {
+    showSection('sec-dashboard');
+    loadDashboard();
+    loadNotices();
+  }
+}
+
+function doLogout() {
+  stopCamera();
+  currentUser = null; isAdmin = false; capturedB64 = null;
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('app').style.display          = 'none';
+  document.getElementById('login-err').style.display    = 'none';
+  document.getElementById('inp-uid').value = '';
+}
+
+// ──────────────────────────────────────────────
+// TABS
+// ──────────────────────────────────────────────
+const userTabs = [
+  { id:'sec-dashboard',  label:'🏠 ড্যাশবোর্ড', notif:false },
+  { id:'sec-attendance', label:'📷 হাজিরা',      notif:false },
+  { id:'sec-myreport',   label:'📋 আমার রিপোর্ট', notif:false },
+  { id:'sec-notices',    label:'📢 নোটিশ',        notif:true  },
+];
+const adminTabs = [
+  { id:'sec-admin-dash',    label:'🏢 ড্যাশবোর্ড', notif:false },
+  { id:'sec-admin-report',  label:'📊 রিপোর্ট',     notif:false },
+  { id:'sec-admin-notices', label:'📢 নোটিশ',       notif:false },
+];
+
+function buildTabs() {
+  const tabs = isAdmin ? adminTabs : userTabs;
+  const bar  = document.getElementById('tabbar');
+  bar.innerHTML = '';
+  tabs.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className    = 'tab-btn';
+    btn.id           = 'tab-' + t.id;
+    btn.dataset.sec  = t.id;
+    btn.innerHTML    = t.label + (t.notif ? '<span class="notif-dot" id="notif-dot"></span>' : '');
+    btn.onclick      = () => {
+      showSection(t.id);
+      if (t.id === 'sec-notices' || t.id === 'sec-admin-notices') {
+        const dot = document.getElementById('notif-dot');
+        if (dot) dot.classList.remove('show');
+        document.getElementById('notice-alert') && (document.getElementById('notice-alert').style.display = 'none');
+        api('markNoticesRead').catch(()=>{});
+      }
+      if (t.id === 'sec-myreport') loadMyReport();
+      if (t.id === 'sec-admin-report') loadAdminReport();
+    };
+    bar.appendChild(btn);
   });
 }
-function _ids(){ try{return JSON.parse(localStorage.getItem('att_ids')||'[]');}catch(e){return[];} }
-function saveId(id){ var a=_ids(),i=a.indexOf(id); if(i>-1)a.splice(i,1); a.unshift(id); if(a.length>10)a.pop(); localStorage.setItem('att_ids',JSON.stringify(a)); loadSavedIds(); }
-function checkId(){
-  var id = document.getElementById('empId').value.trim().toUpperCase();
-  if(!id){ toast('আইডি লিখুন','error'); return; }
-  var btn = document.getElementById('btnCheck');
-  btn.disabled = true; btn.innerHTML = '<div class="ld"></div> যাচাই...';
-  api('validateUser',{userId:id})
-  .then(function(r){
-    btn.disabled = false; btn.innerHTML = 'আইডি যাচাই করুন →';
-    if(r && r.success){
-      CU = r; saveId(r.id);
-      document.getElementById('uName').textContent = r.name;
-      document.getElementById('uId').textContent = '🪪 '+r.id;
-      document.getElementById('s1').style.display = 'none';
-      document.getElementById('s2').style.display = 'block';
-      startCam();
-    } else { toast((r&&r.message)||'আইডি পাওয়া যায়নি','error'); }
-  }).catch(function(e){ btn.disabled=false; btn.innerHTML='আইডি যাচাই করুন →'; toast(e.message,'error'); });
+
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const sec = document.getElementById(id);
+  if (sec) sec.classList.add('active');
+  const btn = document.getElementById('tab-' + id);
+  if (btn) btn.classList.add('active');
 }
-function startCam(){
-  navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:640},height:{ideal:480}},audio:false})
-  .then(function(s){ stream=s; document.getElementById('video').srcObject=s; document.getElementById('camSec').style.display='block'; document.getElementById('prevSec').style.display='none'; })
-  .catch(function(e){ toast('ক্যামেরা চালু হয়নি: '+e.message,'error'); });
+
+// ──────────────────────────────────────────────
+// CLOCK
+// ──────────────────────────────────────────────
+function startClock() {
+  function tick() {
+    const now  = new Date();
+    const h    = String(now.getHours()).padStart(2,'0');
+    const m    = String(now.getMinutes()).padStart(2,'0');
+    const s    = String(now.getSeconds()).padStart(2,'0');
+    const el   = document.getElementById('live-clock');
+    if (el) el.textContent = `${h}:${m}:${s}`;
+  }
+  tick(); setInterval(tick, 1000);
 }
-function stopCam(){ if(stream){ stream.getTracks().forEach(function(t){t.stop();}); stream=null; } }
-function capture(){
-  var v=document.getElementById('video'), c=document.getElementById('canvas');
-  if(!v.videoWidth || !v.videoHeight){ toast('ক্যামেরা প্রস্তুত নয়','error'); return; }
-  c.width=v.videoWidth; c.height=v.videoHeight;
-  var ctx=c.getContext('2d');
-  ctx.save(); ctx.scale(-1,1); ctx.drawImage(v,-c.width,0,c.width,c.height); ctx.restore();
-  var now=new Date(), ts=p(now.getDate())+'/'+p(now.getMonth()+1)+'/'+now.getFullYear()+'  '+p(now.getHours())+':'+p(now.getMinutes())+':'+p(now.getSeconds());
-  ctx.fillStyle='rgba(0,0,0,.7)'; ctx.fillRect(0,c.height-40,c.width,40);
-  ctx.fillStyle='#fff'; ctx.font='bold 13px monospace'; ctx.textAlign='right';
-  ctx.fillText(ts+'  '+(CU?CU.id:''), c.width-12, c.height-13);
-  photo=c.toDataURL('image/jpeg',0.82);
-  document.getElementById('prevImg').src=photo;
-  document.getElementById('prevMeta').textContent='📸 '+ts+'  •  '+(CU?CU.name:'');
-  document.getElementById('camSec').style.display='none'; document.getElementById('prevSec').style.display='block';
-  stopCam();
+
+// ──────────────────────────────────────────────
+// DASHBOARD (user)
+// ──────────────────────────────────────────────
+async function loadDashboard() {
+  // User info chips
+  const chips = document.getElementById('dash-chips');
+  document.getElementById('dash-user-info').style.display = '';
+  chips.innerHTML = `
+    <div class="info-chip">🆔 <strong>${currentUser.user_id}</strong></div>
+    <div class="info-chip">👤 <strong>${currentUser.name}</strong></div>
+    <div class="info-chip">🏢 <strong>${currentUser.department||'–'}</strong></div>
+    <div class="info-chip">📧 <strong>${currentUser.email||'–'}</strong></div>
+  `;
+
+  // Monthly summary
+  try {
+    const now = new Date();
+    const res = await api('getUserReport', {
+      user_id: currentUser.user_id, mode: 'monthly',
+      month: now.getMonth()+1, year: now.getFullYear()
+    });
+    if (res.success && res.summary) {
+      const s = res.summary;
+      document.getElementById('st-present').textContent = s.present;
+      document.getElementById('st-late').textContent    = s.late;
+      document.getElementById('st-absent').textContent  = s.late_absent;
+      document.getElementById('st-net').textContent     = s.net_present;
+    }
+  } catch(e) {}
 }
-function retake(){ photo=null; document.getElementById('prevSec').style.display='none'; startCam(); }
-function submitAtt(){
-  if(!photo||!CU){ toast('আগে সেলফি তুলুন','error'); return; }
-  var btn = document.getElementById('btnSubmit');
-  btn.disabled=true; btn.innerHTML='<div class="ld"></div> জমা হচ্ছে...';
-  api('submitAttendance',{userId:CU.id,name:CU.name,photoBase64:photo})
-  .then(function(r){
-    btn.disabled=false; btn.innerHTML='✅ জমা দিন';
-    if(r && r.success){
-      document.getElementById('s2').style.display='none';
-      var sc=document.getElementById('succSc'), ico=document.getElementById('succIco');
-      sc.classList.add('show');
-      if(r.status==='Present'){ ico.className='succ-ico ok'; ico.textContent='✓'; document.getElementById('succTitle').textContent='সময়মতো উপস্থিতি!'; }
-      else { ico.className='succ-ico late'; ico.textContent='⚠'; document.getElementById('succTitle').textContent='লেট উপস্থিতি নথিভুক্ত'; }
-      document.getElementById('succSub').textContent=(CU?CU.name:'')+'\n'+r.date+' • '+r.time;
-      toast(r.status==='Present'?'উপস্থিতি সফল ✅':'লেট উপস্থিতি জমা ⚠️', r.status==='Present'?'success':'info');
-    } else { toast((r&&r.message)||'জমা হয়নি','error'); }
-  }).catch(function(e){ btn.disabled=false; btn.innerHTML='✅ জমা দিন'; toast(e.message,'error'); });
+
+// ──────────────────────────────────────────────
+// CAMERA & ATTENDANCE
+// ──────────────────────────────────────────────
+async function startCamera() {
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: 'user', width:{ideal:640}, height:{ideal:480} },
+      audio: false
+    });
+    document.getElementById('video').srcObject = stream;
+    show('btn-snap'); hide('btn-cam');
+    document.getElementById('preview-wrap').style.display = 'none';
+    hide('btn-retake'); hide('btn-submit-att');
+    document.getElementById('att-result').innerHTML = '';
+  } catch(e) {
+    document.getElementById('att-result').innerHTML =
+      `<div class="alert alert-danger">📵 ক্যামেরা চালু হয়নি: ${e.message}</div>`;
+  }
 }
-function resetAtt(){ CU=null; photo=null; stopCam(); document.getElementById('s1').style.display='block'; document.getElementById('s2').style.display='none'; document.getElementById('prevSec').style.display='none'; document.getElementById('succSc').classList.remove('show'); document.getElementById('empId').value=''; }
-function goBack(){ stopCam(); CU=null; photo=null; document.getElementById('s1').style.display='block'; document.getElementById('s2').style.display='none'; }
-function openAdminModal(target){ adminTarget=target||'summary'; document.getElementById('aId').value=''; document.getElementById('aPin').value=''; document.getElementById('aErr').style.display='none'; openModal('mAdmin'); setTimeout(function(){ document.getElementById('aId').focus(); },300); }
-function doAdminLogin(){
-  var id=document.getElementById('aId').value.trim().toUpperCase();
-  var pin=document.getElementById('aPin').value.trim();
-  if(!id||!pin){ showErr('aErr','আইডি ও পিন দিন'); return; }
-  var btn=document.getElementById('aBtnLogin');
-  btn.disabled=true; btn.innerHTML='<div class="ld"></div>';
-  api('adminLogin',{id:id,pin:pin})
-  .then(function(r){
-    btn.disabled=false; btn.innerHTML='প্রবেশ করুন';
-    if(r && r.success){
-      adminOK=true; adminCred={id:id,pin:pin};
-      closeModal('mAdmin');
-      toast('অ্যাডমিন লগইন সফল 👑','success');
-      if(adminTarget==='summary'){ document.getElementById('sumGate').style.display='none'; document.getElementById('sumPanel').style.display='block'; loadSummary(); }
-      if(adminTarget==='notice'){ document.getElementById('notLoginBtn').style.display='none'; document.getElementById('notAdminBar').style.display='block'; document.getElementById('notAddBtn').style.display='block'; }
-    } else { showErr('aErr',(r&&r.message)||'ভুল আইডি বা পিন'); }
-  }).catch(function(e){ btn.disabled=false; btn.innerHTML='প্রবেশ করুন'; showErr('aErr',e.message); });
+
+function takeSnap() {
+  const video  = document.getElementById('video');
+  const canvas = document.getElementById('canvas');
+  canvas.width  = video.videoWidth  || 640;
+  canvas.height = video.videoHeight || 480;
+  const ctx = canvas.getContext('2d');
+  ctx.save(); ctx.scale(-1,1); ctx.drawImage(video,-canvas.width,0); ctx.restore();
+  capturedB64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
+
+  document.getElementById('preview').src = 'data:image/jpeg;base64,' + capturedB64;
+  document.getElementById('preview-wrap').style.display = '';
+  document.getElementById('camera-wrap').style.display  = 'none';
+  stopCamera();
+  hide('btn-snap'); hide('btn-cam'); show('btn-retake'); show('btn-submit-att');
 }
-function adminLogout(){
-  adminOK=false; adminCred={id:'',pin:''};
-  document.getElementById('sumPanel').style.display='none'; document.getElementById('sumGate').style.display='block';
-  document.getElementById('notAdminBar').style.display='none'; document.getElementById('notAddBtn').style.display='none'; document.getElementById('notLoginBtn').style.display='block';
-  document.getElementById('sumWrap').innerHTML='<div class="empty"><div class="ei">📊</div><p>মাস বেছে "দেখুন" চাপুন</p></div>';
-  toast('লগআউট হয়েছে','info');
+
+function retakePhoto() {
+  capturedB64 = null;
+  document.getElementById('camera-wrap').style.display  = '';
+  document.getElementById('preview-wrap').style.display = 'none';
+  startCamera();
 }
-function loadSeen(){ try{ seenIds=JSON.parse(localStorage.getItem('seen_n')||'[]'); }catch(e){ seenIds=[]; } }
-function saveSeen(){ localStorage.setItem('seen_n',JSON.stringify(seenIds)); }
-function updateBadge(){ var cnt=allNotices.filter(function(n){ return seenIds.indexOf(n.id)<0; }).length; var b=document.getElementById('nBadge'); if(cnt>0){ b.textContent=cnt>9?'9+':String(cnt); b.classList.add('show'); } else b.classList.remove('show'); }
-function markSeen(){ allNotices.forEach(function(n){ if(seenIds.indexOf(n.id)<0) seenIds.push(n.id); }); saveSeen(); document.getElementById('nBadge').classList.remove('show'); }
-function renderNotices(){
-  var el=document.getElementById('notList');
-  if(!allNotices.length){ el.innerHTML='<div class="empty"><div class="ei">📭</div><p>এখনো কোনো নোটিশ নেই</p></div>'; return; }
-  el.innerHTML=allNotices.map(function(n){
-    var isNew=seenIds.indexOf(n.id)<0;
-    var del=(adminOK && adminCred.id==='JTT')?'<button class="btn br btn-sm" style="padding:6px 10px;font-size:.7rem;flex-shrink:0" onclick="delNotice(\''+esc(n.id)+'\')">🗑</button>':'';
-    return '<div class="nc'+(isNew?' new-n':'')+'"><div class="nc-head"><div><div class="nc-title">'+esc(n.title)+(isNew?'<span class="new-tag">NEW</span>':'')+'</div><div class="nc-date">📅 '+esc(n.date)+'</div></div>'+del+'</div><div class="nc-body">'+esc(n.details).replace(/\n/g,'<br>')+'</div></div>';
-  }).join('');
+
+async function submitAttendance() {
+  if (!capturedB64) { showToast('আগে সেলফি তুলুন', 'error'); return; }
+  const btn = document.getElementById('btn-submit-att');
+  btn.disabled = true; btn.textContent = '⏳ জমা হচ্ছে...';
+
+  try {
+    const res = await api('submitAttendance', {
+      user_id: currentUser.user_id,
+      image_base64: capturedB64,
+      image_mime: 'image/jpeg'
+    });
+    const area = document.getElementById('att-result');
+    if (res.success) {
+      const cls  = res.status === 'present' ? 'alert-success' : 'alert-warn';
+      const lbl  = res.status === 'present' ? '✅ উপস্থিত' : '⚠️ লেট';
+      area.innerHTML = `<div class="alert ${cls}">
+        ${lbl} — তারিখ: <strong>${res.date}</strong>, সময়: <strong>${res.time}</strong>
+        ${res.thumb_url ? `<br/><img src="${res.thumb_url}" style="width:80px;margin-top:.5rem;border-radius:8px">` : ''}
+      </div>`;
+      showToast(res.message, 'success');
+      hide('btn-retake'); hide('btn-submit-att');
+      loadDashboard();
+    } else {
+      area.innerHTML = `<div class="alert alert-danger">⚠️ ${res.message}</div>`;
+      showToast(res.message, 'error');
+      btn.disabled = false; btn.textContent = '✅ হাজিরা দিন';
+    }
+  } catch(e) {
+    showToast(e.message, 'error');
+    btn.disabled = false; btn.textContent = '✅ হাজিরা দিন';
+  }
 }
-function submitNotice(){
-  var t=document.getElementById('nT').value.trim(), d=document.getElementById('nD').value, b=document.getElementById('nB').value.trim();
-  if(!t||!d||!b){ showErr('nErr','সব তথ্য পূরণ করুন'); return; }
-  var btn=document.getElementById('nBtn');
-  btn.disabled=true; btn.innerHTML='<div class="ld"></div> দিচ্ছি...';
-  api('addNotice',{title:t,date:d,details:b,adminId:adminCred.id,adminPin:adminCred.pin})
-  .then(function(r){
-    btn.disabled=false; btn.innerHTML='📢 নোটিশ দিন';
-    if(r && r.success){ closeModal('mNotice'); toast('নোটিশ সফলভাবে দেওয়া হয়েছে ✅','success'); api('getNotices',{}).then(function(n){ if(n&&n.success){ allNotices=n.notices||[]; renderNotices(); updateBadge(); } }).catch(function(){}); }
-    else { showErr('nErr',(r&&r.message)||'সমস্যা হয়েছে'); }
-  }).catch(function(e){ btn.disabled=false; btn.innerHTML='📢 নোটিশ দিন'; showErr('nErr',e.message); });
+
+function stopCamera() {
+  if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
 }
-function delNotice(id){
-  if(!confirm('নোটিশটি মুছবেন?')) return;
-  api('deleteNotice',{noticeId:id,adminId:adminCred.id,adminPin:adminCred.pin})
-  .then(function(r){ if(r && r.success){ toast('মুছা হয়েছে','info'); allNotices=allNotices.filter(function(n){return n.id!==id;}); renderNotices(); updateBadge(); } else { toast((r&&r.message)||'মুছা যায়নি','error'); } })
-  .catch(function(e){ toast(e.message,'error'); });
+
+// ──────────────────────────────────────────────
+// MY REPORT
+// ──────────────────────────────────────────────
+function updateMyFilter() {
+  const mode = document.getElementById('my-mode').value;
+  document.getElementById('my-date-wrap').style.display  = mode==='daily'   ? '' : 'none';
+  document.getElementById('my-month-wrap').style.display = mode==='monthly' ? '' : 'none';
 }
-function loadSummary(){
-  var mo=document.getElementById('sumMo').value;
-  if(!mo){ toast('মাস বেছে নিন','error'); return; }
-  var w=document.getElementById('sumWrap');
-  w.innerHTML='<div class="empty"><div class="ld" style="border-top-color:var(--accent);margin:0 auto 14px"></div><p>লোড হচ্ছে...</p></div>';
-  api('getMonthlySummary',{monthStr:mo,adminId:adminCred.id,adminPin:adminCred.pin})
-  .then(function(r){
-    if(!r || !r.success){ toast((r&&r.message)||'লোড ব্যর্থ','error'); return; }
-    summaryData = r.data || []; renderTable(summaryData);
-  }).catch(function(e){ toast(e.message,'error'); });
+
+async function loadMyReport() {
+  const mode  = document.getElementById('my-mode').value;
+  const body  = { user_id: currentUser.user_id, mode };
+  if (mode === 'daily') {
+    body.date = document.getElementById('my-date').value || todayStr();
+  } else {
+    const mv = document.getElementById('my-month').value || monthStr();
+    const [yr, mo] = mv.split('-');
+    body.month = parseInt(mo); body.year = parseInt(yr);
+  }
+
+  document.getElementById('my-report-body').innerHTML =
+    '<div class="loading"><div class="spinner"></div> লোড হচ্ছে...</div>';
+
+  try {
+    const res = await api('getUserReport', body);
+    if (!res.success) {
+      document.getElementById('my-report-body').innerHTML =
+        `<div class="alert alert-danger">${res.message}</div>`; return;
+    }
+
+    // Summary
+    if (mode === 'monthly' && res.summary) {
+      const s = res.summary;
+      document.getElementById('my-summary').style.display = '';
+      document.getElementById('my-summary').innerHTML = `
+        <div class="stat-card green"><div class="stat-value">${s.present}</div><div class="stat-label">উপস্থিত</div></div>
+        <div class="stat-card warn"><div class="stat-value">${s.late}</div><div class="stat-label">লেট</div></div>
+        <div class="stat-card red"><div class="stat-value">${s.late_absent}</div><div class="stat-label">লেট-অনুপস্থিত</div></div>
+        <div class="stat-card"><div class="stat-value">${s.net_present}</div><div class="stat-label">মোট উপস্থিত</div></div>
+      `;
+    } else {
+      document.getElementById('my-summary').style.display = 'none';
+    }
+
+    // Table
+    const records = res.records || [];
+    if (!records.length) {
+      document.getElementById('my-report-body').innerHTML =
+        '<div class="alert alert-info">এই সময়ের কোনো হাজিরা নেই।</div>'; return;
+    }
+
+    let html = `<div class="table-wrap"><table>
+      <thead><tr><th>তারিখ</th><th>সময়</th><th>অবস্থা</th>${mode==='daily' ? '<th>ছবি</th>' : ''}</tr></thead><tbody>`;
+    records.forEach(r => {
+      html += `<tr>
+        <td>${r.date}</td>
+        <td style="font-family:var(--mono)">${r.time}</td>
+        <td>${statusBadge(r.status)}</td>
+        ${mode==='daily' ? `<td>${r.thumb_url ? `<img class="thumb-img" src="${r.thumb_url}" onclick="openPhoto('${r.photo_url}')" alt="ছবি" onerror="this.style.display='none'"/>` : '—'}</td>` : ''}
+      </tr>`;
+    });
+    html += '</tbody></table></div>';
+    document.getElementById('my-report-body').innerHTML = html;
+  } catch(e) {
+    document.getElementById('my-report-body').innerHTML =
+      `<div class="alert alert-danger">${e.message}</div>`;
+  }
 }
-function renderTable(data){
-  var w=document.getElementById('sumWrap');
-  if(!data || !data.length){ w.innerHTML='<div class="empty"><div class="ei">📭</div><p>এই মাসে কোনো রেকর্ড নেই</p></div>'; return; }
-  w.innerHTML='<table><thead><tr><th>আইডি</th><th>নাম</th><th>উপস্থিত</th><th>লেট</th><th>অনুপস্থিত</th></tr></thead><tbody>' + data.map(function(r){return '<tr><td><span class="idb">'+esc(r.id)+'</span></td><td>'+esc(r.name)+'</td><td><span class="chip cg">'+r.present+'</span></td><td><span class="chip cy">'+r.late+'</span></td><td><span class="chip cr">'+r.absent+'</span></td></tr>';}).join('') + '</tbody></table>';
+
+// ──────────────────────────────────────────────
+// NOTICES (user)
+// ──────────────────────────────────────────────
+async function loadNotices() {
+  try {
+    const res = await api('getNotices');
+    if (!res.success) return;
+    hasNew = res.hasNew;
+    if (hasNew) {
+      const dot = document.getElementById('notif-dot');
+      if (dot) dot.classList.add('show');
+      const alertEl = document.getElementById('notice-alert');
+      if (alertEl) alertEl.style.display = 'flex';
+    }
+    renderNotices(res.notices, 'notices-list');
+  } catch(e) {
+    document.getElementById('notices-list').innerHTML =
+      `<div class="alert alert-danger">${e.message}</div>`;
+  }
 }
-function filterTable(){ var q=document.getElementById('sumQ').value.toLowerCase(); renderTable(summaryData.filter(function(r){return r.id.toLowerCase().includes(q)||r.name.toLowerCase().includes(q);})); }
-function loadPersonal(){
-  var id=document.getElementById('meId').value.trim().toUpperCase();
-  var mo=document.getElementById('meMo').value;
-  if(!id){ toast('আইডি লিখুন','error'); return; }
-  if(!mo){ toast('মাস বেছে নিন','error'); return; }
-  var w=document.getElementById('meResult');
-  w.innerHTML='<div class="empty"><div class="ld" style="border-top-color:var(--accent);margin:0 auto 14px"></div><p>লোড হচ্ছে...</p></div>';
-  api('getPersonalRecord',{userId:id,monthStr:mo})
-  .then(function(r){
-    if(!r || !r.success){ toast((r&&r.message)||'লোড ব্যর্থ','error'); return; }
-    if(!r.records || !r.records.length){ w.innerHTML='<div class="empty"><div class="ei">📭</div><p>এই মাসে কোনো রেকর্ড নেই</p></div>'; return; }
-    saveId(id);
-    w.innerHTML='<div style="font-weight:700;font-size:.9rem;color:var(--text2);margin-bottom:12px">👤 '+esc(r.name)+' — '+mo+'</div><div class="sg"><div class="sb g"><div class="sv">'+r.present+'</div><div class="sl">উপস্থিত</div></div><div class="sb y"><div class="sv">'+r.late+'</div><div class="sl">লেট</div></div><div class="sb r"><div class="sv">'+r.absent+'</div><div class="sl">অনুপস্থিত</div></div></div><div class="rl">'+r.records.map(function(rc){ var cls=rc.status==='Present'?'cg':rc.status==='Late'?'cy':'cr'; var lbl=rc.status==='Present'?'উপস্থিত':rc.status==='Late'?'লেট':'অনুপস্থিত'; return '<div class="ri"><div style="flex:1"><div class="ri-date">'+esc(rc.date)+'</div><div class="ri-day">'+esc(rc.day||'')+'</div></div><span class="chip '+cls+'">'+lbl+'</span><div class="ri-time">'+esc(rc.time||'')+'</div></div>'; }).join('')+'</div>';
-  }).catch(function(e){ toast(e.message,'error'); });
+
+function renderNotices(notices, containerId) {
+  const el = document.getElementById(containerId);
+  if (!notices.length) { el.innerHTML = '<div class="alert alert-info">কোনো নোটিশ নেই।</div>'; return; }
+  el.innerHTML = notices.map(n => `
+    <div class="notice-item ${n.is_new ? 'new-notice' : ''}" onclick="toggleNotice(this)" style="margin-bottom:.75rem">
+      <div class="notice-title">
+        📌 ${n.title}
+        ${n.is_new ? '<span class="new-tag">নতুন</span>' : ''}
+      </div>
+      <div class="notice-date">📅 ${n.date}</div>
+      <div class="notice-body">${n.details}</div>
+    </div>
+  `).join('');
 }
-function openModal(id){ document.getElementById(id).style.display='flex'; }
-function closeModal(id){ document.getElementById(id).style.display='none'; }
-function showErr(id,msg){ var el=document.getElementById(id); el.textContent='❌ '+msg; el.style.display='block'; }
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-var _tt;
-function toast(msg,type){ type=type||'info'; var el=document.getElementById('toast'); el.textContent=msg; el.className='show '+type; clearTimeout(_tt); _tt=setTimeout(function(){ el.classList.remove('show'); },3500); }
+
+function toggleNotice(el) {
+  const body = el.querySelector('.notice-body');
+  body.classList.toggle('show');
+  el.style.borderColor = body.classList.contains('show') ? 'var(--accent)' : '';
+}
+
+// ──────────────────────────────────────────────
+// ADMIN DASHBOARD
+// ──────────────────────────────────────────────
+async function loadAdminDashStats() {
+  try {
+    const res = await api('getAdminReport', { mode:'daily', date: todayStr() });
+    if (!res.success) return;
+    const report = res.report || [];
+    let tp=0, tl=0;
+    report.forEach(u => {
+      u.records.forEach(r => {
+        if (r.status==='present') tp++;
+        else if (r.status==='late') tl++;
+      });
+    });
+    const ta = report.length - tp - tl;
+    document.getElementById('adm-total').textContent   = report.length;
+    document.getElementById('adm-today-p').textContent = tp;
+    document.getElementById('adm-today-l').textContent = tl;
+    document.getElementById('adm-today-a').textContent = Math.max(0, ta);
+  } catch(e) {}
+}
+
+async function postNotice() {
+  const title   = document.getElementById('notice-title').value.trim();
+  const details = document.getElementById('notice-details').value.trim();
+  if (!title || !details) { showToast('শিরোনাম ও বিস্তারিত দিন', 'error'); return; }
+  try {
+    const res = await api('addNotice', { title, details, admin_id:'admin', password:'admin123' });
+    if (res.success) {
+      showToast('নোটিশ প্রকাশিত হয়েছে ✅', 'success');
+      document.getElementById('notice-title').value   = '';
+      document.getElementById('notice-details').value = '';
+      loadAdminNotices();
+    } else showToast(res.message, 'error');
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+// ──────────────────────────────────────────────
+// ADMIN REPORT
+// ──────────────────────────────────────────────
+function updateAdmFilter() {
+  const mode = document.getElementById('adm-mode').value;
+  document.getElementById('adm-date-wrap').style.display  = mode==='daily'   ? '' : 'none';
+  document.getElementById('adm-month-wrap').style.display = mode==='monthly' ? '' : 'none';
+}
+
+async function loadAdminReport() {
+  const mode = document.getElementById('adm-mode').value;
+  const body = { mode };
+  if (mode === 'daily') {
+    body.date = document.getElementById('adm-date').value || todayStr();
+  } else {
+    const mv = document.getElementById('adm-month').value || monthStr();
+    const [yr, mo] = mv.split('-');
+    body.month = parseInt(mo); body.year = parseInt(yr);
+  }
+
+  const el = document.getElementById('adm-report-body');
+  el.innerHTML = '<div class="loading"><div class="spinner"></div> লোড হচ্ছে...</div>';
+
+  try {
+    const res = await api('getAdminReport', body);
+    if (!res.success) { el.innerHTML = `<div class="alert alert-danger">${res.message}</div>`; return; }
+
+    const report = res.report || [];
+    if (!report.length) { el.innerHTML = '<div class="alert alert-info">কোনো ডেটা নেই।</div>'; return; }
+
+    if (mode === 'daily') {
+      // Expandable rows with thumbnails
+      let html = `<div class="table-wrap"><table>
+        <thead><tr><th></th><th>আইডি</th><th>নাম</th><th>বিভাগ</th><th>সময়</th><th>অবস্থা</th><th>ছবি</th></tr></thead><tbody>`;
+      report.forEach((u, idx) => {
+        const r = u.records[0];
+        html += `<tr class="admin-user-row" onclick="toggleAdmRow(${idx})">
+          <td><span class="expand-arrow" id="arr-${idx}">▶</span></td>
+          <td style="font-family:var(--mono)">${u.user_id}</td>
+          <td>${u.name}</td>
+          <td>${u.department}</td>
+          <td style="font-family:var(--mono)">${r ? r.time : '—'}</td>
+          <td>${r ? statusBadge(r.status) : '<span class="badge badge-absent">অনুপস্থিত</span>'}</td>
+          <td>${r && r.thumb_url ? `<img class="thumb-img" src="${r.thumb_url}" onclick="event.stopPropagation();openPhoto('${r.photo_url}')" alt="ছবি" onerror="this.style.display='none'"/>` : '—'}</td>
+        </tr>
+        <tr class="admin-detail-row" id="det-${idx}" style="display:none">
+          <td colspan="7">
+            <div class="admin-detail-inner">
+              ${r ? `<div class="info-chip" style="margin-bottom:.5rem">📧 ${u.name} — ${u.department}</div>` : ''}
+              ${r && r.photo_url ? `<img src="${r.photo_url}" style="max-width:240px;border-radius:var(--radius);margin-top:.5rem" onerror="this.alt='ছবি লোড হয়নি'">` : '<div class="text-muted">কোনো ছবি নেই</div>'}
+            </div>
+          </td>
+        </tr>`;
+      });
+      html += '</tbody></table></div>';
+      el.innerHTML = html;
+    } else {
+      // Monthly: summary table
+      let html = `<div class="table-wrap"><table>
+        <thead><tr><th>আইডি</th><th>নাম</th><th>বিভাগ</th><th>উপস্থিত</th><th>লেট</th><th>লেট-অনুপস্থিত</th><th>মোট</th></tr></thead><tbody>`;
+      report.forEach(u => {
+        const s = u.summary;
+        html += `<tr>
+          <td style="font-family:var(--mono)">${u.user_id}</td>
+          <td>${u.name}</td>
+          <td>${u.department}</td>
+          <td><span class="badge badge-present">${s.present}</span></td>
+          <td><span class="badge badge-late">${s.late}</span></td>
+          <td><span class="badge badge-absent">${s.late_absent}</span></td>
+          <td><strong>${s.net_present}</strong></td>
+        </tr>`;
+      });
+      html += '</tbody></table></div>';
+      el.innerHTML = html;
+    }
+  } catch(e) {
+    el.innerHTML = `<div class="alert alert-danger">${e.message}</div>`;
+  }
+}
+
+function toggleAdmRow(idx) {
+  const det = document.getElementById('det-' + idx);
+  const arr = document.getElementById('arr-' + idx);
+  const row = arr.closest('tr');
+  const vis = det.style.display !== 'none';
+  det.style.display = vis ? 'none' : '';
+  if (vis) { arr.style.transform=''; row.classList.remove('expanded'); }
+  else      { arr.style.transform='rotate(90deg)'; row.classList.add('expanded'); }
+}
+
+// ──────────────────────────────────────────────
+// ADMIN NOTICES
+// ──────────────────────────────────────────────
+async function loadAdminNotices() {
+  try {
+    const res = await api('getNotices');
+    if (res.success) renderNotices(res.notices, 'admin-notices-list');
+  } catch(e) {
+    document.getElementById('admin-notices-list').innerHTML =
+      `<div class="alert alert-danger">${e.message}</div>`;
+  }
+}
+
+// ──────────────────────────────────────────────
+// PHOTO MODAL
+// ──────────────────────────────────────────────
+function openPhoto(url) {
+  if (!url) return;
+  document.getElementById('modal-img').src = url;
+  document.getElementById('photo-modal').classList.add('open');
+}
+function closePhotoModal() {
+  document.getElementById('photo-modal').classList.remove('open');
+}
+
+// ──────────────────────────────────────────────
+// TOAST
+// ──────────────────────────────────────────────
+let toastTimer;
+function showToast(msg, type='info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className   = `toast ${type} show`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ──────────────────────────────────────────────
+// HELPERS
+// ──────────────────────────────────────────────
+function statusBadge(s) {
+  if (s==='present') return '<span class="badge badge-present">✅ উপস্থিত</span>';
+  if (s==='late')    return '<span class="badge badge-late">⚠️ লেট</span>';
+  return '<span class="badge badge-absent">❌ অনুপস্থিত</span>';
+}
+function todayStr() {
+  const n = new Date();
+  return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`;
+}
+function monthStr() {
+  const n = new Date();
+  return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}`;
+}
+function setTodayDefaults() {
+  const d = todayStr(), m = monthStr();
+  ['my-date','adm-date'].forEach(id => { const e=document.getElementById(id); if(e) e.value=d; });
+  ['my-month','adm-month'].forEach(id => { const e=document.getElementById(id); if(e) e.value=m; });
+}
+function show(id) { const e=document.getElementById(id); if(e) e.style.display=''; }
+function hide(id) { const e=document.getElementById(id); if(e) e.style.display='none'; }
+function setBtnLoading(id, loading) {
+  const b = document.getElementById(id);
+  if (!b) return;
+  b.disabled = loading;
+  b.textContent = loading ? '⏳ অপেক্ষা করুন...' : 'প্রবেশ করুন →';
+}
 </script>
 </body>
 </html>
