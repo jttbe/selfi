@@ -781,7 +781,8 @@ textarea.form-input{resize:vertical;min-height:100px}
 // ──────────────────────────────────────────────
 // CONFIG
 // ──────────────────────────────────────────────
-let GAS_URL = localStorage.getItem('https://script.google.com/macros/s/AKfycbzql8rhhjySZG90L24IdxnRVti_7sQBPRqZ1TmFQizEgGY3T3Eqrj_s1TDNLqn6K7fB/exec') || '';
+// ব্রাউজারে আগে সেভ করা না থাকলে আপনার দেওয়া মূল URL-টি ডিফল্ট হিসেবে কাজ করবে
+let GAS_URL = localStorage.getItem('gas_url') || 'https://script.google.com/macros/s/AKfycbzql8rhhjySZG90L24IdxnRVti_7sQBPRqZ1TmFQizEgGY3T3Eqrj_s1TDNLqn6K7fB/exec';
 
 // Pre-fill saved URL
 window.addEventListener('DOMContentLoaded', () => {
@@ -793,11 +794,11 @@ window.addEventListener('DOMContentLoaded', () => {
 function saveGasUrl() {
   const v = document.getElementById('inp-gas-url').value.trim();
   if (!v) { showToast('URL দিন', 'error'); return; }
+  
   GAS_URL = v;
-  localStorage.setItem('gas_url', v);
+  localStorage.setItem('gas_url', v); // 'gas_url' নামে ব্রাউজারে সেভ হবে
   showToast('URL সংরক্ষিত হয়েছে ✅', 'success');
 }
-
 // ──────────────────────────────────────────────
 // STATE
 // ──────────────────────────────────────────────
