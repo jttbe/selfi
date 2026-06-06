@@ -427,11 +427,43 @@ textarea.form-input{resize:vertical;min-height:100px}
 
     <!-- User login -->
     <div id="login-user">
-      <div class="form-group">
+      <div class="form-group" style="position:relative">
         <label class="form-label">ইউসার আইডি</label>
-        <input class="form-input" id="inp-uid" placeholder="যেমন: U001" oninput="this.value=this.value.toUpperCase()"
-               onkeydown="if(event.key==='Enter')doUserLogin()"/>
+
+        <div style="position:relative">
+          <input class="form-input" id="inp-uid"
+            placeholder="যেমন: U001"
+            autocomplete="off"
+            oninput="onUidInput(this)"
+            onkeydown="onUidKey(event)"
+            onfocus="showSuggest()"
+            onblur="hideSuggestDelay()"
+            style="padding-right:2.5rem"
+          />
+          <!-- Clear button -->
+          <button id="uid-clear-btn" onclick="clearUid()" style="
+            display:none;position:absolute;right:.55rem;top:50%;transform:translateY(-50%);
+            background:none;border:none;color:var(--text3);cursor:pointer;font-size:1rem;
+            line-height:1;transition:.2s;
+          " title="মুছুন">✕</button>
+        </div>
+
+        <!-- Suggestion dropdown -->
+        <div id="uid-suggestions" style="
+          display:none;position:absolute;top:100%;left:0;right:0;z-index:50;
+          background:var(--surface2);border:1px solid var(--accent);
+          border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm);
+          overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.4);
+          max-height:220px;overflow-y:auto;
+        "></div>
       </div>
+
+      <!-- Last used shortcut -->
+      <div id="last-uid-row" style="display:none;margin-bottom:.75rem">
+        <p class="text-sm text-muted" style="margin-bottom:.35rem">🕐 সর্বশেষ ব্যবহার:</p>
+        <div id="last-uid-chips" style="display:flex;flex-wrap:wrap;gap:.35rem"></div>
+      </div>
+
       <button class="btn btn-primary btn-full" onclick="doUserLogin()" id="btn-user-login">
         প্রবেশ করুন →
       </button>
@@ -456,11 +488,77 @@ textarea.form-input{resize:vertical;min-height:100px}
 
     <div id="login-err" class="alert alert-danger" style="display:none;margin-top:.75rem"></div>
 
-    <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);text-align:center">
-      <p class="text-sm text-muted">⚙️ GAS URL সেট করুন:</p>
-      <input class="form-input" id="inp-gas-url" placeholder="Google Apps Script Web App URL"
-             style="margin-top:.5rem;font-size:.78rem"/>
-      <button class="btn btn-outline btn-sm btn-full" onclick="saveGasUrl()" style="margin-top:.4rem">URL সংরক্ষণ করুন</button>
+    <!-- GAS URL Panel -->
+    <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem">
+        <span class="text-sm text-muted" style="display:flex;align-items:center;gap:.35rem">
+          ⚙️ <strong style="color:var(--text)">GAS সংযোগ</strong>
+        </span>
+        <!-- Status pill -->
+        <span id="gas-status-pill" style="
+          display:inline-flex;align-items:center;gap:.3rem;
+          font-size:.72rem;font-weight:600;padding:.18rem .6rem;
+          border-radius:99px;transition:.3s;
+          background:rgba(239,68,68,.12);color:var(--danger);
+          border:1px solid rgba(239,68,68,.25);
+        ">
+          <span id="gas-dot" style="width:6px;height:6px;border-radius:50%;background:var(--danger);display:inline-block"></span>
+          <span id="gas-status-txt">সংযুক্ত নয়</span>
+        </span>
+      </div>
+
+      <!-- Saved URL link row (shown when URL exists) -->
+      <div id="gas-link-row" style="display:none;
+        background:var(--surface2);border:1px solid var(--border);
+        border-radius:var(--radius-sm);padding:.55rem .75rem;margin-bottom:.5rem;
+        display:none;align-items:center;gap:.5rem;
+      ">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="2.5" style="flex-shrink:0">
+          <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
+          <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
+        </svg>
+        <a id="gas-link" href="#" target="_blank" rel="noopener" style="
+          font-family:var(--mono);font-size:.72rem;color:var(--accent2);
+          text-decoration:none;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+          max-width:220px;
+        " title="GAS URL খুলুন"></a>
+        <button onclick="editGasUrl()" style="
+          background:none;border:none;color:var(--text3);cursor:pointer;
+          font-size:.72rem;padding:.1rem .3rem;transition:.2s;
+        " title="পরিবর্তন করুন">✏️</button>
+        <button onclick="clearGasUrl()" style="
+          background:none;border:none;color:var(--danger);cursor:pointer;
+          font-size:.72rem;padding:.1rem .3rem;opacity:.6;transition:.2s;
+        " title="মুছুন">🗑</button>
+      </div>
+
+      <!-- Input row (shown when editing / no URL) -->
+      <div id="gas-input-row">
+        <div style="position:relative">
+          <input class="form-input" id="inp-gas-url"
+            placeholder="https://script.google.com/macros/s/…/exec"
+            style="font-size:.76rem;padding-right:2.8rem;"
+            onkeydown="if(event.key==='Enter')saveGasUrl()"
+          />
+          <!-- Paste icon button inside input -->
+          <button onclick="pasteGasUrl()" title="ক্লিপবোর্ড থেকে পেস্ট করুন" style="
+            position:absolute;right:.5rem;top:50%;transform:translateY(-50%);
+            background:none;border:none;cursor:pointer;font-size:1rem;opacity:.5;transition:.2s;
+          " onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.5">📋</button>
+        </div>
+        <div style="display:flex;gap:.4rem;margin-top:.4rem">
+          <button class="btn btn-primary btn-sm" style="flex:1" onclick="saveGasUrl()">
+            🔗 সংযুক্ত করুন
+          </button>
+          <a href="https://script.google.com" target="_blank" rel="noopener"
+             class="btn btn-outline btn-sm" title="Apps Script খুলুন">
+            ↗ GAS
+          </a>
+        </div>
+        <p class="text-sm text-muted" style="margin-top:.5rem;font-size:.72rem;line-height:1.5">
+          💡 Apps Script → Deploy → New Deployment → Web App → URL কপি করুন
+        </p>
+      </div>
     </div>
   </div>
 </div>
