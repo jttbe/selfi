@@ -2,1094 +2,1211 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="theme-color" content="#080c14"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <title>হাজিরা সিস্টেম</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
 <style>
-/* ═══════════════════════════════════════════════════════════
-   ROOT & RESET
-═══════════════════════════════════════════════════════════ */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:        #0b0f1a;
-  --surface:   #111827;
-  --surface2:  #1a2235;
-  --border:    #1e2d45;
-  --accent:    #3b82f6;
-  --accent2:   #06b6d4;
-  --success:   #10b981;
-  --warn:      #f59e0b;
-  --danger:    #ef4444;
-  --text:      #e2e8f0;
-  --text2:     #94a3b8;
-  --text3:     #4b5563;
-  --radius:    14px;
-  --radius-sm: 8px;
-  --shadow:    0 4px 24px rgba(0,0,0,.45);
-  --glow:      0 0 30px rgba(59,130,246,.18);
-  --font:      'Hind Siliguri', sans-serif;
-  --mono:      'JetBrains Mono', monospace;
+  --bg:#080c14;
+  --s1:#0f1623;
+  --s2:#141e30;
+  --s3:#1a2540;
+  --bd:#1f2d45;
+  --a:#3b82f6;--a2:#06b6d4;
+  --ok:#10b981;--wn:#f59e0b;--er:#ef4444;
+  --t1:#e8edf5;--t2:#8899b0;--t3:#3d4f66;
+  --r:16px;--rs:10px;--rx:22px;
+  --fnt:'Hind Siliguri',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --sh:0 2px 20px rgba(0,0,0,.5);
+  --glow:0 0 40px rgba(59,130,246,.12);
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --tab-h:62px;
 }
-html{scroll-behavior:smooth}
-body{
-  font-family:var(--font);
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
+html{height:100%;overscroll-behavior:none}
+body{font-family:var(--fnt);background:var(--bg);color:var(--t1);
+  min-height:100%;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+input,button,select,textarea{font-family:var(--fnt)}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-thumb{background:var(--bd);border-radius:9px}
+
+/* ── UTILITY ── */
+.hide{display:none!important}
+.mono{font-family:var(--mono)}
+.t2{color:var(--t2)}.tsm{font-size:.78rem}
+.gap{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.mt{margin-top:.8rem}
+
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+  padding:.72rem 1.4rem;border-radius:var(--rs);border:none;cursor:pointer;
+  font-size:.9rem;font-weight:600;transition:all .18s;
+  touch-action:manipulation;min-height:46px;user-select:none;
 }
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
-#app{min-height:100vh;display:flex;flex-direction:column}
-.header{
-  position:sticky;top:0;z-index:100;
-  background:rgba(11,15,26,.85);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
-  padding:0 1rem;
-  height:60px;
-  display:flex;align-items:center;justify-content:space-between;
-  gap:1rem;
+.btn-p{background:linear-gradient(135deg,var(--a),#2563eb);color:#fff;box-shadow:0 4px 14px rgba(59,130,246,.3)}
+.btn-p:active{transform:scale(.97);box-shadow:none}
+.btn-s{background:linear-gradient(135deg,var(--ok),#059669);color:#fff;box-shadow:0 4px 14px rgba(16,185,129,.25)}
+.btn-s:active{transform:scale(.97)}
+.btn-o{background:transparent;border:1.5px solid var(--bd);color:var(--t2)}
+.btn-o:active{background:var(--s3)}
+.full{width:100%}
+.sm{padding:.46rem .92rem;font-size:.8rem;min-height:38px}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+
+/* ── FORM ── */
+.fg{margin-bottom:.9rem;position:relative}
+.fl{display:block;font-size:.8rem;color:var(--t2);margin-bottom:.38rem;font-weight:600;letter-spacing:.02em}
+.fi{
+  width:100%;padding:.74rem 1rem;
+  background:var(--s2);border:1.5px solid var(--bd);
+  border-radius:var(--rs);color:var(--t1);font-size:.92rem;outline:none;
+  transition:border-color .18s,box-shadow .18s;-webkit-appearance:none;
 }
-.header-logo{
-  display:flex;align-items:center;gap:.6rem;
-  font-size:1.1rem;font-weight:700;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
+.fi:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(59,130,246,.15)}
+.fi::placeholder{color:var(--t3)}
+select.fi{
+  cursor:pointer;padding-right:2.4rem;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' fill='none'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%238899b0' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right .9rem center;
+}
+textarea.fi{resize:vertical;min-height:90px;line-height:1.55}
+
+/* autocomplete */
+.acw{
+  position:absolute;top:calc(100% + 3px);left:0;right:0;z-index:200;
+  background:var(--s1);border:1.5px solid var(--a);border-radius:var(--rs);
+  box-shadow:0 8px 24px rgba(0,0,0,.5);overflow:hidden;display:none;
+}
+.acw.open{display:block}
+.ac-row{
+  padding:.62rem 1rem;display:flex;align-items:center;justify-content:space-between;
+  cursor:pointer;border-bottom:1px solid var(--bd);transition:.12s;
+}
+.ac-row:last-child{border-bottom:none}
+.ac-row:active,.ac-row:hover{background:var(--s3)}
+.ac-id{font-family:var(--mono);color:var(--a);font-size:.8rem;font-weight:600}
+.ac-nm{color:var(--t2);font-size:.78rem}
+
+/* ── ALERTS ── */
+.al{
+  padding:.82rem 1rem;border-radius:var(--rs);margin-bottom:.85rem;
+  font-size:.85rem;display:flex;align-items:flex-start;gap:.55rem;
+  line-height:1.6;border-left:3px solid;
+}
+.al-i{background:rgba(59,130,246,.07);border-color:var(--a);color:#93c5fd}
+.al-s{background:rgba(16,185,129,.07);border-color:var(--ok);color:#6ee7b7}
+.al-w{background:rgba(245,158,11,.07);border-color:var(--wn);color:#fcd34d}
+.al-d{background:rgba(239,68,68,.07);border-color:var(--er);color:#fca5a5}
+.al-icon{font-size:.95rem;flex-shrink:0;margin-top:.06rem}
+
+/* ── LOGIN ── */
+#pg-login{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(ellipse 80% 55% at 50% -5%,rgba(59,130,246,.15) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 35% at 92% 92%,rgba(6,182,212,.08) 0%,transparent 60%),
+    var(--bg);
+  padding:1.25rem 1rem;
+}
+.login-card{
+  width:100%;max-width:400px;
+  background:var(--s1);border:1px solid var(--bd);
+  border-radius:var(--rx);padding:2rem 1.75rem;
+  box-shadow:var(--sh),var(--glow);
+  animation:popIn .32s cubic-bezier(.34,1.46,.64,1);
+}
+@keyframes popIn{from{opacity:0;transform:scale(.93) translateY(10px)}to{opacity:1;transform:none}}
+.login-head{text-align:center;margin-bottom:1.6rem}
+.login-logo{
+  width:62px;height:62px;border-radius:18px;
+  background:linear-gradient(135deg,var(--a),var(--a2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.7rem;margin:0 auto .8rem;
+  box-shadow:0 8px 24px rgba(59,130,246,.32);
+}
+.login-head h1{
+  font-size:1.5rem;font-weight:700;
+  background:linear-gradient(135deg,var(--t1) 40%,var(--a));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
-.header-logo svg{flex-shrink:0}
-.header-user{
-  display:flex;align-items:center;gap:.5rem;
-  font-size:.82rem;color:var(--text2);
+.login-head p{color:var(--t2);font-size:.84rem;margin-top:.28rem}
+.ltabs{
+  display:flex;gap:0;margin-bottom:1.4rem;
+  background:var(--s2);border-radius:var(--rs);padding:3px;border:1px solid var(--bd);
 }
-.avatar{
-  width:32px;height:32px;border-radius:50%;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
+.ltab{
+  flex:1;padding:.52rem;border-radius:calc(var(--rs) - 2px);
+  font-size:.84rem;font-weight:600;cursor:pointer;border:none;
+  background:transparent;color:var(--t2);transition:all .2s;min-height:38px;
+}
+.ltab.on{background:var(--a);color:#fff;box-shadow:0 2px 8px rgba(59,130,246,.4)}
+
+/* ── APP SHELL ── */
+#pg-app{min-height:100vh;display:flex;flex-direction:column}
+
+/* header */
+.hdr{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,12,20,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--bd);
+  height:54px;padding:0 1rem;
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;
+}
+.hdr-brand{display:flex;align-items:center;gap:.5rem}
+.hdr-brand-ico{
+  width:30px;height:30px;border-radius:8px;
+  background:linear-gradient(135deg,var(--a),var(--a2));
+  display:flex;align-items:center;justify-content:center;font-size:.88rem;
+}
+.hdr-brand-nm{
+  font-size:.9rem;font-weight:700;
+  background:linear-gradient(135deg,var(--t1),var(--a));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hdr-right{display:flex;align-items:center;gap:.45rem}
+.hdr-av{
+  width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,var(--a),var(--a2));
   display:flex;align-items:center;justify-content:center;
-  font-size:.75rem;font-weight:700;color:#fff;
+  font-size:.7rem;font-weight:700;color:#fff;
+  border:1.5px solid rgba(59,130,246,.3);flex-shrink:0;
+}
+.hdr-nm{font-size:.77rem;color:var(--t2);max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.out-btn{
+  background:var(--s2);border:1px solid var(--bd);color:var(--t2);
+  border-radius:var(--rs);padding:.24rem .6rem;font-size:.72rem;cursor:pointer;
+  transition:.18s;min-height:30px;display:flex;align-items:center;
+}
+.out-btn:active{border-color:var(--er);color:var(--er)}
+
+/* bottom tabbar */
+.tabbar{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  background:rgba(8,12,20,.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--bd);
+  display:flex;
+  height:calc(var(--tab-h) + var(--safe-b));
+  padding-bottom:var(--safe-b);
+}
+.tab{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;background:none;border:none;cursor:pointer;
+  color:var(--t3);transition:color .18s;position:relative;
+  touch-action:manipulation;min-width:0;padding:.32rem .2rem;
+}
+.tab.on{color:var(--a)}
+.tab-ico{font-size:1.22rem;line-height:1;transition:transform .2s}
+.tab.on .tab-ico{transform:scale(1.12)}
+.tab-lbl{font-size:.6rem;font-weight:600;letter-spacing:.02em;white-space:nowrap}
+.ndot{
+  position:absolute;top:.28rem;right:calc(50% - 14px);
+  width:8px;height:8px;border-radius:50%;
+  background:var(--er);border:2px solid var(--bg);
+  animation:ndpulse 1.6s ease-in-out infinite;display:none;
+}
+.ndot.show{display:block}
+@keyframes ndpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
+
+/* main */
+.main{
+  flex:1;
+  padding:.85rem .85rem calc(var(--tab-h) + var(--safe-b) + .5rem);
+  max-width:680px;margin:0 auto;width:100%;
+}
+.sec{display:none}
+.sec.on{display:block;animation:fadeUp .22s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+
+/* ── CARDS ── */
+.card{
+  background:var(--s1);border:1px solid var(--bd);
+  border-radius:var(--r);padding:1.1rem;
+  box-shadow:0 2px 16px rgba(0,0,0,.28);
+}
+.card+.card,.mt{margin-top:.8rem}
+.ch{
+  display:flex;align-items:center;gap:.48rem;
+  font-size:.76rem;font-weight:700;color:var(--t2);
+  text-transform:uppercase;letter-spacing:.07em;margin-bottom:.9rem;
+}
+.ch-ico{
+  width:26px;height:26px;border-radius:7px;
+  background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:.84rem;
   flex-shrink:0;
 }
-.logout-btn{
-  background:none;border:1px solid var(--border);
-  color:var(--text2);border-radius:var(--radius-sm);
-  padding:.25rem .6rem;font-size:.78rem;cursor:pointer;
-  font-family:var(--font);transition:.2s;
+
+/* ── STAT GRID ── */
+.sg{display:grid;gap:.58rem}
+.sg2{grid-template-columns:repeat(2,1fr)}
+.sg4{grid-template-columns:repeat(2,1fr)}
+@media(min-width:440px){.sg4{grid-template-columns:repeat(4,1fr)}}
+.sc{
+  background:var(--s2);border:1px solid var(--bd);
+  border-radius:var(--r);padding:1rem .75rem;text-align:center;
+  position:relative;overflow:hidden;transition:border-color .2s;
 }
-.logout-btn:hover{border-color:var(--danger);color:var(--danger)}
-.tabbar{
-  position:sticky;top:60px;z-index:99;
-  background:var(--surface);
-  border-bottom:1px solid var(--border);
-  display:flex;overflow-x:auto;
-  scrollbar-width:none;
+.sc::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px 2px 0 0;
 }
-.tabbar::-webkit-scrollbar{display:none}
-.tab-btn{
-  flex-shrink:0;padding:.7rem 1.2rem;
-  font-family:var(--font);font-size:.85rem;font-weight:500;
-  color:var(--text2);background:none;border:none;cursor:pointer;
-  border-bottom:2px solid transparent;transition:.2s;
-  display:flex;align-items:center;gap:.4rem;position:relative;
+.sc.g::after{background:linear-gradient(90deg,var(--ok),#34d399)}
+.sc.w::after{background:linear-gradient(90deg,var(--wn),#fbbf24)}
+.sc.r::after{background:linear-gradient(90deg,var(--er),#f87171)}
+.sc.b::after{background:linear-gradient(90deg,var(--a),var(--a2))}
+.sv{font-size:1.85rem;font-weight:700;line-height:1.1;margin-bottom:.22rem}
+.sc.g .sv{background:linear-gradient(135deg,var(--ok),#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sc.w .sv{background:linear-gradient(135deg,var(--wn),#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sc.r .sv{background:linear-gradient(135deg,var(--er),#f87171);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sc.b .sv{background:linear-gradient(135deg,var(--a),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sl{font-size:.67rem;color:var(--t2);font-weight:500}
+
+/* ── BADGES ── */
+.bdg{display:inline-flex;align-items:center;gap:.22rem;
+  padding:.22rem .62rem;border-radius:99px;font-size:.72rem;font-weight:700;white-space:nowrap;
 }
-.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
-.tab-btn:hover:not(.active){color:var(--text)}
-.notif-dot{
-  position:absolute;top:.4rem;right:.4rem;
-  width:8px;height:8px;border-radius:50%;
-  background:var(--danger);animation:pulse 1.5s infinite;
-  display:none;
+.b-ok{background:rgba(16,185,129,.1);color:#34d399;border:1px solid rgba(16,185,129,.25)}
+.b-wn{background:rgba(245,158,11,.1);color:#fbbf24;border:1px solid rgba(245,158,11,.25)}
+.b-er{background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.25)}
+
+/* ── ATTENDANCE CARDS (mobile) ── */
+.att-rec{
+  background:var(--s2);border:1px solid var(--bd);border-radius:var(--rs);
+  padding:.85rem;margin-bottom:.48rem;display:flex;align-items:center;gap:.75rem;
+  transition:border-color .18s;
 }
-.notif-dot.show{display:block}
-@keyframes pulse{
-  0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.5)}
-  50%{box-shadow:0 0 0 6px rgba(239,68,68,0)}
+.att-rec:last-child{margin-bottom:0}
+.att-img-wrap{
+  width:48px;height:48px;border-radius:var(--rs);overflow:hidden;
+  border:1.5px solid var(--bd);flex-shrink:0;cursor:pointer;
+  background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:1.3rem;
 }
-.main{flex:1;padding:1rem;max-width:900px;margin:0 auto;width:100%}
-.section{display:none}
-.section.active{display:block;animation:fadeIn .25s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.card{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--radius);padding:1.25rem;
-  box-shadow:var(--shadow);
+.att-img{width:100%;height:100%;object-fit:cover;display:block}
+.att-info{flex:1;min-width:0}
+.att-dt{font-size:.76rem;color:var(--t2);margin-bottom:.18rem}
+.att-tm{font-family:var(--mono);font-size:.9rem;font-weight:600;color:var(--t1)}
+.att-right{flex-shrink:0}
+
+/* ── ADMIN USER CARDS (daily expandable) ── */
+.auc{
+  background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);
+  margin-bottom:.5rem;overflow:hidden;
 }
-.card+.card,.card+.mt{margin-top:1rem}
-.card-title{
-  font-size:.9rem;font-weight:600;color:var(--text2);
-  text-transform:uppercase;letter-spacing:.06em;margin-bottom:1rem;
-  display:flex;align-items:center;gap:.5rem;
+.auc-head{
+  padding:.88rem 1rem;display:flex;align-items:center;gap:.75rem;
+  cursor:pointer;transition:background .15s;
 }
-.card-title span{font-size:1rem}
-#login-screen{
-  min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(ellipse at 50% 0%,rgba(59,130,246,.12) 0%,transparent 70%),var(--bg);
-  padding:1rem;
+.auc-head:active{background:var(--s3)}
+.auc-uid{font-family:var(--mono);font-size:.76rem;color:var(--a);font-weight:600;margin-bottom:.15rem}
+.auc-name{font-size:.88rem;font-weight:600;color:var(--t1)}
+.auc-dept{font-size:.72rem;color:var(--t2)}
+.auc-meta{margin-left:auto;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:.28rem}
+.auc-arr{color:var(--t3);font-size:.78rem;transition:transform .2s;margin-left:.5rem;flex-shrink:0}
+.auc.open .auc-arr{transform:rotate(90deg)}
+.auc-body{display:none;border-top:1px solid var(--bd);padding:.88rem 1rem}
+.auc.open .auc-body{display:block}
+.auc-full-img{
+  max-width:200px;border-radius:var(--rs);border:1px solid var(--bd);
+  cursor:pointer;margin-top:.6rem;display:block;
 }
-.login-box{
-  width:100%;max-width:400px;
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:20px;padding:2rem;box-shadow:var(--shadow),var(--glow);
+
+/* ── MONTHLY SUMMARY TABLE ── */
+.stbl-wrap{overflow-x:auto;border-radius:var(--r);border:1px solid var(--bd)}
+.stbl{width:100%;border-collapse:collapse;font-size:.8rem;min-width:360px}
+.stbl th{
+  padding:.52rem .72rem;text-align:left;font-size:.68rem;font-weight:700;
+  color:var(--t2);text-transform:uppercase;letter-spacing:.05em;
+  background:var(--s3);border-bottom:1px solid var(--bd);
 }
-.login-title{
-  text-align:center;margin-bottom:1.5rem;
+.stbl td{padding:.56rem .72rem;border-bottom:1px solid var(--bd);vertical-align:middle}
+.stbl tr:last-child td{border-bottom:none}
+.stbl tbody tr:hover td{background:rgba(255,255,255,.015)}
+
+/* ── CLOCK ── */
+.clock-card{
+  background:linear-gradient(135deg,var(--s3),var(--s2));
+  border:1px solid var(--bd);border-radius:var(--r);
+  padding:.95rem;text-align:center;margin-bottom:.8rem;
+  position:relative;overflow:hidden;
 }
-.login-title h1{
-  font-size:1.6rem;font-weight:700;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
+.clock-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 100% 60% at 50% 0%,rgba(59,130,246,.1),transparent 65%);
+}
+.clock-time{
+  font-family:var(--mono);font-size:2.1rem;font-weight:600;position:relative;
+  background:linear-gradient(135deg,var(--a),var(--a2));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:.04em;line-height:1.1;
 }
-.login-title p{color:var(--text2);font-size:.88rem;margin-top:.3rem}
-.form-group{margin-bottom:1rem}
-.form-label{display:block;font-size:.85rem;color:var(--text2);margin-bottom:.4rem;font-weight:500}
-.form-input{
-  width:100%;padding:.7rem 1rem;
-  background:var(--surface2);border:1px solid var(--border);
-  border-radius:var(--radius-sm);color:var(--text);
-  font-family:var(--font);font-size:.92rem;outline:none;
-  transition:.2s;
+.clock-date{font-size:.76rem;color:var(--t2);margin-top:.22rem;position:relative}
+.clock-st{
+  display:inline-flex;align-items:center;gap:.35rem;
+  margin-top:.62rem;padding:.38rem .88rem;border-radius:99px;
+  font-size:.78rem;font-weight:600;position:relative;
 }
-.form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(59,130,246,.12)}
-.form-input::placeholder{color:var(--text3)}
-select.form-input{cursor:pointer}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
-  padding:.7rem 1.4rem;border-radius:var(--radius-sm);
-  font-family:var(--font);font-size:.9rem;font-weight:600;
-  cursor:pointer;border:none;transition:.2s;text-decoration:none;
+.cs-ok {background:rgba(16,185,129,.12);color:#34d399;border:1px solid rgba(16,185,129,.22)}
+.cs-late{background:rgba(245,158,11,.12);color:#fbbf24;border:1px solid rgba(245,158,11,.22)}
+.cs-off {background:rgba(100,116,139,.1);color:var(--t2);border:1px solid var(--bd)}
+
+/* ── CHIPS ── */
+.chips{display:flex;gap:.38rem;flex-wrap:wrap;margin-bottom:.85rem}
+.chip{
+  display:flex;align-items:center;gap:.28rem;
+  background:var(--s2);border:1px solid var(--bd);
+  border-radius:99px;padding:.22rem .72rem;font-size:.74rem;color:var(--t2);
 }
-.btn-primary{background:var(--accent);color:#fff}
-.btn-primary:hover{background:#2563eb;transform:translateY(-1px)}
-.btn-success{background:var(--success);color:#fff}
-.btn-success:hover{background:#059669}
-.btn-warn{background:var(--warn);color:#000}
-.btn-danger{background:var(--danger);color:#fff}
-.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2)}
-.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
-.btn-full{width:100%}
-.btn:disabled{opacity:.5;cursor:not-allowed;transform:none !important}
-.btn-sm{padding:.4rem .9rem;font-size:.82rem}
-.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem}
-@media(min-width:600px){.stats-grid{grid-template-columns:repeat(4,1fr)}}
-.stat-card{
-  background:var(--surface2);border:1px solid var(--border);
-  border-radius:var(--radius);padding:1rem;text-align:center;
-  transition:.2s;
+.chip strong{color:var(--t1)}
+
+/* ── FILTER ROW ── */
+.frow{display:flex;gap:.5rem;margin-bottom:.9rem;align-items:flex-end;flex-wrap:wrap}
+.frow .fg{margin-bottom:0;flex:1;min-width:100px}
+.frow .fb{display:flex;align-items:flex-end}
+
+/* ── CAMERA ── */
+.cam-box{
+  border-radius:var(--r);overflow:hidden;background:#000;
+  aspect-ratio:3/4;max-height:340px;
+  border:2px solid var(--bd);position:relative;
 }
-.stat-card:hover{border-color:var(--accent);box-shadow:var(--glow)}
-.stat-value{
-  font-size:2rem;font-weight:700;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+#video{width:100%;height:100%;object-fit:cover;display:block;transform:scaleX(-1)}
+.cam-grd{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(0,0,0,.22) 0%,transparent 22%,transparent 78%,rgba(0,0,0,.22) 100%);
 }
-.stat-label{font-size:.78rem;color:var(--text2);margin-top:.2rem}
-.stat-card.green .stat-value{background:linear-gradient(135deg,var(--success),#34d399);-webkit-background-clip:text}
-.stat-card.warn  .stat-value{background:linear-gradient(135deg,var(--warn),#fbbf24);-webkit-background-clip:text}
-.stat-card.red   .stat-value{background:linear-gradient(135deg,var(--danger),#f87171);-webkit-background-clip:text}
-.badge{
-  display:inline-flex;align-items:center;gap:.3rem;
-  padding:.25rem .7rem;border-radius:99px;font-size:.78rem;font-weight:600;
+.cam-c{position:absolute;width:22px;height:22px;border-color:var(--a);border-style:solid}
+.cc-tl{top:12px;left:12px;border-width:2.5px 0 0 2.5px;border-radius:4px 0 0 0}
+.cc-tr{top:12px;right:12px;border-width:2.5px 2.5px 0 0;border-radius:0 4px 0 0}
+.cc-bl{bottom:12px;left:12px;border-width:0 0 2.5px 2.5px;border-radius:0 0 0 4px}
+.cc-br{bottom:12px;right:12px;border-width:0 2.5px 2.5px 0;border-radius:0 0 4px 0}
+.cam-hint{
+  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  background:rgba(0,0,0,.62);color:var(--t2);font-size:.7rem;
+  padding:.22rem .6rem;border-radius:99px;white-space:nowrap;pointer-events:none;
 }
-.badge-present{background:rgba(16,185,129,.15);color:var(--success);border:1px solid rgba(16,185,129,.3)}
-.badge-late   {background:rgba(245,158,11,.15);color:var(--warn);border:1px solid rgba(245,158,11,.3)}
-.badge-absent {background:rgba(239,68,68,.15);color:var(--danger);border:1px solid rgba(239,68,68,.3)}
-.table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border)}
-table{width:100%;border-collapse:collapse;font-size:.85rem}
-thead tr{background:var(--surface2)}
-th{padding:.75rem 1rem;text-align:left;font-weight:600;color:var(--text2);white-space:nowrap;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em}
-td{padding:.7rem 1rem;border-top:1px solid var(--border);vertical-align:middle}
-tr:hover td{background:rgba(255,255,255,.02)}
-.thumb-img{
-  width:38px;height:38px;border-radius:var(--radius-sm);
-  object-fit:cover;border:1px solid var(--border);cursor:pointer;
-  transition:.2s;
-}
-.thumb-img:hover{transform:scale(1.1);border-color:var(--accent)}
-.camera-wrap{
-  position:relative;border-radius:var(--radius);
-  overflow:hidden;background:#000;
-  aspect-ratio:4/3;max-height:320px;
-  border:2px solid var(--border);
-}
-#video{width:100%;height:100%;object-fit:cover;display:block}
-.camera-overlay{
-  position:absolute;inset:0;border:3px solid transparent;
-  background:linear-gradient(var(--bg),var(--bg)) padding-box,
-             linear-gradient(135deg,var(--accent),var(--accent2)) border-box;
-  border-radius:var(--radius);pointer-events:none;
-}
-.corner{position:absolute;width:20px;height:20px;border-color:var(--accent);border-style:solid}
-.corner-tl{top:8px;left:8px;border-width:2px 0 0 2px;border-top-left-radius:4px}
-.corner-tr{top:8px;right:8px;border-width:2px 2px 0 0;border-top-right-radius:4px}
-.corner-bl{bottom:8px;left:8px;border-width:0 0 2px 2px;border-bottom-left-radius:4px}
-.corner-br{bottom:8px;right:8px;border-width:0 2px 2px 0;border-bottom-right-radius:4px}
 #canvas{display:none}
-.preview-wrap{display:none;border-radius:var(--radius);overflow:hidden;border:2px solid var(--success)}
+.prev-box{border-radius:var(--r);overflow:hidden;border:2px solid var(--ok)}
 #preview{width:100%;display:block}
-.notice-item{
-  background:var(--surface2);border:1px solid var(--border);
-  border-radius:var(--radius);padding:1rem;cursor:pointer;
-  transition:.2s;position:relative;overflow:hidden;
-  margin-bottom:.75rem;
+
+/* ── NOTICES ── */
+.ni{
+  background:var(--s2);border:1px solid var(--bd);border-radius:var(--r);
+  padding:1rem;cursor:pointer;position:relative;margin-bottom:.5rem;
+  transition:border-color .18s;user-select:none;
 }
-.notice-item:hover{border-color:var(--accent);transform:translateY(-2px)}
-.notice-item.new-notice::before{
-  content:'';position:absolute;top:0;left:0;width:3px;height:100%;
-  background:linear-gradient(180deg,var(--accent),var(--accent2));
+.ni:active{border-color:var(--a)}
+.ni.new{border-left:3px solid var(--a)}
+.ni-hd{display:flex;align-items:flex-start;gap:.55rem}
+.ni-ico{font-size:1rem;flex-shrink:0;margin-top:.08rem}
+.ni-meta{flex:1;min-width:0}
+.ni-title{font-weight:600;font-size:.9rem;line-height:1.35;
+  display:flex;align-items:center;gap:.38rem;flex-wrap:wrap;margin-bottom:.2rem}
+.ni-date{font-size:.71rem;color:var(--t3)}
+.ni-arr{color:var(--t3);font-size:.76rem;transition:transform .22s;flex-shrink:0;margin-top:.12rem}
+.ni.exp .ni-arr{transform:rotate(90deg)}
+.ni-body{
+  margin-top:.72rem;padding-top:.72rem;border-top:1px solid var(--bd);
+  color:var(--t2);font-size:.84rem;line-height:1.65;display:none;
 }
-.notice-title{font-weight:600;font-size:.95rem;margin-bottom:.3rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
-.notice-date{font-size:.78rem;color:var(--text2)}
-.notice-body{margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border);color:var(--text2);font-size:.88rem;line-height:1.6;display:none}
-.notice-body.show{display:block}
-.new-tag{
-  background:var(--accent);color:#fff;font-size:.65rem;font-weight:700;
-  padding:.1rem .4rem;border-radius:99px;text-transform:uppercase;
+.ni-body.open{display:block}
+.ntag{
+  background:var(--a);color:#fff;font-size:.58rem;font-weight:700;
+  padding:.1rem .38rem;border-radius:99px;text-transform:uppercase;flex-shrink:0;
 }
-.alert{
-  padding:.85rem 1rem;border-radius:var(--radius-sm);margin-bottom:1rem;
-  font-size:.88rem;display:flex;align-items:center;gap:.6rem;
+
+/* ── MODAL ── */
+#modal{
+  position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:500;
+  display:none;align-items:center;justify-content:center;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:1.2rem;
 }
-.alert-info   {background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.3);color:#93c5fd}
-.alert-success{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);color:#6ee7b7}
-.alert-warn   {background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.3);color:#fcd34d}
-.alert-danger {background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#fca5a5}
-.toast{
-  position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%) translateY(80px);
-  background:var(--surface2);border:1px solid var(--border);
-  border-radius:var(--radius);padding:.8rem 1.2rem;
-  box-shadow:var(--shadow);font-size:.88rem;
-  z-index:999;transition:.3s;white-space:nowrap;max-width:90vw;
-  display:flex;align-items:center;gap:.5rem;
-}
-.toast.show{transform:translateX(-50%) translateY(0)}
-.toast.success{border-color:var(--success);color:var(--success)}
-.toast.error  {border-color:var(--danger);color:var(--danger)}
-.toast.info   {border-color:var(--accent);color:var(--accent)}
-.modal-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.85);
-  z-index:200;display:none;align-items:center;justify-content:center;
-  backdrop-filter:blur(8px);padding:1rem;
-}
-.modal-overlay.open{display:flex}
-.modal-img{max-width:100%;max-height:90vh;border-radius:var(--radius);box-shadow:var(--shadow)}
-.modal-close{
-  position:absolute;top:1rem;right:1rem;
-  background:var(--surface);border:1px solid var(--border);
+#modal.open{display:flex}
+#modal img{max-width:100%;max-height:90vh;border-radius:var(--r);box-shadow:var(--sh)}
+.mod-x{
+  position:fixed;top:1rem;right:1rem;
+  background:var(--s1);border:1px solid var(--bd);
   width:36px;height:36px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  cursor:pointer;font-size:1.1rem;color:var(--text);
-  transition:.2s;
+  cursor:pointer;color:var(--t1);font-size:.95rem;z-index:501;
 }
-.modal-close:hover{background:var(--danger);border-color:var(--danger)}
-.filter-row{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;align-items:flex-end}
-.filter-row .form-group{margin-bottom:0;flex:1;min-width:120px}
-.divider{height:1px;background:var(--border);margin:1rem 0}
-.text-center{text-align:center}
-.text-muted{color:var(--text2)}
-.text-sm{font-size:.82rem}
-.mt{margin-top:1rem}
-.mb{margin-bottom:1rem}
-.gap{display:flex;gap:.6rem;flex-wrap:wrap}
-.loading{
-  display:flex;align-items:center;justify-content:center;gap:.5rem;
-  padding:2rem;color:var(--text2);
+.mod-x:active{background:var(--er);border-color:var(--er)}
+
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:calc(var(--tab-h) + var(--safe-b) + 8px);left:50%;
+  transform:translateX(-50%) translateY(16px);opacity:0;
+  background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);
+  padding:.65rem 1.1rem;font-size:.82rem;z-index:400;
+  transition:all .25s cubic-bezier(.34,1.46,.64,1);
+  white-space:nowrap;max-width:88vw;overflow:hidden;text-overflow:ellipsis;
+  display:flex;align-items:center;gap:.4rem;pointer-events:none;box-shadow:var(--sh);
 }
-.spinner{
-  width:20px;height:20px;border:2px solid var(--border);
-  border-top-color:var(--accent);border-radius:50%;
-  animation:spin .7s linear infinite;
-}
+#toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+#toast.s{border-color:var(--ok);color:#34d399}
+#toast.e{border-color:var(--er);color:#f87171}
+#toast.i{border-color:var(--a);color:#93c5fd}
+#toast.w{border-color:var(--wn);color:#fbbf24}
+
+/* ── LOADING ── */
+.ld{display:flex;align-items:center;justify-content:center;gap:.6rem;padding:2.5rem;color:var(--t2);font-size:.85rem}
+.sp{width:18px;height:18px;border-radius:50%;border:2px solid var(--bd);border-top-color:var(--a);animation:spin .6s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
-.time-display{
-  font-family:var(--mono);font-size:1.5rem;font-weight:600;
-  text-align:center;padding:.75rem;
-  background:var(--surface2);border-radius:var(--radius);
-  border:1px solid var(--border);
-  color:var(--accent2);letter-spacing:.05em;
-  margin-bottom:1rem;
-}
-.user-info-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
-.info-chip{
-  background:var(--surface2);border:1px solid var(--border);
-  border-radius:99px;padding:.25rem .75rem;font-size:.8rem;color:var(--text2);
-  display:flex;align-items:center;gap:.3rem;
-}
-.info-chip strong{color:var(--text)}
-.admin-user-row{cursor:pointer}
-.admin-user-row:hover td{background:rgba(59,130,246,.05) !important}
-.admin-detail-row td{background:var(--surface2);padding:0}
-.admin-detail-inner{padding:1rem;overflow-x:auto}
-.expand-arrow{transition:.2s;display:inline-block}
-.expanded .expand-arrow{transform:rotate(90deg)}
-.notice-form{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem}
-textarea.form-input{resize:vertical;min-height:100px}
-@media(max-width:500px){
-  .stats-grid{grid-template-columns:repeat(2,1fr)}
-  .filter-row{flex-direction:column}
-  .filter-row .form-group{width:100%}
-  th,td{padding:.5rem .6rem}
-  .btn{padding:.6rem 1rem;font-size:.85rem}
+
+@media(max-width:360px){
+  .login-card{padding:1.55rem 1.1rem}
+  .main{padding:.7rem .65rem calc(var(--tab-h) + var(--safe-b) + .4rem)}
 }
 </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
-<div id="login-screen">
-  <div class="login-box">
-    <div class="login-title">
-      <div style="font-size:2.5rem;margin-bottom:.5rem">🏢</div>
+<!-- ══ LOGIN ══ -->
+<div id="pg-login">
+  <div class="login-card">
+    <div class="login-head">
+      <div class="login-logo">🏢</div>
       <h1>হাজিরা সিস্টেম</h1>
-      <p>আপনার ইউসার আইডি বা অ্যাডমিন লগইন দিন</p>
+      <p>আপনার আইডি দিয়ে প্রবেশ করুন</p>
     </div>
 
-    <div id="login-tabs" style="display:flex;gap:.5rem;margin-bottom:1.5rem">
-      <button class="btn btn-primary btn-sm" style="flex:1" onclick="showLoginTab('user')" id="lt-user">👤 ইউসার</button>
-      <button class="btn btn-outline btn-sm" style="flex:1" onclick="showLoginTab('admin')" id="lt-admin">🔐 অ্যাডমিন</button>
+    <div class="ltabs">
+      <button class="ltab on" id="lt-u" onclick="ltab('user')">👤 ইউসার</button>
+      <button class="ltab"    id="lt-a" onclick="ltab('admin')">🔐 অ্যাডমিন</button>
     </div>
 
-    <div id="login-user">
-      <div class="form-group">
-        <label class="form-label">ইউসার আইডি</label>
-        <input class="form-input" id="inp-uid" placeholder="যেমন: U001" autocomplete="off" onkeydown="if(event.key==='Enter')doUserLogin()"/>
+    <!-- user login -->
+    <div id="lp-user">
+      <div class="fg" id="uid-wrap">
+        <label class="fl">ইউসার আইডি</label>
+        <input class="fi" id="iuid" placeholder="যেমন: U001, U002..."
+               autocomplete="off" spellcheck="false" inputmode="text"
+               oninput="onUid(this)" onkeydown="onUidKey(event)" onfocus="renderAc(this.value)"/>
+        <div class="acw" id="acw"></div>
       </div>
-      <button class="btn btn-primary btn-full" onclick="doUserLogin()" id="btn-user-login">প্রবেশ করুন →</button>
-      <p class="text-sm text-muted text-center" style="margin-top:.75rem">ডেমো আইডি: <strong>U001</strong> — <strong>U005</strong></p>
+      <button class="btn btn-p full" id="btn-ulogin" onclick="doUserLogin()">প্রবেশ করুন →</button>
+      <p class="tsm t2" style="text-align:center;margin-top:.7rem">ডেমো আইডি: <strong>U001 – U005</strong></p>
     </div>
 
-    <div id="login-admin" style="display:none">
-      <div class="form-group">
-        <label class="form-label">অ্যাডমিন আইডি</label>
-        <input class="form-input" id="inp-aid" value="admin"/>
+    <!-- admin login -->
+    <div id="lp-admin" class="hide">
+      <div class="fg">
+        <label class="fl">অ্যাডমিন আইডি</label>
+        <input class="fi" id="i-aid" value="admin"/>
       </div>
-      <div class="form-group">
-        <label class="form-label">পাসওয়ার্ড</label>
-        <input class="form-input" type="password" id="inp-apass" value="admin123" onkeydown="if(event.key==='Enter')doAdminLogin()"/>
+      <div class="fg">
+        <label class="fl">পাসওয়ার্ড</label>
+        <input class="fi" type="password" id="i-pass" value="admin123"
+               onkeydown="if(event.key==='Enter')doAdminLogin()"/>
       </div>
-      <button class="btn btn-primary btn-full" onclick="doAdminLogin()">লগইন করুন →</button>
+      <button class="btn btn-p full" onclick="doAdminLogin()">লগইন করুন →</button>
     </div>
 
-    <div id="login-err" class="alert alert-danger" style="display:none;margin-top:.75rem"></div>
+    <div id="lerr" class="al al-d hide" style="margin-top:.75rem"></div>
   </div>
 </div>
 
-<!-- MAIN APP -->
-<div id="app" style="display:none">
-  <header class="header">
-    <div class="header-logo">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#grad)" stroke-width="2">
-        <defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#06b6d4"/>
-        </linearGradient></defs>
-        <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/>
-        <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-        <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>
-      </svg>
-      হাজিরা সিস্টেম
+<!-- ══ APP ══ -->
+<div id="pg-app" class="hide">
+  <header class="hdr">
+    <div class="hdr-brand">
+      <div class="hdr-brand-ico">🏢</div>
+      <span class="hdr-brand-nm">হাজিরা</span>
     </div>
-    <div class="header-user">
-      <div class="avatar" id="hdr-avatar">?</div>
-      <span id="hdr-name" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
-      <button class="logout-btn" onclick="doLogout()">বের হন</button>
+    <div class="hdr-right">
+      <div class="hdr-av" id="h-av">?</div>
+      <span class="hdr-nm" id="h-nm"></span>
+      <button class="out-btn" onclick="doLogout()">বের হন</button>
     </div>
   </header>
 
-  <nav class="tabbar" id="tabbar"></nav>
-
   <main class="main">
-    <!-- DASHBOARD -->
-    <div class="section" id="sec-dashboard">
-      <div id="notice-alert" class="alert alert-info" style="display:none">🔔 <span id="notice-alert-text">নতুন নোটিশ আছে! নোটিশ ট্যাব দেখুন।</span></div>
-      <div class="card">
-        <div class="card-title"><span>⏰</span> বর্তমান সময়</div>
-        <div class="time-display" id="live-clock">--:--:--</div>
-        <div class="alert alert-info" id="att-time-info">📌 উপস্থিত: সকাল ৯:৩০ – ১০:৩০ | এরপর: লেট</div>
+
+    <!-- USER: HOME -->
+    <div class="sec" id="s-home">
+      <div id="notif-bar" class="al al-i hide">
+        <span class="al-icon">🔔</span>
+        <span>নতুন নোটিশ আছে! <strong>নোটিশ</strong> ট্যাবে দেখুন।</span>
       </div>
-      <div class="card mt" id="dash-user-info" style="display:none">
-        <div class="card-title"><span>👤</span> আপনার তথ্য</div>
-        <div class="user-info-row" id="dash-chips"></div>
+      <div class="clock-card">
+        <div class="clock-time" id="clk">--:--:--</div>
+        <div class="clock-date" id="clk-d"></div>
+        <div class="clock-st cs-off" id="clk-s">অফিস সময়: ৯:৩০ – ১০:৩০</div>
+      </div>
+      <div class="card hide" id="d-uinfo">
+        <div class="ch"><div class="ch-ico">👤</div>আপনার তথ্য</div>
+        <div class="chips" id="d-chips"></div>
       </div>
       <div class="card mt">
-        <div class="card-title"><span>📊</span> এই মাসের সারাংশ</div>
-        <div class="stats-grid" id="dash-stats">
-          <div class="stat-card green"><div class="stat-value" id="st-present">-</div><div class="stat-label">উপস্থিত</div></div>
-          <div class="stat-card warn"><div class="stat-value" id="st-late">-</div><div class="stat-label">লেট</div></div>
-          <div class="stat-card red"><div class="stat-value" id="st-absent">-</div><div class="stat-label">লেট-অনুপস্থিত</div></div>
-          <div class="stat-card"><div class="stat-value" id="st-net">-</div><div class="stat-label">মোট উপস্থিত</div></div>
+        <div class="ch"><div class="ch-ico">📊</div>এই মাসের সারাংশ</div>
+        <div class="sg sg4">
+          <div class="sc g"><div class="sv" id="ds-p">—</div><div class="sl">উপস্থিত</div></div>
+          <div class="sc w"><div class="sv" id="ds-l">—</div><div class="sl">লেট</div></div>
+          <div class="sc r"><div class="sv" id="ds-la">—</div><div class="sl">লেট-অনুপস্থিত</div></div>
+          <div class="sc b"><div class="sv" id="ds-n">—</div><div class="sl">নিট উপস্থিত</div></div>
+        </div>
+        <div class="al al-w" style="margin-top:.75rem;margin-bottom:0;font-size:.78rem">
+          <span class="al-icon">📌</span>
+          <span>প্রতি ২টি লেট = ১টি অনুপস্থিত। জোড় সংখ্যায় অর্ধেক বাদ যাবে।</span>
         </div>
       </div>
     </div>
 
-    <!-- ATTENDANCE -->
-    <div class="section" id="sec-attendance">
+    <!-- USER: ATTENDANCE -->
+    <div class="sec" id="s-att">
       <div class="card">
-        <div class="card-title"><span>📷</span> আজকের হাজিরা দিন</div>
-        <div id="att-already" class="alert alert-success" style="display:none">✅ আজকের হাজিরা দেওয়া হয়ে গেছে!</div>
+        <div class="ch"><div class="ch-ico">📷</div>আজকের হাজিরা দিন</div>
+        <div id="att-status"></div>
         <div id="att-form">
-          <div class="camera-wrap" id="camera-wrap">
+          <div class="cam-box" id="cam-box">
             <video id="video" autoplay playsinline muted></video>
-            <div class="camera-overlay">
-              <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
-              <div class="corner corner-bl"></div><div class="corner corner-br"></div>
-            </div>
+            <div class="cam-grd"></div>
+            <div class="cam-c cc-tl"></div><div class="cam-c cc-tr"></div>
+            <div class="cam-c cc-bl"></div><div class="cam-c cc-br"></div>
+            <div class="cam-hint" id="cam-hint">📷 ক্যামেরা চালু করুন</div>
           </div>
-          <div class="preview-wrap mt" id="preview-wrap"><img id="preview" alt="সেলফি প্রিভিউ"/></div>
+          <div class="prev-box mt hide" id="prev-box">
+            <img id="preview" alt="সেলফি"/>
+          </div>
           <canvas id="canvas"></canvas>
           <div class="gap mt">
-            <button class="btn btn-outline" id="btn-cam" onclick="startCamera()">📷 ক্যামেরা চালু করুন</button>
-            <button class="btn btn-success" id="btn-snap" onclick="takeSnap()" style="display:none">📸 সেলফি তুলুন</button>
-            <button class="btn btn-outline" id="btn-retake" onclick="retakePhoto()" style="display:none">🔄 আবার তুলুন</button>
-            <button class="btn btn-primary" id="btn-submit-att" onclick="submitAttendance()" style="display:none">✅ হাজিরা দিন</button>
+            <button class="btn btn-o" id="btn-cam"  onclick="startCam()">📷 ক্যামেরা চালু</button>
+            <button class="btn btn-s hide" id="btn-snap" onclick="snap()">📸 সেলফি তুলুন</button>
+            <button class="btn btn-o hide" id="btn-ret"  onclick="retake()">🔄 আবার তুলুন</button>
+            <button class="btn btn-p hide" id="btn-sub"  onclick="submitAtt()">✅ হাজিরা দিন</button>
           </div>
-          <div id="att-result" style="margin-top:1rem"></div>
+          <div id="att-res" style="margin-top:.85rem"></div>
         </div>
       </div>
     </div>
 
-    <!-- MY REPORT -->
-    <div class="section" id="sec-myreport">
+    <!-- USER: REPORT -->
+    <div class="sec" id="s-rep">
       <div class="card">
-        <div class="card-title"><span>📋</span> আমার রিপোর্ট</div>
-        <div class="filter-row">
-          <div class="form-group"><label class="form-label">মোড</label><select class="form-input" id="my-mode" onchange="updateMyFilter()"><option value="daily">দৈনিক</option><option value="monthly">মাসিক</option></select></div>
-          <div class="form-group" id="my-date-wrap"><label class="form-label">তারিখ</label><input type="date" class="form-input" id="my-date"/></div>
-          <div class="form-group" id="my-month-wrap" style="display:none"><label class="form-label">মাস</label><input type="month" class="form-input" id="my-month"/></div>
-          <div class="form-group" style="display:flex;align-items:flex-end"><button class="btn btn-primary btn-sm" onclick="loadMyReport()">দেখুন</button></div>
+        <div class="ch"><div class="ch-ico">📋</div>আমার রিপোর্ট</div>
+        <div class="frow">
+          <div class="fg">
+            <label class="fl">মোড</label>
+            <select class="fi" id="rmode" onchange="updRF()">
+              <option value="daily">দৈনিক</option>
+              <option value="monthly">মাসিক</option>
+            </select>
+          </div>
+          <div class="fg" id="r-dw">
+            <label class="fl">তারিখ</label>
+            <input type="date" class="fi" id="rdate"/>
+          </div>
+          <div class="fg hide" id="r-mw">
+            <label class="fl">মাস</label>
+            <input type="month" class="fi" id="rmon"/>
+          </div>
+          <div class="fb"><button class="btn btn-p sm" onclick="loadMyRep()">🔍</button></div>
         </div>
-        <div id="my-summary" class="stats-grid mb" style="display:none"></div>
-        <div id="my-report-body"><div class="loading"><div class="spinner"></div> লোড হচ্ছে...</div></div>
+        <div id="r-sum" class="hide" style="margin-bottom:.85rem"></div>
+        <div id="r-body"><div class="ld"><div class="sp"></div> লোড হচ্ছে...</div></div>
       </div>
     </div>
 
-    <!-- NOTICES -->
-    <div class="section" id="sec-notices">
-      <div class="card-title" style="padding:.5rem 0"><span>📢</span> নোটিশ বোর্ড</div>
-      <div id="notices-list"><div class="loading"><div class="spinner"></div></div></div>
+    <!-- USER: NOTICES -->
+    <div class="sec" id="s-notice">
+      <div class="ch" style="padding:.1rem 0"><div class="ch-ico">📢</div>নোটিশ বোর্ড</div>
+      <div id="nl"><div class="ld"><div class="sp"></div></div></div>
     </div>
 
-    <!-- ADMIN DASHBOARD -->
-    <div class="section" id="sec-admin-dash">
+    <!-- ADMIN: DASHBOARD -->
+    <div class="sec" id="s-adash">
       <div class="card">
-        <div class="card-title"><span>🏢</span> অ্যাডমিন প্যানেল</div>
-        <div class="stats-grid" id="adm-stats">
-          <div class="stat-card green"><div class="stat-value" id="adm-total">-</div><div class="stat-label">মোট ইউসার</div></div>
-          <div class="stat-card"><div class="stat-value" id="adm-today-p">-</div><div class="stat-label">আজ উপস্থিত</div></div>
-          <div class="stat-card warn"><div class="stat-value" id="adm-today-l">-</div><div class="stat-label">আজ লেট</div></div>
-          <div class="stat-card red"><div class="stat-value" id="adm-today-a">-</div><div class="stat-label">আজ অনুপস্থিত</div></div>
+        <div class="ch"><div class="ch-ico">📊</div>আজকের সারাংশ</div>
+        <div class="sg sg4">
+          <div class="sc g"><div class="sv" id="a-p">—</div><div class="sl">উপস্থিত</div></div>
+          <div class="sc w"><div class="sv" id="a-l">—</div><div class="sl">লেট</div></div>
+          <div class="sc r"><div class="sv" id="a-a">—</div><div class="sl">অনুপস্থিত</div></div>
+          <div class="sc b"><div class="sv" id="a-t">—</div><div class="sl">মোট ইউসার</div></div>
         </div>
       </div>
       <div class="card mt">
-        <div class="card-title"><span>📝</span> নতুন নোটিশ প্রকাশ করুন</div>
-        <div class="notice-form">
-          <div class="form-group"><label class="form-label">নোটিশের শিরোনাম</label><input class="form-input" id="notice-title" placeholder="শিরোনাম লিখুন..."/></div>
-          <div class="form-group"><label class="form-label">বিস্তারিত</label><textarea class="form-input" id="notice-details" placeholder="বিস্তারিত লিখুন..."></textarea></div>
-          <button class="btn btn-primary" onclick="postNotice()">📢 নোটিশ প্রকাশ করুন</button>
-        </div>
+        <div class="ch"><div class="ch-ico">📝</div>নতুন নোটিশ দিন</div>
+        <div class="fg"><label class="fl">শিরোনাম</label>
+          <input class="fi" id="n-title" placeholder="নোটিশের শিরোনাম..."/></div>
+        <div class="fg"><label class="fl">তারিখ</label>
+          <input class="fi" id="n-date" readonly style="opacity:.55;cursor:default"/></div>
+        <div class="fg"><label class="fl">বিস্তারিত</label>
+          <textarea class="fi" id="n-det" placeholder="নোটিশের বিস্তারিত লিখুন..."></textarea></div>
+        <button class="btn btn-p" onclick="postNotice()">📢 প্রকাশ করুন</button>
       </div>
     </div>
 
-    <!-- ADMIN REPORT -->
-    <div class="section" id="sec-admin-report">
+    <!-- ADMIN: REPORT -->
+    <div class="sec" id="s-arep">
       <div class="card">
-        <div class="card-title"><span>📊</span> সকল ইউসারের রিপোর্ট</div>
-        <div class="filter-row">
-          <div class="form-group"><label class="form-label">মোড</label><select class="form-input" id="adm-mode" onchange="updateAdmFilter()"><option value="daily">দৈনিক</option><option value="monthly">মাসিক</option></select></div>
-          <div class="form-group" id="adm-date-wrap"><label class="form-label">তারিখ</label><input type="date" class="form-input" id="adm-date"/></div>
-          <div class="form-group" id="adm-month-wrap" style="display:none"><label class="form-label">মাস</label><input type="month" class="form-input" id="adm-month"/></div>
-          <div class="form-group" style="display:flex;align-items:flex-end"><button class="btn btn-primary btn-sm" onclick="loadAdminReport()">দেখুন</button></div>
+        <div class="ch"><div class="ch-ico">📊</div>সকল ইউসার রিপোর্ট</div>
+        <div class="frow">
+          <div class="fg">
+            <label class="fl">মোড</label>
+            <select class="fi" id="amode" onchange="updAF()">
+              <option value="daily">দৈনিক</option>
+              <option value="monthly">মাসিক</option>
+            </select>
+          </div>
+          <div class="fg" id="a-dw">
+            <label class="fl">তারিখ</label>
+            <input type="date" class="fi" id="adate"/>
+          </div>
+          <div class="fg hide" id="a-mw">
+            <label class="fl">মাস</label>
+            <input type="month" class="fi" id="amon"/>
+          </div>
+          <div class="fb"><button class="btn btn-p sm" onclick="loadAdmRep()">🔍</button></div>
         </div>
-        <div id="adm-report-body"><div class="loading"><div class="spinner"></div></div></div>
+        <div id="a-body"><div class="ld"><div class="sp"></div></div></div>
       </div>
     </div>
 
-    <!-- ADMIN NOTICES -->
-    <div class="section" id="sec-admin-notices">
-      <div class="card-title" style="padding:.5rem 0"><span>📢</span> নোটিশ বোর্ড (অ্যাডমিন)</div>
-      <div id="admin-notices-list"><div class="loading"><div class="spinner"></div></div></div>
+    <!-- ADMIN: NOTICES -->
+    <div class="sec" id="s-an">
+      <div class="ch" style="padding:.1rem 0"><div class="ch-ico">📢</div>নোটিশ বোর্ড</div>
+      <div id="anl"><div class="ld"><div class="sp"></div></div></div>
     </div>
+
   </main>
+
+  <nav class="tabbar" id="tabbar"></nav>
 </div>
 
-<div class="modal-overlay" id="photo-modal" onclick="closePhotoModal()">
-  <div class="modal-close" onclick="closePhotoModal()">✕</div>
-  <img class="modal-img" id="modal-img" alt="হাজিরার ছবি"/>
+<!-- Photo modal -->
+<div id="modal" onclick="closeMod()">
+  <div class="mod-x" onclick="closeMod()">✕</div>
+  <img id="mod-img" alt="ছবি"/>
 </div>
 
-<div class="toast" id="toast"></div>
+<div id="toast"></div>
 
 <script>
+"use strict";
 // ============================================================
-// GLOBAL CONFIG - GAS URL PRE-SET (YOUR URL)
+// ⚙️ আপনার Google Apps Script ওয়েব অ্যাপ URL এখানে বসান
+// Deploy করার পর যে URL পাবেন সেটি নিচে লিখুন
+// উদাহরণ: 'https://script.google.com/macros/s/abc123456789/exec'
 // ============================================================
-let GAS_URL = 'https://script.google.com/macros/s/AKfycbxc40cdgmUbOGrtheGFpZYdWwgkVfryE5QxZ2D5GOzehXHx0bkWBIARxDhktS_TeHkm/exec';
-let currentUser = null;
-let isAdmin = false;
-let capturedB64 = null;
-let stream = null;
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbxc40cdgmUbOGrtheGFpZYdWwgkVfryE5QxZ2D5GOzehXHx0bkWBIARxDhktS_TeHkm/exec';
+// ============================================================
 
-// Save to localStorage
-localStorage.setItem('gas_url', GAS_URL);
+let CU=null, ADM=false, B64=null, MS=null;
+let KU=[];
 
-// ============================================================
-// UTILITY FUNCTIONS
-// ============================================================
-function showToast(msg, type = 'info') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = `toast ${type} show`;
-  clearTimeout(window.toastTimer);
-  window.toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+/* ── INIT ── */
+window.addEventListener('DOMContentLoaded',()=>{
+  try{ KU=JSON.parse(localStorage.getItem('ku')||'[]'); }catch{}
+  setDefs();
+  startClock();
+  document.getElementById('n-date').value=today();
+  pg('login');
+});
+
+function pg(n){
+  hd('pg-login'); hd('pg-app');
+  el(n==='login'?'pg-login':'pg-app');
 }
 
-function show(id) { const e = document.getElementById(id); if (e) e.style.display = 'block'; }
-function hide(id) { const e = document.getElementById(id); if (e) e.style.display = 'none'; }
-function todayStr() { const n = new Date(); return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}-${String(n.getDate()).padStart(2, '0')}`; }
-function monthStr() { const n = new Date(); return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}`; }
-function statusBadge(s) {
-  if (s === 'present') return '<span class="badge badge-present">✅ উপস্থিত</span>';
-  if (s === 'late') return '<span class="badge badge-late">⚠️ লেট</span>';
-  return '<span class="badge badge-absent">❌ অনুপস্থিত</span>';
-}
-
-function setTodayDefaults() {
-  const d = todayStr(), m = monthStr();
-  const myDate = document.getElementById('my-date');
-  const admDate = document.getElementById('adm-date');
-  const myMonth = document.getElementById('my-month');
-  const admMonth = document.getElementById('adm-month');
-  if (myDate) myDate.value = d;
-  if (admDate) admDate.value = d;
-  if (myMonth) myMonth.value = m;
-  if (admMonth) admMonth.value = m;
-}
-
-function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, function(m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
-
-// ============================================================
-// API CALL with better error handling
-// ============================================================
-async function api(action, body = {}) {
-  if (!GAS_URL) {
-    showToast('⚠️ GAS URL সেট করা নেই', 'error');
-    throw new Error('GAS URL not set');
+/* ── API ── */
+async function api(action, body={}){
+  const res=await fetch(GAS_URL,{
+    method:'POST', redirect:'follow',
+    body:JSON.stringify({action,...body})
+  });
+  if(!res.ok) throw new Error(`HTTP ${res.status}`);
+  const txt=await res.text();
+  let d;
+  try{ d=JSON.parse(txt); }
+  catch{
+    if(txt.includes('script.google')) throw new Error('GAS Deploy সমস্যা — Redeploy করুন।');
+    throw new Error('সার্ভার সাড়া দেয়নি।');
   }
-  
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 30000);
-  
-  try {
-    const resp = await fetch(GAS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action, ...body }),
-      signal: controller.signal,
-      mode: 'cors'
-    });
-    clearTimeout(timeoutId);
-    
-    if (!resp.ok) {
-      throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
-    }
-    
-    const text = await resp.text();
-    try { 
-      return JSON.parse(text); 
-    } catch (e) { 
-      throw new Error('সার্ভার থেকে ভুল উত্তর: ' + text.slice(0, 100)); 
-    }
-  } catch (err) {
-    clearTimeout(timeoutId);
-    if (err.name === 'AbortError') throw new Error('নেটওয়ার্ক টাইমআউট (30 সেকেন্ড)');
-    if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
-      throw new Error('সার্ভারে সংযোগ করতে ব্যর্থ। ইন্টারনেট চেক করুন বা GAS URL সঠিক কিনা দেখুন।');
-    }
-    throw err;
-  }
+  return d;
 }
 
-// ============================================================
-// LOGIN FUNCTIONS
-// ============================================================
-function showLoginTab(tab) {
-  const userDiv = document.getElementById('login-user');
-  const adminDiv = document.getElementById('login-admin');
-  const userBtn = document.getElementById('lt-user');
-  const adminBtn = document.getElementById('lt-admin');
-  if (tab === 'user') {
-    userDiv.style.display = 'block';
-    adminDiv.style.display = 'none';
-    userBtn.className = 'btn btn-primary btn-sm';
-    adminBtn.className = 'btn btn-outline btn-sm';
-  } else {
-    userDiv.style.display = 'none';
-    adminDiv.style.display = 'block';
-    userBtn.className = 'btn btn-outline btn-sm';
-    adminBtn.className = 'btn btn-primary btn-sm';
-  }
-  document.getElementById('login-err').style.display = 'none';
+/* ── LOGIN ── */
+function ltab(t){
+  document.getElementById('lp-user').classList.toggle('hide',t!=='user');
+  document.getElementById('lp-admin').classList.toggle('hide',t!=='admin');
+  document.getElementById('lt-u').classList.toggle('on',t==='user');
+  document.getElementById('lt-a').classList.toggle('on',t==='admin');
+  hd('lerr');
 }
 
-function showLoginErr(msg) {
-  const el = document.getElementById('login-err');
-  el.textContent = '⚠️ ' + msg;
-  el.style.display = 'flex';
-}
-
-async function doUserLogin() {
-  const uid = document.getElementById('inp-uid').value.trim().toUpperCase();
-  if (!uid) { showLoginErr('ইউসার আইডি দিন'); return; }
-  const btn = document.getElementById('btn-user-login');
-  btn.disabled = true;
-  btn.textContent = '⏳ অপেক্ষা করুন...';
-  try {
-    const res = await api('verifyUser', { user_id: uid });
-    if (res.success) {
-      currentUser = res;
-      isAdmin = false;
-      enterApp();
-    } else showLoginErr(res.message);
-  } catch (e) { 
-    showLoginErr(e.message);
-    console.error(e);
-  }
-  btn.disabled = false;
-  btn.textContent = 'প্রবেশ করুন →';
-}
-
-async function doAdminLogin() {
-  const aid = document.getElementById('inp-aid').value.trim();
-  const pass = document.getElementById('inp-apass').value;
-  try {
-    const res = await api('adminLogin', { admin_id: aid, password: pass });
-    if (res.success) {
-      isAdmin = true;
-      currentUser = { name: 'অ্যাডমিন', user_id: 'admin' };
-      enterApp();
-    } else showLoginErr(res.message);
-  } catch (e) { 
-    showLoginErr(e.message);
-    console.error(e);
-  }
-}
-
-function enterApp() {
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'flex';
-  const name = isAdmin ? 'অ্যাডমিন' : currentUser.name;
-  document.getElementById('hdr-name').textContent = name;
-  document.getElementById('hdr-avatar').textContent = name[0];
-  buildTabs();
-  if (isAdmin) {
-    showSection('sec-admin-dash');
-    loadAdminDashStats();
-    loadAdminNotices();
-  } else {
-    showSection('sec-dashboard');
-    loadDashboard();
-    loadNotices();
-  }
-}
-
-function doLogout() {
-  stopCamera();
-  currentUser = null;
-  isAdmin = false;
-  capturedB64 = null;
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('login-err').style.display = 'none';
-  document.getElementById('inp-uid').value = '';
-}
-
-// ============================================================
-// TABS
-// ============================================================
-const userTabs = [
-  { id: 'sec-dashboard', label: '🏠 ড্যাশবোর্ড', notif: false },
-  { id: 'sec-attendance', label: '📷 হাজিরা', notif: false },
-  { id: 'sec-myreport', label: '📋 আমার রিপোর্ট', notif: false },
-  { id: 'sec-notices', label: '📢 নোটিশ', notif: true },
-];
-const adminTabs = [
-  { id: 'sec-admin-dash', label: '🏢 ড্যাশবোর্ড', notif: false },
-  { id: 'sec-admin-report', label: '📊 রিপোর্ট', notif: false },
-  { id: 'sec-admin-notices', label: '📢 নোটিশ', notif: false },
-];
-
-function buildTabs() {
-  const tabs = isAdmin ? adminTabs : userTabs;
-  const bar = document.getElementById('tabbar');
-  bar.innerHTML = '';
-  tabs.forEach(t => {
-    const btn = document.createElement('button');
-    btn.className = 'tab-btn';
-    btn.id = 'tab-' + t.id;
-    btn.dataset.sec = t.id;
-    btn.innerHTML = t.label + (t.notif ? '<span class="notif-dot" id="notif-dot"></span>' : '');
-    btn.onclick = () => {
-      showSection(t.id);
-      if (t.id === 'sec-notices' || t.id === 'sec-admin-notices') {
-        const dot = document.getElementById('notif-dot');
-        if (dot) dot.classList.remove('show');
-        const alertEl = document.getElementById('notice-alert');
-        if (alertEl) alertEl.style.display = 'none';
-        api('markNoticesRead').catch(() => {});
+async function doUserLogin(){
+  const uid=document.getElementById('iuid').value.trim().toUpperCase();
+  if(!uid){showErr('ইউসার আইডি লিখুন');return;}
+  const btn=document.getElementById('btn-ulogin');
+  btn.disabled=true; btn.textContent='⏳ যাচাই হচ্ছে...';
+  closeAc();
+  try{
+    const r=await api('verifyUser',{user_id:uid});
+    if(r.success){
+      CU=r; ADM=false;
+      if(!KU.find(u=>u.id===r.user_id)){
+        KU.push({id:r.user_id,name:r.name});
+        localStorage.setItem('ku',JSON.stringify(KU));
       }
-      if (t.id === 'sec-myreport') loadMyReport();
-      if (t.id === 'sec-admin-report') loadAdminReport();
+      enterApp();
+    } else showErr(r.message);
+  }catch(e){showErr(e.message);}
+  btn.disabled=false; btn.textContent='প্রবেশ করুন →';
+}
+
+async function doAdminLogin(){
+  const id=document.getElementById('i-aid').value.trim();
+  const pw=document.getElementById('i-pass').value;
+  try{
+    const r=await api('adminLogin',{admin_id:id,password:pw});
+    if(r.success){CU={name:'অ্যাডমিন',user_id:'admin'};ADM=true;enterApp();}
+    else showErr(r.message);
+  }catch(e){showErr(e.message);}
+}
+
+function showErr(m){
+  const e=document.getElementById('lerr');
+  e.innerHTML='<span class="al-icon">⚠️</span><span>'+esc(m)+'</span>';
+  e.classList.remove('hide');
+}
+
+/* ── AUTOCOMPLETE ── */
+function onUid(i){i.value=i.value.toUpperCase();renderAc(i.value);}
+function renderAc(q){
+  const w=document.getElementById('acw');
+  if(!q){w.classList.remove('open');return;}
+  const m=KU.filter(u=>u.id.includes(q)||u.name.includes(q)).slice(0,5);
+  if(!m.length){w.classList.remove('open');return;}
+  w.innerHTML=m.map(u=>`<div class="ac-row" onclick="selAc('${esc(u.id)}')">
+    <span class="ac-id">${esc(u.id)}</span><span class="ac-nm">${esc(u.name)}</span>
+  </div>`).join('');
+  w.classList.add('open');
+}
+function selAc(id){document.getElementById('iuid').value=id;closeAc();}
+function closeAc(){document.getElementById('acw').classList.remove('open');}
+function onUidKey(e){
+  if(e.key==='Enter'){closeAc();doUserLogin();}
+  if(e.key==='Escape') closeAc();
+}
+document.addEventListener('click',e=>{if(!e.target.closest('#uid-wrap'))closeAc();});
+
+/* ── ENTER/LOGOUT ── */
+function enterApp(){
+  pg('app');
+  const nm=ADM?'অ্যাডমিন':CU.name;
+  document.getElementById('h-nm').textContent=nm;
+  document.getElementById('h-av').textContent=nm.charAt(0);
+  buildTabs();
+  if(ADM){showSec('s-adash');loadAdmDash();loadAdmNotices();}
+  else{showSec('s-home');loadHome();loadNotices();}
+}
+
+function doLogout(){
+  stopCam(); CU=null; ADM=false; B64=null;
+  document.getElementById('att-res').innerHTML='';
+  document.getElementById('att-status').innerHTML='';
+  document.getElementById('iuid').value='';
+  hd('lerr');
+  pg('login');
+}
+
+/* ── TABS ── */
+const U_TABS=[
+  {id:'s-home',  ico:'🏠',lbl:'হোম',    notif:false},
+  {id:'s-att',   ico:'📷',lbl:'হাজিরা', notif:false},
+  {id:'s-rep',   ico:'📋',lbl:'রিপোর্ট',notif:false},
+  {id:'s-notice',ico:'📢',lbl:'নোটিশ',  notif:true},
+];
+const A_TABS=[
+  {id:'s-adash',ico:'🏢',lbl:'ড্যাশবোর্ড',notif:false},
+  {id:'s-arep', ico:'📊',lbl:'রিপোর্ট',   notif:false},
+  {id:'s-an',   ico:'📢',lbl:'নোটিশ',     notif:false},
+];
+function buildTabs(){
+  const tabs=ADM?A_TABS:U_TABS;
+  const bar=document.getElementById('tabbar');
+  bar.innerHTML='';
+  tabs.forEach(t=>{
+    const b=document.createElement('button');
+    b.className='tab'; b.id='tb-'+t.id;
+    b.innerHTML=`<span class="tab-ico">${t.ico}</span><span class="tab-lbl">${t.lbl}</span>`
+               +(t.notif?'<span class="ndot" id="ndot"></span>':'');
+    b.onclick=()=>{
+      showSec(t.id);
+      if(t.id==='s-rep')    loadMyRep();
+      if(t.id==='s-arep')   loadAdmRep();
+      if(t.id==='s-notice'){clearDot();loadNotices();api('markNoticesRead').catch(()=>{});}
+      if(t.id==='s-an'){loadAdmNotices();api('markNoticesRead').catch(()=>{});}
     };
-    bar.appendChild(btn);
+    bar.appendChild(b);
   });
 }
-
-function showSection(id) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  const sec = document.getElementById(id);
-  if (sec) sec.classList.add('active');
-  const btn = document.getElementById('tab-' + id);
-  if (btn) btn.classList.add('active');
+function showSec(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById(id)?.classList.add('on');
+  document.getElementById('tb-'+id)?.classList.add('on');
+}
+function clearDot(){
+  document.getElementById('ndot')?.classList.remove('show');
+  hd('notif-bar');
 }
 
-// ============================================================
-// CLOCK
-// ============================================================
-function startClock() {
-  function tick() {
-    const now = new Date();
-    const h = String(now.getHours()).padStart(2, '0');
-    const m = String(now.getMinutes()).padStart(2, '0');
-    const s = String(now.getSeconds()).padStart(2, '0');
-    const el = document.getElementById('live-clock');
-    if (el) el.textContent = `${h}:${m}:${s}`;
+/* ── CLOCK ── */
+const BN_D=['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
+const BN_M=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+function startClock(){
+  const tick=()=>{
+    const n=new Date();
+    const ce=document.getElementById('clk');
+    const de=document.getElementById('clk-d');
+    const se=document.getElementById('clk-s');
+    if(ce) ce.textContent=`${p2(n.getHours())}:${p2(n.getMinutes())}:${p2(n.getSeconds())}`;
+    if(de) de.textContent=`${BN_D[n.getDay()]}, ${n.getDate()} ${BN_M[n.getMonth()]} ${n.getFullYear()}`;
+    if(se){
+      const m=n.getHours()*60+n.getMinutes();
+      if(m>=570&&m<=630){se.textContent='✅ উপস্থিত সময়';se.className='clock-st cs-ok';}
+      else if(m>630&&m<1200){se.textContent='⚠️ লেট সময়';se.className='clock-st cs-late';}
+      else{se.textContent='অফিস সময়: ৯:৩০ – ১০:৩০';se.className='clock-st cs-off';}
+    }
+  };
+  tick(); setInterval(tick,1000);
+}
+
+/* ── HOME ── */
+async function loadHome(){
+  if(CU?.name){
+    el('d-uinfo');
+    document.getElementById('d-chips').innerHTML=`
+      <div class="chip">🆔 <strong>${esc(CU.user_id)}</strong></div>
+      <div class="chip">👤 <strong>${esc(CU.name)}</strong></div>
+      <div class="chip">🏢 <strong>${esc(CU.department||'—')}</strong></div>
+      <div class="chip">📧 <strong>${esc(CU.email||'—')}</strong></div>`;
   }
-  tick();
-  setInterval(tick, 1000);
+  try{
+    const n=new Date();
+    const r=await api('getUserReport',{user_id:CU.user_id,mode:'monthly',month:n.getMonth()+1,year:n.getFullYear()});
+    if(r.success&&r.summary){
+      const s=r.summary;
+      document.getElementById('ds-p').textContent =s.present;
+      document.getElementById('ds-l').textContent =s.late;
+      document.getElementById('ds-la').textContent=s.late_absent;
+      document.getElementById('ds-n').textContent =s.net_present;
+    }
+  }catch(e){console.warn('home:',e.message);}
 }
 
-// ============================================================
-// USER DASHBOARD
-// ============================================================
-async function loadDashboard() {
-  const chips = document.getElementById('dash-chips');
-  document.getElementById('dash-user-info').style.display = 'block';
-  chips.innerHTML = `
-    <div class="info-chip">🆔 <strong>${currentUser.user_id}</strong></div>
-    <div class="info-chip">👤 <strong>${currentUser.name}</strong></div>
-    <div class="info-chip">🏢 <strong>${currentUser.department || '–'}</strong></div>
-    <div class="info-chip">📧 <strong>${currentUser.email || '–'}</strong></div>
-  `;
-  try {
-    const now = new Date();
-    const res = await api('getUserReport', {
-      user_id: currentUser.user_id, mode: 'monthly',
-      month: now.getMonth() + 1, year: now.getFullYear()
+/* ── CAMERA ── */
+async function startCam(){
+  try{
+    MS=await navigator.mediaDevices.getUserMedia({
+      video:{facingMode:'user',width:{ideal:720},height:{ideal:960}},audio:false
     });
-    if (res.success && res.summary) {
-      const s = res.summary;
-      document.getElementById('st-present').textContent = s.present;
-      document.getElementById('st-late').textContent = s.late;
-      document.getElementById('st-absent').textContent = s.late_absent;
-      document.getElementById('st-net').textContent = s.net_present;
-    }
-  } catch (e) { console.error(e); showToast('ড্যাশবোর্ড লোড করতে ব্যর্থ', 'error'); }
-}
-
-// ============================================================
-// CAMERA & ATTENDANCE
-// ============================================================
-async function startCamera() {
-  try {
-    stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
-      audio: false
-    });
-    document.getElementById('video').srcObject = stream;
-    show('btn-snap');
-    hide('btn-cam');
-    document.getElementById('preview-wrap').style.display = 'none';
-    hide('btn-retake');
-    hide('btn-submit-att');
-    document.getElementById('att-result').innerHTML = '';
-  } catch (e) {
-    document.getElementById('att-result').innerHTML = `<div class="alert alert-danger">📵 ক্যামেরা চালু হয়নি: ${e.message}</div>`;
+    document.getElementById('video').srcObject=MS;
+    document.getElementById('cam-hint').textContent='মুখ ফ্রেমের ভেতরে রাখুন';
+    el('cam-box'); hd('prev-box');
+    el('btn-snap'); hd('btn-cam'); hd('btn-ret'); hd('btn-sub');
+    document.getElementById('att-res').innerHTML='';
+  }catch(e){
+    document.getElementById('att-res').innerHTML=errH('ক্যামেরা চালু হয়নি: '+e.message);
   }
 }
 
-function takeSnap() {
-  const video = document.getElementById('video');
-  const canvas = document.getElementById('canvas');
-  canvas.width = video.videoWidth || 640;
-  canvas.height = video.videoHeight || 480;
-  const ctx = canvas.getContext('2d');
-  ctx.save();
-  ctx.scale(-1, 1);
-  ctx.drawImage(video, -canvas.width, 0);
-  ctx.restore();
-  capturedB64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
-  document.getElementById('preview').src = 'data:image/jpeg;base64,' + capturedB64;
-  document.getElementById('preview-wrap').style.display = 'block';
-  document.getElementById('camera-wrap').style.display = 'none';
-  stopCamera();
-  hide('btn-snap');
-  hide('btn-cam');
-  show('btn-retake');
-  show('btn-submit-att');
+function snap(){
+  const v=document.getElementById('video');
+  const c=document.getElementById('canvas');
+  c.width=v.videoWidth||720; c.height=v.videoHeight||960;
+  const ctx=c.getContext('2d');
+  ctx.save(); ctx.scale(-1,1); ctx.drawImage(v,-c.width,0); ctx.restore();
+  B64=c.toDataURL('image/jpeg',.88).split(',')[1];
+  document.getElementById('preview').src='data:image/jpeg;base64,'+B64;
+  hd('cam-box'); el('prev-box');
+  stopCam();
+  hd('btn-snap'); hd('btn-cam'); el('btn-ret'); el('btn-sub');
 }
 
-function retakePhoto() {
-  capturedB64 = null;
-  document.getElementById('camera-wrap').style.display = 'block';
-  document.getElementById('preview-wrap').style.display = 'none';
-  startCamera();
+function retake(){
+  B64=null;
+  el('cam-box'); hd('prev-box');
+  startCam();
 }
 
-function stopCamera() {
-  if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
-}
-
-async function submitAttendance() {
-  if (!capturedB64) { showToast('আগে সেলফি তুলুন', 'error'); return; }
-  const btn = document.getElementById('btn-submit-att');
-  btn.disabled = true;
-  btn.textContent = '⏳ জমা হচ্ছে...';
-  try {
-    const res = await api('submitAttendance', {
-      user_id: currentUser.user_id,
-      image_base64: capturedB64,
-      image_mime: 'image/jpeg'
-    });
-    const area = document.getElementById('att-result');
-    if (res.success) {
-      const cls = res.status === 'present' ? 'alert-success' : 'alert-warn';
-      const lbl = res.status === 'present' ? '✅ উপস্থিত' : '⚠️ লেট';
-      area.innerHTML = `<div class="alert ${cls}">${lbl} — তারিখ: <strong>${res.date}</strong>, সময়: <strong>${res.time}</strong></div>`;
-      showToast(res.message, 'success');
-      hide('btn-retake');
-      hide('btn-submit-att');
-      document.getElementById('att-already').style.display = 'block';
-      loadDashboard();
-    } else {
-      area.innerHTML = `<div class="alert alert-danger">⚠️ ${res.message}</div>`;
-      showToast(res.message, 'error');
-      btn.disabled = false;
-      btn.textContent = '✅ হাজিরা দিন';
+async function submitAtt(){
+  if(!B64){showToast('আগে সেলফি তুলুন','e');return;}
+  const btn=document.getElementById('btn-sub');
+  btn.disabled=true; btn.textContent='⏳ জমা হচ্ছে...';
+  try{
+    const r=await api('submitAttendance',{user_id:CU.user_id,image_base64:B64,image_mime:'image/jpeg'});
+    const area=document.getElementById('att-res');
+    if(r.success){
+      const isP=r.status==='present';
+      area.innerHTML=`<div class="al ${isP?'al-s':'al-w'}">
+        <span class="al-icon">${isP?'✅':'⚠️'}</span>
+        <div>
+          <strong>${isP?'উপস্থিত গণ্য হয়েছে':'লেট হিসেবে গণ্য হয়েছে'}</strong><br/>
+          তারিখ: ${esc(r.date)} | সময়: <span class="mono">${esc(r.time)}</span>
+          ${r.thumb_url?`<br/><img src="${r.thumb_url}" style="width:72px;margin-top:.5rem;border-radius:8px;border:1.5px solid var(--bd)" onerror="this.style.display='none'">`:''}\
+        </div>
+      </div>`;
+      showToast(r.message,'s');
+      hd('btn-ret'); hd('btn-sub');
+      loadHome();
+    }else{
+      area.innerHTML=errH(r.message);
+      showToast(r.message,'e');
+      btn.disabled=false; btn.textContent='✅ হাজিরা দিন';
     }
-  } catch (e) {
-    showToast(e.message, 'error');
-    btn.disabled = false;
-    btn.textContent = '✅ হাজিরা দিন';
+  }catch(e){
+    document.getElementById('att-res').innerHTML=errH(e.message);
+    btn.disabled=false; btn.textContent='✅ হাজিরা দিন';
   }
 }
+function stopCam(){if(MS){MS.getTracks().forEach(t=>t.stop());MS=null;}}
 
-// ============================================================
-// MY REPORT
-// ============================================================
-function updateMyFilter() {
-  const mode = document.getElementById('my-mode').value;
-  document.getElementById('my-date-wrap').style.display = mode === 'daily' ? 'block' : 'none';
-  document.getElementById('my-month-wrap').style.display = mode === 'monthly' ? 'block' : 'none';
+/* ── MY REPORT ── */
+function updRF(){
+  const m=document.getElementById('rmode').value;
+  document.getElementById('r-dw').classList.toggle('hide',m!=='daily');
+  document.getElementById('r-mw').classList.toggle('hide',m!=='monthly');
 }
-
-async function loadMyReport() {
-  const mode = document.getElementById('my-mode').value;
-  const body = { user_id: currentUser.user_id, mode };
-  if (mode === 'daily') {
-    body.date = document.getElementById('my-date').value || todayStr();
-  } else {
-    const mv = document.getElementById('my-month').value || monthStr();
-    const [yr, mo] = mv.split('-');
-    body.month = parseInt(mo);
-    body.year = parseInt(yr);
+async function loadMyRep(){
+  const mode=document.getElementById('rmode').value;
+  const body={user_id:CU.user_id,mode};
+  if(mode==='daily'){
+    body.date=document.getElementById('rdate').value||today();
+  }else{
+    const mv=document.getElementById('rmon').value||month();
+    const[yr,mo]=mv.split('-');
+    body.month=+mo; body.year=+yr;
   }
-  document.getElementById('my-report-body').innerHTML = '<div class="loading"><div class="spinner"></div> লোড হচ্ছে...</div>';
-  try {
-    const res = await api('getUserReport', body);
-    if (!res.success) {
-      document.getElementById('my-report-body').innerHTML = `<div class="alert alert-danger">${res.message}</div>`;
-      return;
+  const eb=document.getElementById('r-body');
+  eb.innerHTML=ldH();
+  try{
+    const r=await api('getUserReport',body);
+    if(!r.success){eb.innerHTML=errH(r.message);return;}
+
+    // summary (monthly)
+    const se=document.getElementById('r-sum');
+    if(mode==='monthly'&&r.summary){
+      const s=r.summary;
+      se.classList.remove('hide');
+      se.innerHTML=`<div class="sg sg4">
+        <div class="sc g"><div class="sv">${s.present}</div><div class="sl">উপস্থিত</div></div>
+        <div class="sc w"><div class="sv">${s.late}</div><div class="sl">লেট</div></div>
+        <div class="sc r"><div class="sv">${s.late_absent}</div><div class="sl">লেট→অনুপস্থিত</div></div>
+        <div class="sc b"><div class="sv">${s.net_present}</div><div class="sl">নিট উপস্থিত</div></div>
+      </div>`;
+    }else{se.classList.add('hide');}
+
+    const recs=r.records||[];
+    if(!recs.length){eb.innerHTML=infoH('এই সময়ের কোনো হাজিরা নেই।');return;}
+
+    eb.innerHTML=recs.map(rec=>`
+      <div class="att-rec">
+        <div class="att-img-wrap" onclick="openMod('${rec.photo_url||rec.thumb_url||''}')">
+          ${rec.thumb_url
+            ?`<img class="att-img" src="${rec.thumb_url}" alt="ছবি" onerror="this.parentElement.innerHTML='📷'">`
+            :'📷'}
+        </div>
+        <div class="att-info">
+          <div class="att-dt">${esc(rec.date)}</div>
+          <div class="att-tm">${esc(rec.time)}</div>
+        </div>
+        <div class="att-right">${badge(rec.status)}</div>
+      </div>`).join('');
+  }catch(e){eb.innerHTML=errH(e.message);}
+}
+
+/* ── NOTICES ── */
+async function loadNotices(){
+  const e=document.getElementById('nl');
+  try{
+    const r=await api('getNotices');
+    if(!r.success){e.innerHTML=errH(r.message);return;}
+    if(r.hasNew){
+      document.getElementById('ndot')?.classList.add('show');
+      el('notif-bar');
     }
-    if (mode === 'monthly' && res.summary) {
-      const s = res.summary;
-      document.getElementById('my-summary').style.display = '';
-      document.getElementById('my-summary').innerHTML = `
-        <div class="stat-card green"><div class="stat-value">${s.present}</div><div class="stat-label">উপস্থিত</div></div>
-        <div class="stat-card warn"><div class="stat-value">${s.late}</div><div class="stat-label">লেট</div></div>
-        <div class="stat-card red"><div class="stat-value">${s.late_absent}</div><div class="stat-label">লেট-অনুপস্থিত</div></div>
-        <div class="stat-card"><div class="stat-value">${s.net_present}</div><div class="stat-label">মোট উপস্থিত</div></div>
-      `;
-    } else {
-      document.getElementById('my-summary').style.display = 'none';
-    }
-    const records = res.records || [];
-    if (!records.length) {
-      document.getElementById('my-report-body').innerHTML = '<div class="alert alert-info">এই সময়ের কোনো হাজিরা নেই।</div>';
-      return;
-    }
-    let html = `<div class="table-wrap"><table><thead><tr><th>তারিখ</th><th>সময়</th><th>অবস্থা</th>${mode === 'daily' ? '<th>ছবি</th>' : ''}</tr></thead><tbody>`;
-    records.forEach(r => {
-      html += `<tr><td>${r.date}</td><td style="font-family:var(--mono)">${r.time}</td><td>${statusBadge(r.status)}</td>${mode === 'daily' ? `<td>${r.thumb_url ? `<img class="thumb-img" src="${r.thumb_url}" onclick="openPhoto('${r.photo_url}')" alt="ছবি" onerror="this.style.display='none'"/>` : '—'}</td>` : ''}</tr>`;
-    });
-    html += '</tbody></table></div>';
-    document.getElementById('my-report-body').innerHTML = html;
-  } catch (e) {
-    document.getElementById('my-report-body').innerHTML = `<div class="alert alert-danger">${e.message}</div>`;
+    renderNotices(r.notices,'nl');
+  }catch(ex){e.innerHTML=errH(ex.message);}
+}
+function renderNotices(notices,cid){
+  const e=document.getElementById(cid);
+  if(!notices?.length){e.innerHTML=infoH('কোনো নোটিশ নেই।');return;}
+  e.innerHTML=notices.map((n,i)=>`
+    <div class="ni ${n.is_new?'new':''}" id="ni-${cid}-${i}" onclick="togN('${cid}',${i})">
+      <div class="ni-hd">
+        <span class="ni-ico">📌</span>
+        <div class="ni-meta">
+          <div class="ni-title">${esc(n.title)}${n.is_new?' <span class="ntag">নতুন</span>':''}</div>
+          <div class="ni-date">📅 ${esc(n.date)}</div>
+        </div>
+        <span class="ni-arr">▶</span>
+      </div>
+      <div class="ni-body" id="nb-${cid}-${i}">${esc(n.details)}</div>
+    </div>`).join('');
+}
+function togN(cid,i){
+  const ni=document.getElementById(`ni-${cid}-${i}`);
+  const nb=document.getElementById(`nb-${cid}-${i}`);
+  ni.classList.toggle('exp',nb.classList.toggle('open'));
+}
+
+/* ── ADMIN DASH ── */
+async function loadAdmDash(){
+  try{
+    const r=await api('getAdminReport',{mode:'daily',date:today()});
+    if(!r.success) return;
+    let tp=0,tl=0;
+    (r.report||[]).forEach(u=>(u.records||[]).forEach(rec=>{
+      if(rec.status==='present')tp++;
+      else if(rec.status==='late')tl++;
+    }));
+    const ta=Math.max(0,(r.report||[]).length-tp-tl);
+    document.getElementById('a-p').textContent=tp;
+    document.getElementById('a-l').textContent=tl;
+    document.getElementById('a-a').textContent=ta;
+    document.getElementById('a-t').textContent=(r.report||[]).length;
+  }catch(e){console.warn(e);}
+}
+async function postNotice(){
+  const title=document.getElementById('n-title').value.trim();
+  const det=document.getElementById('n-det').value.trim();
+  if(!title||!det){showToast('শিরোনাম ও বিস্তারিত দিন','e');return;}
+  try{
+    const r=await api('addNotice',{title,details:det,admin_id:'admin',password:'admin123'});
+    if(r.success){
+      showToast('নোটিশ প্রকাশিত ✅','s');
+      document.getElementById('n-title').value='';
+      document.getElementById('n-det').value='';
+      loadAdmNotices();
+    }else showToast(r.message,'e');
+  }catch(e){showToast(e.message,'e');}
+}
+
+/* ── ADMIN REPORT ── */
+function updAF(){
+  const m=document.getElementById('amode').value;
+  document.getElementById('a-dw').classList.toggle('hide',m!=='daily');
+  document.getElementById('a-mw').classList.toggle('hide',m!=='monthly');
+}
+async function loadAdmRep(){
+  const mode=document.getElementById('amode').value;
+  const body={mode};
+  if(mode==='daily'){
+    body.date=document.getElementById('adate').value||today();
+  }else{
+    const mv=document.getElementById('amon').value||month();
+    const[yr,mo]=mv.split('-');
+    body.month=+mo; body.year=+yr;
   }
-}
+  const eb=document.getElementById('a-body');
+  eb.innerHTML=ldH();
+  try{
+    const r=await api('getAdminReport',body);
+    if(!r.success){eb.innerHTML=errH(r.message);return;}
+    const rep=r.report||[];
+    if(!rep.length){eb.innerHTML=infoH('কোনো ডেটা নেই।');return;}
 
-// ============================================================
-// NOTICES
-// ============================================================
-async function loadNotices() {
-  try {
-    const res = await api('getNotices');
-    if (!res.success) return;
-    if (res.hasNew) {
-      const dot = document.getElementById('notif-dot');
-      if (dot) dot.classList.add('show');
-      const alertEl = document.getElementById('notice-alert');
-      if (alertEl) alertEl.style.display = 'flex';
+    if(mode==='daily'){
+      eb.innerHTML=rep.map((u,i)=>{
+        const rec=(u.records||[])[0];
+        return `<div class="auc" id="auc${i}">
+          <div class="auc-head" onclick="togA(${i})">
+            <div>
+              <div class="auc-uid">${esc(u.user_id)}</div>
+              <div class="auc-name">${esc(u.name)}</div>
+              <div class="auc-dept">${esc(u.department)}</div>
+            </div>
+            <div class="auc-meta">
+              ${rec?badge(rec.status):'<span class="bdg b-er">অনুপস্থিত</span>'}
+              ${rec?`<span class="mono t2" style="font-size:.8rem">${esc(rec.time)}</span>`:''}
+            </div>
+            <span class="auc-arr">▶</span>
+          </div>
+          <div class="auc-body">
+            <div style="display:flex;gap:.75rem;align-items:flex-start">
+              ${rec?.thumb_url?`<div class="att-img-wrap" onclick="openMod('${rec.photo_url||rec.thumb_url}')"><img class="att-img" src="${rec.thumb_url}" onerror="this.parentElement.innerHTML='📷'" alt="ছবি"></div>`:''}
+              <div style="flex:1;min-width:0">
+                ${rec?`<div class="chips" style="margin-bottom:.4rem">
+                  <div class="chip">📅 <strong>${esc(rec.date)}</strong></div>
+                  <div class="chip">⏰ <strong>${esc(rec.time)}</strong></div>
+                </div>`:'<div class="t2 tsm">আজ হাজিরা দেননি</div>'}
+                ${rec?.photo_url?`<img class="auc-full-img" src="${rec.photo_url}" onclick="openMod('${rec.photo_url}')" onerror="this.style.display='none'" alt="ছবি">`:''}
+              </div>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }else{
+      eb.innerHTML=`<div class="stbl-wrap"><table class="stbl">
+        <thead><tr><th>আইডি</th><th>নাম</th><th>উপস্থিত</th><th>লেট</th><th>লেট→অনুপ্</th><th>নিট</th></tr></thead>
+        <tbody>${rep.map(u=>{
+          const s=u.summary||{};
+          return `<tr>
+            <td class="mono" style="font-size:.74rem">${esc(u.user_id)}</td>
+            <td><div style="font-weight:600;font-size:.84rem">${esc(u.name)}</div><div class="tsm t2">${esc(u.department)}</div></td>
+            <td><span class="bdg b-ok">${s.present||0}</span></td>
+            <td><span class="bdg b-wn">${s.late||0}</span></td>
+            <td><span class="bdg b-er">${s.late_absent||0}</span></td>
+            <td><strong>${s.net_present||0}</strong></td>
+          </tr>`;
+        }).join('')}</tbody>
+       </table></div>`;
     }
-    renderNotices(res.notices, 'notices-list');
-  } catch (e) {
-    document.getElementById('notices-list').innerHTML = `<div class="alert alert-danger">${e.message}</div>`;
-  }
+  }catch(e){eb.innerHTML=errH(e.message);}
+}
+function togA(i){document.getElementById('auc'+i)?.classList.toggle('open');}
+
+/* ── ADMIN NOTICES ── */
+async function loadAdmNotices(){
+  try{
+    const r=await api('getNotices');
+    if(r.success) renderNotices(r.notices,'anl');
+  }catch(e){document.getElementById('anl').innerHTML=errH(e.message);}
 }
 
-function renderNotices(notices, containerId) {
-  const el = document.getElementById(containerId);
-  if (!notices || !notices.length) { el.innerHTML = '<div class="alert alert-info">কোনো নোটিশ নেই।</div>'; return; }
-  el.innerHTML = notices.map(n => `
-    <div class="notice-item ${n.is_new ? 'new-notice' : ''}" onclick="toggleNotice(this)">
-      <div class="notice-title">📌 ${escapeHtml(n.title)}${n.is_new ? '<span class="new-tag">নতুন</span>' : ''}</div>
-      <div class="notice-date">📅 ${n.date}</div>
-      <div class="notice-body">${escapeHtml(n.details)}</div>
-    </div>
-  `).join('');
+/* ── MODAL ── */
+function openMod(url){
+  if(!url||url==='undefined') return;
+  document.getElementById('mod-img').src=url;
+  document.getElementById('modal').classList.add('open');
+}
+function closeMod(){
+  document.getElementById('modal').classList.remove('open');
+  document.getElementById('mod-img').src='';
 }
 
-function toggleNotice(el) {
-  const body = el.querySelector('.notice-body');
-  if (body) body.classList.toggle('show');
+/* ── TOAST ── */
+let _tt;
+function showToast(msg,type='i'){
+  const t=document.getElementById('toast');
+  t.innerHTML=esc(msg); t.className=`${type} show`;
+  clearTimeout(_tt); _tt=setTimeout(()=>t.classList.remove('show'),3400);
 }
 
-// ============================================================
-// ADMIN FUNCTIONS
-// ============================================================
-async function loadAdminDashStats() {
-  try {
-    const res = await api('getAdminReport', { mode: 'daily', date: todayStr() });
-    if (!res.success) return;
-    const report = res.report || [];
-    let tp = 0, tl = 0;
-    report.forEach(u => {
-      u.records.forEach(r => {
-        if (r.status === 'present') tp++;
-        else if (r.status === 'late') tl++;
-      });
-    });
-    const ta = report.length - tp - tl;
-    document.getElementById('adm-total').textContent = report.length;
-    document.getElementById('adm-today-p').textContent = tp;
-    document.getElementById('adm-today-l').textContent = tl;
-    document.getElementById('adm-today-a').textContent = Math.max(0, ta);
-  } catch (e) { console.error(e); }
+/* ── HELPERS ── */
+function badge(s){
+  if(s==='present') return '<span class="bdg b-ok">✅ উপস্থিত</span>';
+  if(s==='late')    return '<span class="bdg b-wn">⚠️ লেট</span>';
+  return '<span class="bdg b-er">❌ অনুপস্থিত</span>';
 }
-
-async function postNotice() {
-  const title = document.getElementById('notice-title').value.trim();
-  const details = document.getElementById('notice-details').value.trim();
-  if (!title || !details) { showToast('শিরোনাম ও বিস্তারিত দিন', 'error'); return; }
-  try {
-    const res = await api('addNotice', { title, details, admin_id: 'admin', password: 'admin123' });
-    if (res.success) {
-      showToast('নোটিশ প্রকাশিত হয়েছে ✅', 'success');
-      document.getElementById('notice-title').value = '';
-      document.getElementById('notice-details').value = '';
-      loadAdminNotices();
-    } else showToast(res.message, 'error');
-  } catch (e) { showToast(e.message, 'error'); }
+function errH(m){return`<div class="al al-d"><span class="al-icon">⚠️</span><span>${esc(m)}</span></div>`;}
+function infoH(m){return`<div class="al al-i"><span class="al-icon">ℹ️</span><span>${m}</span></div>`;}
+function ldH(){return`<div class="ld"><div class="sp"></div> লোড হচ্ছে...</div>`;}
+function esc(v){return String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function today(){const n=new Date();return`${n.getFullYear()}-${p2(n.getMonth()+1)}-${p2(n.getDate())}`;}
+function month(){const n=new Date();return`${n.getFullYear()}-${p2(n.getMonth()+1)}`;}
+function p2(n){return String(n).padStart(2,'0');}
+function setDefs(){
+  const d=today(),m=month();
+  ['rdate','adate'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=d;});
+  ['rmon','amon'].forEach(id=>{const e=document.getElementById(id);if(e)e.value=m;});
 }
-
-async function loadAdminNotices() {
-  try {
-    const res = await api('getNotices');
-    if (res.success) renderNotices(res.notices, 'admin-notices-list');
-  } catch (e) {
-    document.getElementById('admin-notices-list').innerHTML = `<div class="alert alert-danger">${e.message}</div>`;
-  }
-}
-
-function updateAdmFilter() {
-  const mode = document.getElementById('adm-mode').value;
-  document.getElementById('adm-date-wrap').style.display = mode === 'daily' ? 'block' : 'none';
-  document.getElementById('adm-month-wrap').style.display = mode === 'monthly' ? 'block' : 'none';
-}
-
-async function loadAdminReport() {
-  const mode = document.getElementById('adm-mode').value;
-  const body = { mode };
-  if (mode === 'daily') {
-    body.date = document.getElementById('adm-date').value || todayStr();
-  } else {
-    const mv = document.getElementById('adm-month').value || monthStr();
-    const [yr, mo] = mv.split('-');
-    body.month = parseInt(mo);
-    body.year = parseInt(yr);
-  }
-  const el = document.getElementById('adm-report-body');
-  el.innerHTML = '<div class="loading"><div class="spinner"></div> লোড হচ্ছে...</div>';
-  try {
-    const res = await api('getAdminReport', body);
-    if (!res.success) { el.innerHTML = `<div class="alert alert-danger">${res.message}</div>`; return; }
-    const report = res.report || [];
-    if (!report.length) { el.innerHTML = '<div class="alert alert-info">কোনো ডেটা নেই।</div>'; return; }
-    if (mode === 'daily') {
-      let html = `<div class="table-wrap"><table><thead><tr><th></th><th>আইডি</th><th>নাম</th><th>বিভাগ</th><th>সময়</th><th>অবস্থা</th><th>ছবি</th></tr></thead><tbody>`;
-      report.forEach((u, idx) => {
-        const r = u.records[0];
-        html += `<tr class="admin-user-row" onclick="toggleAdmRow(${idx})"><td><span class="expand-arrow" id="arr-${idx}">▶</span></td><td style="font-family:var(--mono)">${u.user_id}</td><td>${escapeHtml(u.name)}</td><td>${escapeHtml(u.department)}</td><td style="font-family:var(--mono)">${r ? r.time : '—'}</td><td>${r ? statusBadge(r.status) : '<span class="badge badge-absent">অনুপস্থিত</span>'}</td><td>${r && r.thumb_url ? `<img class="thumb-img" src="${r.thumb_url}" onclick="event.stopPropagation();openPhoto('${r.photo_url}')" alt="ছবি" onerror="this.style.display='none'"/>` : '—'}</td></tr>
-        <tr class="admin-detail-row" id="det-${idx}" style="display:none"><td colspan="7"><div class="admin-detail-inner">${r && r.photo_url ? `<img src="${r.photo_url}" style="max-width:240px;border-radius:var(--radius);margin-top:.5rem" onerror="this.alt='ছবি লোড হয়নি'"/>` : '<div class="text-muted">কোনো ছবি নেই</div>'}</div></td></tr>`;
-      });
-      html += '</tbody></table></div>';
-      el.innerHTML = html;
-    } else {
-      let html = `<div class="table-wrap"><table><thead><tr><th>আইডি</th><th>নাম</th><th>বিভাগ</th><th>উপস্থিত</th><th>লেট</th><th>লেট-অনুপস্থিত</th><th>মোট</th></tr></thead><tbody>`;
-      report.forEach(u => {
-        const s = u.summary;
-        html += `<tr><td style="font-family:var(--mono)">${u.user_id}</td><td>${escapeHtml(u.name)}</td><td>${escapeHtml(u.department)}</td><td><span class="badge badge-present">${s.present}</span></td><td><span class="badge badge-late">${s.late}</span></td><td><span class="badge badge-absent">${s.late_absent}</span></td><td><strong>${s.net_present}</strong></td></tr>`;
-      });
-      html += '</tbody></table></div>';
-      el.innerHTML = html;
-    }
-  } catch (e) { el.innerHTML = `<div class="alert alert-danger">${e.message}</div>`; }
-}
-
-function toggleAdmRow(idx) {
-  const det = document.getElementById('det-' + idx);
-  const arr = document.getElementById('arr-' + idx);
-  const row = arr?.closest('tr');
-  if (!det) return;
-  const vis = det.style.display !== 'none';
-  det.style.display = vis ? 'none' : 'table-row';
-  if (arr) arr.style.transform = vis ? '' : 'rotate(90deg)';
-  if (row) row.classList[vis ? 'remove' : 'add']('expanded');
-}
-
-// ============================================================
-// PHOTO MODAL
-// ============================================================
-function openPhoto(url) { if (!url) return; document.getElementById('modal-img').src = url; document.getElementById('photo-modal').classList.add('open'); }
-function closePhotoModal() { document.getElementById('photo-modal').classList.remove('open'); }
-
-// ============================================================
-// INITIALIZATION
-// ============================================================
-window.addEventListener('DOMContentLoaded', () => {
-  setTodayDefaults();
-  startClock();
-});
+function el(id){document.getElementById(id)?.classList.remove('hide');}
+function hd(id){document.getElementById(id)?.classList.add('hide');}
 </script>
 </body>
 </html>
